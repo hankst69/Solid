@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup Label="Globals">
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+	<!--Nullable>enable</Nullable-->
+	<AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Dicom\DataItemMockTests.cs" />
+    <Compile Remove="Dicom\DataSetBuilderTests.cs" />
+    <Compile Remove="Dicom\FrameMockTests.cs" />
+    <Compile Remove="ParameterConditionTesting\ParameterMockerTests.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Dicom\DataItemMockTests.cs" />
+    <None Include="Dicom\DataSetBuilderTests.cs" />
+    <None Include="Dicom\FrameMockTests.cs" />
+    <None Include="ParameterConditionTesting\ParameterMockerTests.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentAssertions" Version="6.5.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
+    <PackageReference Include="Moq" Version="4.17.2" />
+    <PackageReference Include="NUnit" Version="3.13.2" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TestInfrastructure\Solid.TestInfrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
