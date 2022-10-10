@@ -503,7 +503,7 @@ namespace Solid.TestInfrastructure.Dicom
         }
 
         #region FrameInfo creation
-        private IDictionary<int, IFrameInfo> m_CachedFrameInfos = new Dictionary<int, IFrameInfo>();
+        private readonly IDictionary<int, IFrameInfo> m_CachedFrameInfos = new Dictionary<int, IFrameInfo>();
 
         private IFrameInfo CreateFrameInfo(int frameNumber)
         {

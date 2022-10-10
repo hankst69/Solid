@@ -125,7 +125,7 @@ namespace Solid.Dicom.Impl
                             dataSet.GetValueAt(tag, 2).CastTo<int>());
                     }
                 }
-                ftr.Info("Could not read ImaRelTablePos from frame {0} of image with SopInstanceUid {1}", dataSet.FrameNumber, dataSet.DataSetSopInstanceUid);
+                ftr.Info($"Could not read ImaRelTablePos from frame {dataSet.FrameNumber} of image with SopInstanceUid {dataSet.DataSetSopInstanceUid}");
                 return null;
             }
         }
@@ -179,7 +179,7 @@ namespace Solid.Dicom.Impl
 
                     return DicomValues.ConvertDicomDAandDicomTMtoDateTime(deDate, deTime);
                 }
-                ftr.Info("Could not read AcquisitionDateTime from frame {0} of image with SopInstanceUid {1}", dataSet.FrameNumber, dataSet.DataSetSopInstanceUid);
+                ftr.Info($"Could not read AcquisitionDateTime from frame {dataSet.FrameNumber} of image with SopInstanceUid {dataSet.DataSetSopInstanceUid}");
                 return DateTime.MinValue;
             }
         }
@@ -194,7 +194,7 @@ namespace Solid.Dicom.Impl
                     var dicomDa = dataSet.GetValue(DicomTags.Tag.SeriesDate);
                     return DicomValues.ConvertDicomDAtoDateTime(dicomDa);
                 }
-                ftr.Info("Could not read SeriesDate from frame {0} of image with SopInstanceUid {1}", dataSet.FrameNumber, dataSet.DataSetSopInstanceUid);
+                ftr.Info($"Could not read SeriesDate from frame {dataSet.FrameNumber} of image with SopInstanceUid {dataSet.DataSetSopInstanceUid}");
                 return DateTime.MinValue;
             }
         }
@@ -270,7 +270,7 @@ namespace Solid.Dicom.Impl
                         return dataSet.GetValue(tag).As<string>();
                     }
                 }
-                ftr.Info("Could not read ScanningSequence from frame {0} of image with SopInstanceUid {1}", dataSet.FrameNumber, dataSet.DataSetSopInstanceUid);
+                ftr.Info($"Could not read ScanningSequence from frame {dataSet.FrameNumber} of image with SopInstanceUid {dataSet.DataSetSopInstanceUid}");
                 return string.Empty;
             }
         }
@@ -305,7 +305,7 @@ namespace Solid.Dicom.Impl
                         return dataSet.GetValue(tag).As<string>();
                     }
                 }
-                ftr.Info("Could not read SequenceVariant from frame {0} of image with SopInstanceUid {1}", dataSet.FrameNumber, dataSet.DataSetSopInstanceUid);
+                ftr.Info($"Could not read SequenceVariant from frame {dataSet.FrameNumber} of image with SopInstanceUid {dataSet.DataSetSopInstanceUid}");
                 return string.Empty;
             }
         }
@@ -340,7 +340,7 @@ namespace Solid.Dicom.Impl
                         return dataSet.GetValue(tag).As<string>();
                     }
                 }
-                ftr.Info("Could not read InPlanePhaseEncodingDirection (optional dicom tag 0018:1312) from frame {0} of image with SopInstanceUid {1})", dataSet.FrameNumber, dataSet.DataSetSopInstanceUid);
+                ftr.Info($"Could not read InPlanePhaseEncodingDirection (optional dicom tag 0018:1312) from frame {dataSet.FrameNumber} of image with SopInstanceUid {dataSet.DataSetSopInstanceUid})");
                 return string.Empty;
             }
         }
@@ -374,7 +374,7 @@ namespace Solid.Dicom.Impl
                         return dataSet.GetValue(tag).As<string>();
                     }
                 }
-                ftr.Info("Could not read PhaseEncodingDirectionPositive from frame {0} of image with SopInstanceUid {1}", dataSet.FrameNumber, dataSet.DataSetSopInstanceUid);
+                ftr.Info($"Could not read PhaseEncodingDirectionPositive from frame {dataSet.FrameNumber} of image with SopInstanceUid {dataSet.DataSetSopInstanceUid}");
                 return string.Empty;
             }
         }
@@ -418,7 +418,7 @@ namespace Solid.Dicom.Impl
                     //<DicomValue Name="SliceThickness" DICOM_ID="00180050" DICOM_TYPE="2" Type="DS" Multiplicity="1"/>
                     return GetDicomDsValueAsDouble(dataSet, DicomTags.Tag.SliceThickness, nameof(DicomTags.Tag.SliceThickness));
                 }
-                ftr.Info("Could not read SliceThickness from frame {0} of image with SopInstanceUid {1}", dataSet.FrameNumber, dataSet.DataSetSopInstanceUid);
+                ftr.Info($"Could not read SliceThickness from frame {dataSet.FrameNumber} of image with SopInstanceUid {dataSet.DataSetSopInstanceUid}");
                 return double.NaN;
             }
         }
@@ -446,7 +446,7 @@ namespace Solid.Dicom.Impl
                 {
                     return GetDicomDsValueAsDouble(dataSet, DicomTags.MrPrivateDicomTags.TimeAfterStart, nameof(DicomTags.MrPrivateDicomTags.TimeAfterStart), fallbackWhenTagDoesNotExist);
                 }
-                ftr.Info("Could not read TimeAfterStart from frame {0} of image with SopInstanceUid {1}", dataSet.FrameNumber, dataSet.DataSetSopInstanceUid);
+                ftr.Info($"Could not read TimeAfterStart from frame {dataSet.FrameNumber} of image with SopInstanceUid {dataSet.DataSetSopInstanceUid}");
                 return fallbackWhenTagDoesNotExist;
             }
         }
@@ -475,7 +475,7 @@ namespace Solid.Dicom.Impl
                 {
                     return GetDicomDsValueAsDouble(dataSet, DicomTags.Tag.TriggerTime, nameof(DicomTags.Tag.TriggerTime), fallbackWhenTagDoesNotExist);
                 }
-                ftr.Info("Could not read TriggerTime from frame {0} of image with SopInstanceUid {1}", dataSet.FrameNumber, dataSet.DataSetSopInstanceUid);
+                ftr.Info($"Could not read TriggerTime from frame {dataSet.FrameNumber} of image with SopInstanceUid {dataSet.DataSetSopInstanceUid}");
                 return fallbackWhenTagDoesNotExist;
             }
         }
@@ -532,7 +532,7 @@ namespace Solid.Dicom.Impl
                         return DicomValues.ConvertDicomIsToInt(value);
                     }
                 }
-                ftr.Info("Could not read AcquisitionNumber from frame {0} of image with SopInstanceUid {1}", dataSet.FrameNumber, dataSet.DataSetSopInstanceUid);
+                ftr.Info($"Could not read AcquisitionNumber from frame {dataSet.FrameNumber} of image with SopInstanceUid {dataSet.DataSetSopInstanceUid}");
                 return 0;
             }
         }
@@ -569,7 +569,7 @@ namespace Solid.Dicom.Impl
                         return dataSet.GetValue(tag).As<string>();
                     }
                 }
-                ftr.Info("Could not read DistortionCorrectionType from frame {0} of image with SopInstanceUid {1}", dataSet.FrameNumber, dataSet.DataSetSopInstanceUid);
+                ftr.Info($"Could not read DistortionCorrectionType from frame {dataSet.FrameNumber} of image with SopInstanceUid {dataSet.DataSetSopInstanceUid}");
                 return string.Empty;
             }
         }
@@ -604,7 +604,7 @@ namespace Solid.Dicom.Impl
                         return sequenceDataSet.GetValue(tag).As<string>();
                     }
                 }
-                ftr.Info("Could not read VolumetricProperties from frame {0} of image with SopInstanceUid {1}", dataSet.FrameNumber, dataSet.DataSetSopInstanceUid);
+                ftr.Info($"Could not read VolumetricProperties from frame {dataSet.FrameNumber} of image with SopInstanceUid {dataSet.DataSetSopInstanceUid}");
                 return string.Empty;
             }
         }
@@ -629,7 +629,7 @@ namespace Solid.Dicom.Impl
                 {
                     return sdsDdataSet.GetValue(tag).As<string>();
                 }
-                ftr.Info("Could not read GradCoilName from frame {0} of image with SopInstanceUid {1}", dataSet.FrameNumber, dataSet.DataSetSopInstanceUid);
+                ftr.Info($"Could not read GradCoilName from frame {dataSet.FrameNumber} of image with SopInstanceUid {dataSet.DataSetSopInstanceUid}");
                 return string.Empty;
             }
         }
@@ -663,7 +663,7 @@ namespace Solid.Dicom.Impl
                         return sequenceDataSet.GetValue(tag).As<string>();
                     }
                 }
-                ftr.Info("Could not read ReferencedSopInstanceUid from frame {0} of image with SopInstanceUid {1}", dataSet.FrameNumber, dataSet.DataSetSopInstanceUid);
+                ftr.Info($"Could not read ReferencedSopInstanceUid from frame {dataSet.FrameNumber} of image with SopInstanceUid {dataSet.DataSetSopInstanceUid}");
                 return null;
             }
         }
@@ -735,7 +735,7 @@ namespace Solid.Dicom.Impl
                     var value = pxltrafoDataSet.GetValue(tag);
                     return DicomValues.ConvertDicomDsToDouble(value);
                 }
-                ftr.Info("Could not read WindowCenter from frame {0} of image with SopInstanceUid {1}", dataSet.FrameNumber, dataSet.DataSetSopInstanceUid);
+                ftr.Info($"Could not read WindowCenter from frame {dataSet.FrameNumber} of image with SopInstanceUid {dataSet.DataSetSopInstanceUid}");
                 return double.NaN;
             }
         }
@@ -762,7 +762,7 @@ namespace Solid.Dicom.Impl
                     var value = pxltrafoDataSet.GetValue(tag);
                     return DicomValues.ConvertDicomDsToDouble(value);
                 }
-                ftr.Info("Could not read WindowWidth from frame {0} of image with SopInstanceUid {1}", dataSet.FrameNumber, dataSet.DataSetSopInstanceUid);
+                ftr.Info($"Could not read WindowWidth from frame {dataSet.FrameNumber} of image with SopInstanceUid {dataSet.DataSetSopInstanceUid}");
                 return double.NaN;
             }
         }
@@ -789,7 +789,7 @@ namespace Solid.Dicom.Impl
                     var value = pxltrafoDataSet.GetValue(tag);
                     return DicomValues.ConvertDicomDsToDouble(value);
                 }
-                ftr.Info("Could not read RescaleIntercept from frame {0} of image with SopInstanceUid {1}", dataSet.FrameNumber, dataSet.DataSetSopInstanceUid);
+                ftr.Info($"Could not read RescaleIntercept from frame {dataSet.FrameNumber} of image with SopInstanceUid {dataSet.DataSetSopInstanceUid}");
                 return double.NaN;
             }
         }
@@ -816,7 +816,7 @@ namespace Solid.Dicom.Impl
                     var value = pxltrafoDataSet.GetValue(tag);
                     return DicomValues.ConvertDicomDsToDouble(value);
                 }
-                ftr.Info("Could not read RescaleSlope from frame {0} of image with SopInstanceUid {1}", dataSet.FrameNumber, dataSet.DataSetSopInstanceUid);
+                ftr.Info($"Could not read RescaleSlope from frame {dataSet.FrameNumber} of image with SopInstanceUid {dataSet.DataSetSopInstanceUid}");
                 return double.NaN;
             }
         }
@@ -854,7 +854,7 @@ namespace Solid.Dicom.Impl
                     //var spcY = pxlDataSet.GetValueAt(tag, 1);
                     //return DicomValues.ConvertDicomDsToDouble(spcY);
                 }
-                ftr.Info("Could not read PixelSpacingRow from frame {0} of image with SopInstanceUid {1}", dataSet.FrameNumber, dataSet.DataSetSopInstanceUid);
+                ftr.Info($"Could not read PixelSpacingRow from frame {dataSet.FrameNumber} of image with SopInstanceUid {dataSet.DataSetSopInstanceUid}");
                 return double.NaN;
             }
         }
@@ -892,7 +892,7 @@ namespace Solid.Dicom.Impl
                     var spcY = pxlDataSet.GetValueAt(tag, 1);
                     return DicomValues.ConvertDicomDsToDouble(spcY);
                 }
-                ftr.Info("Could not read PixelSpacingCol from frame {0} of image with SopInstanceUid {1}", dataSet.FrameNumber, dataSet.DataSetSopInstanceUid);
+                ftr.Info($"Could not read PixelSpacingCol from frame {dataSet.FrameNumber} of image with SopInstanceUid {dataSet.DataSetSopInstanceUid}");
                 return double.NaN;
             }
         }
@@ -939,7 +939,7 @@ namespace Solid.Dicom.Impl
                     var oriColZ = oriDataSet.GetValueAt(tag, 5);
                     return new Vector3D(DicomValues.ConvertDicomDsToDouble(oriColX), DicomValues.ConvertDicomDsToDouble(oriColY), DicomValues.ConvertDicomDsToDouble(oriColZ));
                 }
-                ftr.Info("Could not read ImageOrientationCol from frame {0} of image with SopInstanceUid {1}", dataSet.FrameNumber, dataSet.DataSetSopInstanceUid);
+                ftr.Info($"Could not read ImageOrientationCol from frame {dataSet.FrameNumber} of image with SopInstanceUid {dataSet.DataSetSopInstanceUid}");
                 return null;
             }
         }
@@ -971,7 +971,7 @@ namespace Solid.Dicom.Impl
                     //var oriColZ = oriDataSet.GetValueAt(tag, 5);
                     //return new Vector3D(DicomValues.ConvertDicomDsToDouble(oriColX), DicomValues.ConvertDicomDsToDouble(oriColY), DicomValues.ConvertDicomDsToDouble(oriColZ));
                 }
-                ftr.Info("Could not read ImageOrientationRow from frame {0} of image with SopInstanceUid {1}", dataSet.FrameNumber, dataSet.DataSetSopInstanceUid);
+                ftr.Info($"Could not read ImageOrientationRow from frame {dataSet.FrameNumber} of image with SopInstanceUid {dataSet.DataSetSopInstanceUid}");
                 return null;
             }
         }
@@ -999,7 +999,7 @@ namespace Solid.Dicom.Impl
                     var posZ = posDataSet.GetValueAt(tag, 2);
                     return new Vector3D(DicomValues.ConvertDicomDsToDouble(posX), DicomValues.ConvertDicomDsToDouble(posY), DicomValues.ConvertDicomDsToDouble(posZ));
                 }
-                ftr.Info("Could not read ImagePosition from frame {0} of image with SopInstanceUid {1}", dataSet.FrameNumber, dataSet.DataSetSopInstanceUid);
+                ftr.Info($"Could not read ImagePosition from frame {dataSet.FrameNumber} of image with SopInstanceUid {dataSet.DataSetSopInstanceUid}");
                 return null;
             }
         }
@@ -1021,7 +1021,7 @@ namespace Solid.Dicom.Impl
                     }
                     return types;
                 }
-                ftr.Info("Could not read ImageType(s) from frame {0} of image with SopInstanceUid {1}", dataSet.FrameNumber, dataSet.DataSetSopInstanceUid);
+                ftr.Info($"Could not read ImageType(s) from frame {dataSet.FrameNumber} of image with SopInstanceUid {dataSet.DataSetSopInstanceUid}");
                 return types;
             }
         }
@@ -1075,7 +1075,7 @@ namespace Solid.Dicom.Impl
                 {
                     return types;
                 }
-                ftr.Info("Could not read FrameType(s) from frame {0} of image with SopInstanceUid {1}", dataSet.FrameNumber, dataSet.DataSetSopInstanceUid);
+                ftr.Info($"Could not read FrameType(s) from frame {dataSet.FrameNumber} of image with SopInstanceUid {dataSet.DataSetSopInstanceUid}");
                 return types;
             }
         }
@@ -1120,7 +1120,7 @@ namespace Solid.Dicom.Impl
                     var value = dataSet.GetValue(tag).As<string>();
                     return value;
                 }
-                ftr.Warning("Could not read value for tag: {0}, from image with SopInstanceUid: {1} and FrameNumber {2}", tagname, dataSet.DataSetSopInstanceUid, dataSet.FrameNumber);
+                ftr.Warning($"Could not read value for tag: {tagname}, from image with SopInstanceUid: {dataSet.DataSetSopInstanceUid} and FrameNumber {dataSet.FrameNumber}");
                 return string.Empty;
             }
         }
@@ -1139,7 +1139,7 @@ namespace Solid.Dicom.Impl
                         return DicomValues.ConvertDicomIsToInt(value);
                     }
                 }
-                ftr.Warning("Could not read value for tag: {0}, from image with SopInstanceUid {1} and FrameNumber {2}", tagname, dataSet.DataSetSopInstanceUid, dataSet.FrameNumber);
+                ftr.Warning($"Could not read value for tag: {tagname}, from image with SopInstanceUid {dataSet.DataSetSopInstanceUid} and FrameNumber {dataSet.FrameNumber}");
                 return 0;
             }
         }
@@ -1155,7 +1155,7 @@ namespace Solid.Dicom.Impl
                     var value = dataSet.GetValue(tag);
                     return DicomValues.ConvertDicomUsToUshort(value);
                 }
-                ftr.Warning("Could not read value for tag: {0}, from image with SopInstanceUid {1} and FrameNumber {2}", tagname, dataSet.DataSetSopInstanceUid, dataSet.FrameNumber);
+                ftr.Warning($"Could not read value for tag: {tagname}, from image with SopInstanceUid {dataSet.DataSetSopInstanceUid} and FrameNumber {dataSet.FrameNumber}");
                 return 0;
             }
         }
@@ -1171,7 +1171,7 @@ namespace Solid.Dicom.Impl
                     var dicomDs = dataSet.GetValue(tag);
                     if (dicomDs == null)
                     {
-                        ftr.Info("dicomDs == null   (for tag {0} in image with SopInstanceUid {1} and FrameNumber {2})", tag, dataSet.DataSetSopInstanceUid, (dataSet as IDicomFrameDataSet)?.FrameNumber);
+                        ftr.Info($"dicomDs == null   (for tag {tag} in image with SopInstanceUid {dataSet.DataSetSopInstanceUid} and FrameNumber {(dataSet as IDicomFrameDataSet)?.FrameNumber})");
                         return valueDoesNotExistDefault;
                     }
                     //if (string.IsNullOrWhiteSpace(dicomDs.As<string>()))
@@ -1181,7 +1181,7 @@ namespace Solid.Dicom.Impl
                     //}
                     return DicomValues.ConvertDicomDsToDouble(dicomDs);
                 }
-                ftr.Info("There is no value for tag {0} in image with SopInstanceUid {1} and FrameNumber {2}", tag, dataSet.DataSetSopInstanceUid, (dataSet as IDicomFrameDataSet)?.FrameNumber);
+                ftr.Info($"There is no value for tag {tag} in image with SopInstanceUid {dataSet.DataSetSopInstanceUid} and FrameNumber {(dataSet as IDicomFrameDataSet)?.FrameNumber}");
                 return valueDoesNotExistDefault;
             }
         }
@@ -1197,12 +1197,12 @@ namespace Solid.Dicom.Impl
                     var dicomFd = dataSet.GetValue(tag);
                     if (dicomFd == null)
                     {
-                        ftr.Info("dicomFd == null   (for tag {0} in image with SopInstanceUid {1} and FrameNumber {2})", tag, dataSet.DataSetSopInstanceUid, (dataSet as IDicomFrameDataSet)?.FrameNumber);
+                        ftr.Info($"dicomFd == null   (for tag {tag} in image with SopInstanceUid {dataSet.DataSetSopInstanceUid} and FrameNumber {(dataSet as IDicomFrameDataSet)?.FrameNumber})");
                         return valueDoesNotExistDefault;
                     }
                     return DicomValues.ConvertDicomFdToDouble(dicomFd);
                 }
-                ftr.Info("There is no value for tag {0} in image with SopInstanceUid {1} and FrameNumber {2}", tag, dataSet.DataSetSopInstanceUid, (dataSet as IDicomFrameDataSet)?.FrameNumber);
+                ftr.Info($"There is no value for tag {tag} in image with SopInstanceUid {dataSet.DataSetSopInstanceUid} and FrameNumber {(dataSet as IDicomFrameDataSet)?.FrameNumber}");
                 return valueDoesNotExistDefault;
             }
         }

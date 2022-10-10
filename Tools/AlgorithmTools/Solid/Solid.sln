@@ -19,6 +19,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Solid.Registrare", "Registr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Solid.Infrastructure_uTest", "Infrastructure_uTest\Solid.Infrastructure_uTest.csproj", "{9611FAA6-5DA3-4454-84BB-8E360C83B2E7}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Solid.DicomAdapters.FoDicom", "DicomAdapters.FoDicom\Solid.DicomAdapters.FoDicom.csproj", "{46121960-3BA2-45C9-9F9A-6D7841B43F54}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Solid.DicomAdapters.FoDicom.Impl", "DicomAdapters.FoDicom.Impl\Solid.DicomAdapters.FoDicom.Impl.csproj", "{CEB4D7E8-119B-4663-8C53-4B85C725BBF2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Solid.DicomAdapters.FoDicom_uTest.csproj", "DicomAdapters.FoDicom_uTest\Solid.DicomAdapters.FoDicom_uTest.csproj.csproj", "{5AC47D41-52EC-4687-AFB4-D16742FF38F3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -57,41 +63,23 @@ Global
 		{9611FAA6-5DA3-4454-84BB-8E360C83B2E7}.Debug|x64.Build.0 = Debug|x64
 		{9611FAA6-5DA3-4454-84BB-8E360C83B2E7}.Release|x64.ActiveCfg = Release|x64
 		{9611FAA6-5DA3-4454-84BB-8E360C83B2E7}.Release|x64.Build.0 = Release|x64
+		{46121960-3BA2-45C9-9F9A-6D7841B43F54}.Debug|x64.ActiveCfg = Debug|x64
+		{46121960-3BA2-45C9-9F9A-6D7841B43F54}.Debug|x64.Build.0 = Debug|x64
+		{46121960-3BA2-45C9-9F9A-6D7841B43F54}.Release|x64.ActiveCfg = Release|x64
+		{46121960-3BA2-45C9-9F9A-6D7841B43F54}.Release|x64.Build.0 = Release|x64
+		{CEB4D7E8-119B-4663-8C53-4B85C725BBF2}.Debug|x64.ActiveCfg = Debug|x64
+		{CEB4D7E8-119B-4663-8C53-4B85C725BBF2}.Debug|x64.Build.0 = Debug|x64
+		{CEB4D7E8-119B-4663-8C53-4B85C725BBF2}.Release|x64.ActiveCfg = Release|x64
+		{CEB4D7E8-119B-4663-8C53-4B85C725BBF2}.Release|x64.Build.0 = Release|x64
+		{5AC47D41-52EC-4687-AFB4-D16742FF38F3}.Debug|x64.ActiveCfg = Debug|x64
+		{5AC47D41-52EC-4687-AFB4-D16742FF38F3}.Debug|x64.Build.0 = Debug|x64
+		{5AC47D41-52EC-4687-AFB4-D16742FF38F3}.Release|x64.ActiveCfg = Release|x64
+		{5AC47D41-52EC-4687-AFB4-D16742FF38F3}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FBC6D52B-3456-482D-A66F-7D822209B8BF}
-	EndGlobalSection
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 9
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://tfs-cr.healthcare.siemens.com:8090/tfs/predev
-		SccProjectUniqueName0 = Infrastructure\\Solid.Infrastructure.csproj
-		SccProjectName0 = Infrastructure
-		SccLocalPath0 = Infrastructure
-		SccProjectUniqueName1 = Infrastructure_uTest\\Solid.Infrastructure_uTest.csproj
-		SccProjectName1 = Infrastructure_uTest
-		SccLocalPath1 = Infrastructure_uTest
-		SccLocalPath2 = .
-		SccProjectUniqueName3 = Dicom.Impl\\Solid.Dicom.Impl.csproj
-		SccProjectName3 = Dicom.Impl
-		SccLocalPath3 = Dicom.Impl
-		SccProjectUniqueName4 = Dicom\\Solid.Dicom.csproj
-		SccProjectName4 = Dicom
-		SccLocalPath4 = Dicom
-		SccProjectUniqueName5 = Dicom_uTest\\Solid.Dicom_uTest.csproj
-		SccProjectName5 = Dicom_uTest
-		SccLocalPath5 = Dicom_uTest
-		SccProjectUniqueName6 = Registrare\\Solid.Registrare.csproj
-		SccProjectName6 = Registrare
-		SccLocalPath6 = Registrare
-		SccProjectUniqueName7 = TestInfrastructure\\Solid.TestInfrastructure.csproj
-		SccProjectName7 = TestInfrastructure
-		SccLocalPath7 = TestInfrastructure
-		SccProjectUniqueName8 = TestInfrastructure_uTest\\Solid.TestInfrastructure_uTest.csproj
-		SccProjectName8 = TestInfrastructure_uTest
-		SccLocalPath8 = TestInfrastructure_uTest
 	EndGlobalSection
 EndGlobal

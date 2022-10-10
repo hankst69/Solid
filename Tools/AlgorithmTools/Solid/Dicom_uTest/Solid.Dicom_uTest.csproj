@@ -8,11 +8,13 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <OutputType>Library</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
-	  <!--Nullable>enable</Nullable-->
-	  <AssemblyVersion>1.0.0.0</AssemblyVersion>
-  </PropertyGroup>
+		<OutputType>Library</OutputType>
+		<TargetFramework>net6.0</TargetFramework>
+		<!--Nullable>enable</Nullable-->
+		<VersionPrefix>1.0</VersionPrefix>
+		<Version>$(VersionPrefix).0</Version>
+		<AssemblyVersion>$(Version).0</AssemblyVersion>
+	</PropertyGroup>
 
   <ItemGroup>
     <Compile Remove="DicomTagsTests.cs" />
@@ -23,8 +25,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentAssertions" Version="6.5.1" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
+    <PackageReference Include="FluentAssertions" Version="6.7.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
     <PackageReference Include="Moq" Version="4.17.2" />
     <PackageReference Include="NUnit" Version="3.13.2" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.2.1" />

@@ -1,24 +1,20 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="IDicomDataSetAdapter.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2020. All Rights Reserved. Confidential.
+// File: "IDicomFrameDataSetCreator.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2022
 //----------------------------------------------------------------------------------
-
 using System.Collections.Generic;
 
 namespace Solid.Dicom
 {
     /// <summary>
     /// API:YES
-    /// IDicomDataSetAdapter
+    /// IDicomFrameDataSetCreator
     /// </summary>
-    public interface IDicomDataSetAdapter
+    public interface IDicomFrameDataSetCreator
     {
         IDicomFrameDataSet CreateFrameDataSet(IDicomDataSet dataSet, int frameNumber);
         IEnumerable<IDicomFrameDataSet> CreateFrameDataSets(IDicomDataSet dicomDataSet);
         IEnumerable<IDicomFrameDataSet> CreateFrameDataSets(IEnumerable<IDicomDataSet> dicomDataSets);
-
-        void ClearCache();
     }
 }
