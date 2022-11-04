@@ -5,12 +5,9 @@
 
 using System;
 using FluentAssertions;
-using Moq;
-using Solid.Dicom;
 using NUnit.Framework;
 using Solid.DicomAdapters.FoDicom;
 using Solid.DicomAdapters.FoDicom.Impl;
-using Solid.Infrastructure.StateMachine.Impl;
 
 namespace Solid.DicomAdapters.FoDicom_uTest
 {
@@ -20,12 +17,12 @@ namespace Solid.DicomAdapters.FoDicom_uTest
     /// </summary>
     public class FoDicomDataSetProviderTests
     {
-        private IFoDicomDataSetProvider m_Target;
+        private IFoDicomDataSetProvider _target;
 
         [SetUp]
         public void SetUp()
         {
-            m_Target = new FoDicomDataSetProvider();
+            _target = new FoDicomDataSetProvider();
         }
 
         [Test]

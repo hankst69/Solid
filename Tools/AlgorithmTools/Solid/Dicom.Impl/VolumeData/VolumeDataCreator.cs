@@ -9,62 +9,59 @@ using System.Collections.Generic;
 using System.Linq;
 using Solid.Dicom.ImageData;
 using Solid.Infrastructure.Diagnostics;
-using Solid.Infrastructure.Diagnostics.Impl;
 
 namespace Solid.Dicom.VolumeData.Impl
 {
     /// <inheritdoc/>
     public class VolumeDataCreator : IVolumeDataCreator
     {
-        private readonly ITracer m_Tracer;
-        private readonly IImageDataCreator m_ImageDataCreator;
-        private readonly IImageDataVolumeValidator m_ImageDataVolumeValidator;
+        private readonly ITracer _tracer;
+        private readonly IImageDataCreator _imageDataCreator;
+        private readonly IImageDataVolumeValidator _imageDataVolumeValidator;
 
         public VolumeDataCreator(
             IImageDataCreator imageDataCreator,
             IImageDataVolumeValidator imageDataVolumeValidator)
-            : this (new NullTracer(), imageDataCreator, imageDataVolumeValidator)
-        {}
+        {
+            ConsistencyCheck.EnsureArgument(imageDataCreator).IsNotNull();
+            ConsistencyCheck.EnsureArgument(imageDataVolumeValidator).IsNotNull();
+            _imageDataCreator = imageDataCreator;
+            _imageDataVolumeValidator = imageDataVolumeValidator;
+            //_tracer = new NullTracer();
+        }
 
         public VolumeDataCreator(
             ITracer tracer,
             IImageDataCreator imageDataCreator,
             IImageDataVolumeValidator imageDataVolumeValidator)
+            : this(imageDataCreator, imageDataVolumeValidator)
         {
             ConsistencyCheck.EnsureArgument(tracer).IsNotNull();
-            ConsistencyCheck.EnsureArgument(imageDataCreator).IsNotNull();
-            ConsistencyCheck.EnsureArgument(imageDataVolumeValidator).IsNotNull();
-            m_Tracer = tracer;
-            m_ImageDataCreator = imageDataCreator;
-            m_ImageDataVolumeValidator = imageDataVolumeValidator;
+            _tracer = tracer;
         }
 
         public IVolumeData CreateVolumeData(IEnumerable<IImageData> inputImages)
         {
-            using (m_Tracer.CreateScopeTracer())
+            using var tracer = _tracer?.CreateScopeTracer();
+            ConsistencyCheck.EnsureArgument(inputImages).IsNotNull();
+
+            var images = inputImages as IList<IImageData> ?? inputImages.ToList();
+            if (!_imageDataVolumeValidator.ValidateVolumeImageData(images).Valid)
             {
-                ConsistencyCheck.EnsureArgument(inputImages).IsNotNull();
-
-                var images = inputImages as IList<IImageData> ?? inputImages.ToList();
-                if (!m_ImageDataVolumeValidator.ValidateVolume(images))
-                {
-                    //throw new ApplicationException("no valid volume");
-                    return null;
-                }
-
-                return new VolumeData(images);
+                //throw new ApplicationException("no valid volume");
+                return null;
             }
+
+            return new VolumeData(images);
         }
 
         public IVolumeData CreateVolumeData(IEnumerable<IDicomFrameDataSet> inputFrameDataSets)
         {
-            using (m_Tracer.CreateScopeTracer())
-            {
-                ConsistencyCheck.EnsureArgument(inputFrameDataSets).IsNotNull();
+            using var tracer = _tracer?.CreateScopeTracer();
+            ConsistencyCheck.EnsureArgument(inputFrameDataSets).IsNotNull();
 
-                var inputImages = inputFrameDataSets.Select(x => m_ImageDataCreator.CreateImageData(x));
-                return CreateVolumeData(inputImages);
-            }
+            var inputImages = inputFrameDataSets.Select(x => _imageDataCreator.CreateImageData(x));
+            return CreateVolumeData(inputImages);
         }
     }
 }

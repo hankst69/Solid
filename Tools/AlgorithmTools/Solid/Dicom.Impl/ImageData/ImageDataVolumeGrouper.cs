@@ -7,7 +7,6 @@
 
 using System.Collections.Generic;
 using System.Linq;
-//using Solid.Dicom.ImageInfo;
 using Solid.Dicom.ImageInfo.Types;
 using Solid.Infrastructure.Diagnostics;
 using Solid.Infrastructure.Math;
@@ -20,18 +19,27 @@ namespace Solid.Dicom.ImageData.Impl
     /// </summary>
     public class ImageDataVolumeGrouper : IImageDataVolumeGrouper
     {
-        private readonly ITracer m_Tracer;
+        private readonly ITracer _tracer;
+        private readonly IImageDataVolumeValidator _imageDataVolumeValidator;
 
-        public ImageDataVolumeGrouper(ITracer tracer)
+        public ImageDataVolumeGrouper(IImageDataVolumeValidator imageDataVolumeValidator)
         {
-            ConsistencyCheck.EnsureArgument(tracer).IsNotNull();
-            m_Tracer = tracer;
+            ConsistencyCheck.EnsureArgument(imageDataVolumeValidator).IsNotNull();
+            _imageDataVolumeValidator = imageDataVolumeValidator;
+            //_tracer = new NullTracer();
         }
 
+        public ImageDataVolumeGrouper(ITracer tracer, IImageDataVolumeValidator imageDataVolumeValidator)
+            :this (imageDataVolumeValidator)
+        {
+            ConsistencyCheck.EnsureArgument(tracer).IsNotNull();
+            _tracer = tracer;
+        }
 
         private IEnumerable<KeyValuePair<string, IOrderedEnumerable<IImageData>>> BuildBasicVolumeGroups(
             IEnumerable<IImageData> inputImages)
         {
+            using var tracer = _tracer?.CreateScopeTracer();
             // group into sets of common orientation, matrix size and pixel spacing
             var basicVolumeGroups = inputImages
                 // check for availability of pixel matrix and image plane attributes
@@ -73,41 +81,8 @@ namespace Solid.Dicom.ImageData.Impl
                 #endif
                 ;
 
-            // todo: move validation of slice count and "imagepos in a row" into IVolumeValidator
             var validVolumeGroups = basicVolumeGroupsWithSortedImages
-                // check for at least 3 slices
-                .Where(group => group.Value.Count() > 2)
-                // check for ImagePositions being aligned in a straight line
-                .Where(group =>
-                {
-                    //Tuple<Vector3D, Vector3D> firstPointAndDirection = new Tuple<Vector3D, Vector3D>(set.First(), null);
-                    //var allInLine = set.Aggregate(firstPointAndDirection, )
-                    Vector3D firstPos = null;
-                    Vector3D baseDir = null;
-                    foreach (var imageData in group.Value)
-                    {
-                        if (firstPos == null)
-                        {
-                            firstPos = imageData.ImagePlaneInfo.Position;
-                            continue;
-                        }
-                        if (firstPos.IsAlmostEqual(imageData.ImagePlaneInfo.Position))
-                        {
-                            continue;
-                        }
-                        if (baseDir == null)
-                        {
-                            baseDir = imageData.ImagePlaneInfo.Position - firstPos;
-                            continue;
-                        }
-                        var newDir = imageData.ImagePlaneInfo.Position - firstPos;
-                        if (!baseDir.IsAlmostParallel(newDir))
-                        {
-                            return false;
-                        }
-                    }
-                    return true;
-                })
+                .Where(group => _imageDataVolumeValidator.IsImageDataValidForVolumeCreation(group.Value, extendedRequirements: false))
                 #if DEBUG
                 .ToList()
                 #endif
@@ -118,55 +93,53 @@ namespace Solid.Dicom.ImageData.Impl
 
         public IEnumerable<IEnumerable<IImageData>> GroupIntoVolumes(IEnumerable<IImageData> inputImages)
         {
-            using (m_Tracer.CreateScopeTracer())
+            using var tracer = _tracer?.CreateScopeTracer();
+            ConsistencyCheck.EnsureArgument(inputImages).IsNotNull();
+
+            var volumeGroups = BuildBasicVolumeGroups(inputImages);
+
+            // detect dynamics by grouping images into groups of common imageposition (and splitting into separate volumes afterwards)
+            // todo: currently we fail to detect separate volumes of common orientation/MatrixSize/PixelSpacing but just starting at different position (in syngo this might be beds composing)
+            var vectorComparer = new Vector3DComparer();
+            foreach (var volGroup in volumeGroups)
             {
-                ConsistencyCheck.EnsureArgument(inputImages).IsNotNull();
+                var groupedByPosition = volGroup.Value
+                    .GroupBy(x => x.ImagePlaneInfo.Position, vectorComparer)
+                    .Select(group => new
+                    {
+                        //ImagePos = group.Key,
+                        ImagePosInNormalDirection = group.First().ImagePlaneInfo.ImagePositionInNormalDirection,
+                        Images = group.OrderBy(x => x.ImageOrderInfo.AcquisitionDateTime).ToList()
+                    })
+                    //.OrderBy(group => group.ImagePos, dicomVectorComparer)
+                    .OrderBy(group => group.ImagePosInNormalDirection)
+                    .ToList();
 
-                var volumeGroups = BuildBasicVolumeGroups(inputImages);
-
-                // detect dynamics by grouping images into groups of common imageposition (and splitting into separate volumes afterwards)
-                // todo: currently we fail to detect separate volumes of common orientation/MatrixSize/PixelSpacing but just starting at different position (in syngo this might be beds composing)
-                var vectorComparer = new Vector3DComparer();
-                foreach (var volGroup in volumeGroups)
+                var maxCount = groupedByPosition.Max(group => group.Images.Count());
+                if (maxCount < 2)
                 {
-                    var groupedByPosition = volGroup.Value
-                        .GroupBy(x => x.ImagePlaneInfo.Position, vectorComparer)
-                        .Select(group => new
-                        {
-                            //ImagePos = group.Key,
-                            ImagePosInNormalDirection = group.First().ImagePlaneInfo.ImagePositionInNormalDirection,
-                            Images = group.OrderBy(x => x.ImageOrderInfo.AcquisitionDateTime).ToList()
-                        })
-                        //.OrderBy(group => group.ImagePos, dicomVectorComparer)
-                        .OrderBy(group => group.ImagePosInNormalDirection)
-                        .ToList();
+                    yield return volGroup.Value;
+                }
 
-                    var maxCount = groupedByPosition.Max(group => group.Images.Count());
-                    if (maxCount < 2)
+                // split into separate sets
+                var splittedSets = new IList<IImageData>[maxCount];
+                for (int idx = 0; idx < maxCount; idx++)
+                {
+                    splittedSets[idx] = new List<IImageData>();
+                    foreach (var group in groupedByPosition)
                     {
-                        yield return volGroup.Value;
-                    }
-
-                    // split into separate sets
-                    var splittedSets = new IList<IImageData>[maxCount];
-                    for (int idx = 0; idx < maxCount; idx++)
-                    {
-                        splittedSets[idx] = new List<IImageData>();
-                        foreach (var group in groupedByPosition)
+                        if (group.Images.Count > idx)
                         {
-                            if (group.Images.Count > idx)
-                            {
-                                splittedSets[idx].Add(group.Images[idx]);
-                            }
+                            splittedSets[idx].Add(group.Images[idx]);
                         }
                     }
-                    foreach (var subSet in splittedSets)
+                }
+                foreach (var subSet in splittedSets)
+                {
+                    // check for at least 2 slices
+                    if (subSet.Count > 2)
                     {
-                        // check for at least 2 slices
-                        if (subSet.Count > 2)
-                        {
-                            yield return subSet;
-                        }
+                        yield return subSet;
                     }
                 }
             }
@@ -174,24 +147,22 @@ namespace Solid.Dicom.ImageData.Impl
 
         public IEnumerable<IEnumerable<IImageData>> Extract4dVolumes(IEnumerable<IImageData> inputImages)
         {
-            using (m_Tracer.CreateScopeTracer())
+            using var tracer = _tracer?.CreateScopeTracer();
+            ConsistencyCheck.EnsureArgument(inputImages).IsNotNull();
+
+            var volumeGroups = BuildBasicVolumeGroups(inputImages);
+
+            // detect dynamics by grouping images into groups of common imageposition
+            var vectorComparer = new Vector3DComparer();
+            foreach (var volGroup in volumeGroups)
             {
-                ConsistencyCheck.EnsureArgument(inputImages).IsNotNull();
+                var groupedByPosition = volGroup.Value
+                    .GroupBy(x => x.ImagePlaneInfo.Position, vectorComparer);
 
-                var volumeGroups = BuildBasicVolumeGroups(inputImages);
-
-                // detect dynamics by grouping images into groups of common imageposition
-                var vectorComparer = new Vector3DComparer();
-                foreach (var volGroup in volumeGroups)
+                var maxCount = groupedByPosition.Max(group => group.Count());
+                if (maxCount > 1)
                 {
-                    var groupedByPosition = volGroup.Value
-                        .GroupBy(x => x.ImagePlaneInfo.Position, vectorComparer);
-
-                    var maxCount = groupedByPosition.Max(group => group.Count());
-                    if (maxCount > 1)
-                    {
-                        yield return volGroup.Value;
-                    }
+                    yield return volGroup.Value;
                 }
             }
         }
