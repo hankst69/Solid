@@ -8,13 +8,13 @@
   </PropertyGroup>
 
   <PropertyGroup>
-		<OutputType>Library</OutputType>
-		<TargetFramework>net6.0</TargetFramework>
-		<!--Nullable>enable</Nullable-->
-		<VersionPrefix>1.0</VersionPrefix>
-		<Version>$(VersionPrefix).0</Version>
-		<AssemblyVersion>$(Version).0</AssemblyVersion>
-	</PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework Condition="'$(TargetFramework)'==''">net7.0</TargetFramework>
+    <!--Nullable>enable</Nullable-->
+    <VersionPrefix>1.0</VersionPrefix>
+    <Version>$(VersionPrefix).0</Version>
+    <AssemblyVersion>$(Version).0</AssemblyVersion>
+  </PropertyGroup>
 
   <ItemGroup>
     <Compile Remove="DicomTagsTests.cs" />
@@ -33,7 +33,7 @@
   </ItemGroup>
 
   <ItemGroup>
-		<ProjectReference Include="..\Dicom.Impl\Solid.Dicom.Impl.csproj" />
+    <ProjectReference Include="..\Dicom.Impl\Solid.Dicom.Impl.csproj" />
     <ProjectReference Include="..\TestInfrastructure\Solid.TestInfrastructure.csproj" />
   </ItemGroup>
 

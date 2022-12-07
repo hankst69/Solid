@@ -9,11 +9,11 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework Condition="'$(TargetFramework)'==''">net7.0</TargetFramework>
     <!--Nullable>enable</Nullable-->
-		<VersionPrefix>1.0</VersionPrefix>
-		<Version>$(VersionPrefix).0</Version>
-		<AssemblyVersion>$(Version).0</AssemblyVersion>
-	</PropertyGroup>
+    <VersionPrefix>1.0</VersionPrefix>
+    <Version>$(VersionPrefix).0</Version>
+    <AssemblyVersion>$(Version).0</AssemblyVersion>
+  </PropertyGroup>
   
 </Project>
