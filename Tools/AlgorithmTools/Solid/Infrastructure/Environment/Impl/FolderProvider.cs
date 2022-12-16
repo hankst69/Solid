@@ -6,6 +6,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 
 using Solid.Infrastructure.Diagnostics;
 
@@ -14,15 +15,19 @@ namespace Solid.Infrastructure.Environment.Impl
     public class FolderProvider : IFolderProvider
     {
         private readonly ITracer _tracer;
-        private readonly string _folderProviderFullname;
+        private readonly string _solidFolderName;
+        private readonly string _appFolderName;
         private const string c_DefaultTempFolder = @"c:\Temp";
         private const string c_DefaultAppDataFolder = @"c:\Temp";
         private readonly IList<string> _tempFolderTrackingList = new List<string>();
 
         public FolderProvider()
         {
-            _folderProviderFullname = this.GetType().FullName;
-            DeleteCreatedTempFoldersOnDispose = false;
+            _solidFolderName = Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().Location);
+            _appFolderName = Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly().Location);
+            UseCommonSolidBaseFolderForAllApps = false;
+            PlaceCachesAndTracesInAppDataFolder = false;
+            DeleteCreatedTempFoldersOnDispose = true;
         }
 
         public FolderProvider(ITracer tracer) : this()
@@ -30,6 +35,12 @@ namespace Solid.Infrastructure.Environment.Impl
             ConsistencyCheck.EnsureArgument(tracer).IsNotNull();
             _tracer = tracer;
         }
+
+        public bool UseCommonSolidBaseFolderForAllApps { get; set; }
+
+        public bool PlaceCachesAndTracesInAppDataFolder { get; set; }
+
+        public bool DeleteCreatedTempFoldersOnDispose { get; set; }
 
         public string GetSystemTempFolder()
         {
@@ -46,7 +57,7 @@ namespace Solid.Infrastructure.Environment.Impl
             return systemTempFolder;
         }
 
-        public string GetApplicationDataFolder()
+        public string GetSystemApplicationDataFolder()
         {
             using var tracer = _tracer?.CreateScopeTracer();
 
@@ -61,55 +72,48 @@ namespace Solid.Infrastructure.Environment.Impl
             return appDataFolder;
         }
 
-        public string GetCacheFolder()
+        public string GetAppTempFolder(string subFolder = null)
         {
             using var tracer = _tracer?.CreateScopeTracer();
 
-            //var baseFolder = GetApplicationDataFolder();
-            var baseFolder = GetSystemTempFolder();
-            var privateBaseFolder = CreatePrivateSubFolder(baseFolder, _folderProviderFullname);
-            var cacheFolder = CreatePrivateSubFolder(privateBaseFolder, "Caches");
-            return cacheFolder;
+            var folder = GetSystemTempFolder();
+
+            folder = UseCommonSolidBaseFolderForAllApps ? CreatePrivateSubFolder(folder, _solidFolderName) : folder;
+            folder = CreatePrivateSubFolder(folder, _appFolderName);
+            folder = !string.IsNullOrEmpty(subFolder) ? CreatePrivateSubFolder(folder, subFolder) : folder;
+            return folder;
         }
 
-        public string GetTraceFolder()
+        public string GetAppDataFolder(string subFolder = null)
         {
             using var tracer = _tracer?.CreateScopeTracer();
 
-            //var baseFolder = GetApplicationDataFolder();
-            var baseFolder = GetSystemTempFolder();
-            var privateBaseFolder = CreatePrivateSubFolder(baseFolder, _folderProviderFullname);
-            var traceFolder = CreatePrivateSubFolder(privateBaseFolder, "Traces");
-            return traceFolder;
+            var folder = GetSystemApplicationDataFolder();
+
+            folder = UseCommonSolidBaseFolderForAllApps ? CreatePrivateSubFolder(folder, _solidFolderName) : folder;
+            folder = CreatePrivateSubFolder(folder, _appFolderName);
+            folder = !string.IsNullOrEmpty(subFolder) ? CreatePrivateSubFolder(folder, subFolder) : folder;
+            return folder;
         }
 
-
-        public string GetPrivateTempFolder(string privateName)
+        public string GetAppCacheFolder(string subFolder = null)
         {
             using var tracer = _tracer?.CreateScopeTracer();
-            var baseFolder = GetSystemTempFolder();
-            return CreatePrivateSubFolder(baseFolder, privateName);
+
+            const string cCaches = "Caches";
+            var folder = PlaceCachesAndTracesInAppDataFolder ? GetAppDataFolder(cCaches) : GetAppTempFolder(cCaches);
+            folder = !string.IsNullOrEmpty(subFolder) ? CreatePrivateSubFolder(folder, subFolder) : folder;
+            return folder;
         }
 
-        public string GetPrivateApplicationDataFolder(string privateName)
+        public string GetAppTraceFolder(string subFolder = null)
         {
             using var tracer = _tracer?.CreateScopeTracer();
-            var baseFolder = GetApplicationDataFolder();
-            return CreatePrivateSubFolder(baseFolder, privateName);
-        }
 
-        public string GetPrivateCacheFolder(string privateName)
-        {
-            using var tracer = _tracer?.CreateScopeTracer();
-            var baseFolder = GetCacheFolder();
-            return CreatePrivateSubFolder(baseFolder, privateName);
-        }
-
-        public string GetPrivateTraceFolder(string privateName)
-        {
-            using var tracer = _tracer?.CreateScopeTracer();
-            var baseFolder = GetTraceFolder();
-            return CreatePrivateSubFolder(baseFolder, privateName);
+            const string cTraces = "Traces";
+            var folder = PlaceCachesAndTracesInAppDataFolder ? GetAppDataFolder(cTraces) : GetAppTempFolder(cTraces);
+            folder = !string.IsNullOrEmpty(subFolder) ? CreatePrivateSubFolder(folder, subFolder) : folder;
+            return folder;
         }
 
         private string CreatePrivateSubFolder(string baseFolderName, string privateName)
@@ -118,18 +122,10 @@ namespace Solid.Infrastructure.Environment.Impl
             ConsistencyCheck.EnsureArgument(baseFolderName).IsNotNullOrEmpty().IsExistingDirectory();
             ConsistencyCheck.EnsureArgument(privateName).IsNotNullOrEmpty();
 
-            // ensure privateFolderName only contains valid characters
-            var invalidNameChars = Path.GetInvalidFileNameChars();
-            foreach (char c in invalidNameChars)
-            {
-                privateName = privateName.Replace(c, '_'); //(c.ToString(), "");
-            }
-            var invalidPathChars = Path.GetInvalidPathChars();
-            foreach (char c in invalidPathChars)
-            {
-                privateName = privateName.Replace(c, '_'); //(c.ToString(), "");
-            }
-            privateName = privateName.Replace('\\', '_').TrimStart('_');
+            // ensure privateFolderName only contains valid characters and expresses the name of a single folder
+            privateName = EnsureValidFileName(privateName);
+            privateName = EnsureValidPathName(privateName);
+            privateName = ConvertPathNameIntoFileName(privateName);
 
             var privateFolderName = Path.Combine(baseFolderName, privateName);
             if (!Directory.Exists(privateFolderName))
@@ -144,8 +140,7 @@ namespace Solid.Infrastructure.Environment.Impl
         {
             using var tracer = _tracer?.CreateScopeTracer();
 
-            var baseTempFolder = GetPrivateTempFolder(_folderProviderFullname);
-            var privateBaseTempFolder = CreatePrivateSubFolder(baseTempFolder, "Temps");
+            var privateBaseTempFolder = GetAppTempFolder("Temps");
 
             var count = 0;
             var emptyTempFolder = Path.Combine(privateBaseTempFolder, $"_{count}");
@@ -160,26 +155,6 @@ namespace Solid.Infrastructure.Environment.Impl
             tracer?.Debug($"Returning new empty temp folder '{emptyTempFolder}'");
             ConsistencyCheck.EnsureValue(emptyTempFolder).IsNotNullOrEmpty().IsExistingDirectory();
             return emptyTempFolder;
-        }
-
-        public string GetNewTraceFile(string traceDomain)
-        {
-            using var tracer = _tracer?.CreateScopeTracer();
-
-            var invalidNameChars = Path.GetInvalidFileNameChars();
-            foreach (char c in invalidNameChars)
-            {
-                traceDomain = traceDomain.Replace(c, '_'); //(c.ToString(), "");
-            }
-
-            // we setup a new trace file which should relate given traceDomin and current date/time of creation
-            var traceFolder = GetPrivateTraceFolder(traceDomain);//GetTraceFolder();
-
-            var dateTimeScope = System.DateTime.Now.ToString("yyyyMMdd-HHmmss");
-            var traceFileName = Path.Combine(traceFolder, $"{traceDomain}_{dateTimeScope}.trace");
-
-            tracer?.Debug($"Returning new TraceFile '{traceFileName}'");
-            return traceFileName;
         }
 
         public string[] GetCreatedTempFolders()
@@ -201,7 +176,6 @@ namespace Solid.Infrastructure.Environment.Impl
             }
             _tempFolderTrackingList.Clear();
         }
-        public bool DeleteCreatedTempFoldersOnDispose { get; set; }
 
         void System.IDisposable.Dispose()
         {
@@ -210,6 +184,51 @@ namespace Solid.Infrastructure.Environment.Impl
             {
                 DeleteCreatedTempFolders();
             }
+        }
+
+        public string ConvertPathNameIntoFileName(string pathName)
+        {
+            pathName = pathName.Replace('\\', '_').TrimStart('_');
+            pathName = pathName.Replace('/', '_').TrimStart('_');
+            return pathName;
+        }
+
+        public string EnsureValidPathName(string pathName)
+        {
+            var invalidPathChars = Path.GetInvalidPathChars();
+            foreach (char c in invalidPathChars)
+            {
+                pathName = pathName.Replace(c, '_'); //(c.ToString(), "");
+            }
+            return pathName;
+        }
+
+        public string EnsureValidFileName(string fileName)
+        {
+            var invalidNameChars = Path.GetInvalidFileNameChars();
+            foreach (char c in invalidNameChars)
+            {
+                fileName = fileName.Replace(c, '_'); //(c.ToString(), "");
+            }
+            return fileName;
+        }
+
+        public string GetNewAppTraceFile()
+        {
+            using var tracer = _tracer?.CreateScopeTracer();
+
+            var appName = _appFolderName;
+            appName = ConvertPathNameIntoFileName(appName);
+            appName = EnsureValidFileName(appName);
+
+            // we setup a new trace file which should relate given traceDomin and current date/time of creation
+            var traceFolder = GetAppTraceFolder();
+
+            var dateTimeScope = System.DateTime.Now.ToString("yyyyMMdd-HHmmss");
+            var traceFileName = Path.Combine(traceFolder, $"{appName}_{dateTimeScope}.trace");
+
+            tracer?.Debug($"Returning new TraceFile '{traceFileName}'");
+            return traceFileName;
         }
     }
 }

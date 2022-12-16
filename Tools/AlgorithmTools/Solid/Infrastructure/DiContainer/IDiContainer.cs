@@ -7,6 +7,8 @@
 
 using System;
 
+using static Solid.Infrastructure.DiContainer.Impl.DiContainer;
+
 namespace Solid.Infrastructure.DiContainer
 {
     /// <summary>
@@ -14,14 +16,18 @@ namespace Solid.Infrastructure.DiContainer
     /// </summary>
     public interface IDiContainer : IResolver, IDisposable
     {
+        void Register(IRegistrar registrar);
+
         void RegisterInstance<TTypeToResolve>(object instance);
 
         void RegisterType<TTypeToResolve, TConcrete>();
+
         void RegisterTypeAsTransient<TTypeToResolve, TConcrete>();
 
         void RegisterCreator<TTypeToResolve>(Func<IResolver, object> creator);
-        void RegisterCreatorAsTransient<TTypeToResolve>(Func<IResolver, object> creator);
+        void RegisterCreator<TTypeToResolve>(Func<IResolver, Type, object> creator);
 
-        void Register(IRegistrar registrar);
+        void RegisterCreatorAsTransient<TTypeToResolve>(Func<IResolver, object> creator);
+        void RegisterCreatorAsTransient<TTypeToResolve>(Func<IResolver, Type, object> creator);
     }
 }

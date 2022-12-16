@@ -28,6 +28,8 @@ namespace Solid.Infrastructure.Diagnostics.Impl
         public FileTracer(string fileName)
         {
             ConsistencyCheck.EnsureArgument(fileName).IsNotNullOrEmpty();
+            fileName = _folderProvider.EnsureValidPathName(fileName);
+            fileName = _folderProvider.EnsureValidFileName(fileName);
             CreateTraceEnvironment(ReadTraceDomainFromCallStack(), string.Empty, new StreamWriter(fileName));
         }
 
@@ -103,8 +105,8 @@ namespace Solid.Infrastructure.Diagnostics.Impl
             {
                 _folderProvider ??= new Solid.Infrastructure.Environment.Impl.FolderProvider();
 
-                // we setup a new trace file which should relate given traceDomin and current date/time of creation
-                var traceFileName = _folderProvider.GetNewTraceFile(traceDomain);
+                // we setup a new trace file which should relate to current application name and date/time of creation
+                var traceFileName = _folderProvider.GetNewAppTraceFile();
 
                 m_TraceStreamWriter = new StreamWriter(traceFileName);
                 ConsistencyCheck.EnsureValue(m_TraceStreamWriter).IsNotNull();
