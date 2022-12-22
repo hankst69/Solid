@@ -1,6 +1,6 @@
 //----------------------------------------------------------------------------------
 // <copyright file="DiContainerTests.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2017-2021. All Rights Reserved. Confidential.
+// Copyright (C) Siemens Healthcare GmbH, 2017-2022. All Rights Reserved. Confidential.
 // Author: Steffen Hanke
 // </copyright>
 //----------------------------------------------------------------------------------
@@ -8,414 +8,154 @@
 using System;
 using System.Linq;
 using FluentAssertions;
-//using Microsoft.Practices.Unity;
 using Moq;
 using Solid.Infrastructure.DiContainer;
-using Solid.Infrastructure.DiContainer.Impl;
 using NUnit.Framework;
 
 namespace Solid.Infrastructure_uTest.DiContainer
 {
-    public class DiContainerTests
+    public partial class DiContainerTests
     {
-        private IDiContainer m_Target;
+        private IDiContainer _target;
 
         [SetUp]
         public void SetUp()
         {
-            m_Target = new Infrastructure.DiContainer.Impl.DiContainer();
+            _target = new Infrastructure.DiContainer.Impl.DiContainer();
         }
 
-        [Test]
-        public void RegisterInstance_ShouldThrow_WhenInstanceIsNull()
-        {
-            // Arrange
-            // Act
-            Action action = () => m_Target.RegisterInstance<ITypeToResolve>(null);
-
-            // Assert
-            action.Should().Throw<ArgumentNullException>();
-        }
-
-        [Test]
-        public void Resolve_ShouldThrow_WhenTypeIsNotRegistered()
-        {
-            // Arrange
-            // Act
-            Action action = () => m_Target.Resolve<ITypeToResolve>();
-
-            // Assert
-            action.Should().Throw<TypeNotRegisteredException>();
-        }
-
-        [Test]
-        public void TryResolve_ShouldReturnNull_WhenTypeIsNotRegistered()
-        {
-            // Arrange
-            // Act
-            var instance = m_Target.TryResolve<ITypeToResolve>();
-
-            // Assert
-            instance.Should().BeNull();
-        }
-
-        [Test]
-        public void Resolve_ShouldThrow_WhenConcreteTypeIsRegisteredButConstructorParametersAreNotRegistered()
-        {
-            // Arrange
-            m_Target.RegisterType<ITypeToResolveWithConstructorParams, ConcreteTypeWithConstructorParams>();
-
-            // Act
-            Action action = () => m_Target.Resolve<ITypeToResolveWithConstructorParams>();
-
-            // Assert
-            action.Should().Throw<TypeNotRegisteredException>();
-        }
-
-        [Test]
-        public void TryResolve_ShouldThrow_WhenConcreteTypeIsRegisteredButConstructorParametersAreNotRegistered()
-        {
-            // Arrange
-            m_Target.RegisterType<ITypeToResolveWithConstructorParams, ConcreteTypeWithConstructorParams>();
-
-            // Act
-            Action action = () => m_Target.TryResolve<ITypeToResolveWithConstructorParams>();
-
-            // Assert
-            action.Should().Throw<TypeNotRegisteredException>();
-        }
-
-        [Test]
-        public void Resolve_ShouldNotThrow_WhenConcreteTypeWithDefaultConstructorParamsIsRegisteredButConstructorParametersAreNotRegistered()
-        {
-            // Arrange
-            m_Target.RegisterType<ITypeToResolveWithDefaultConstructorParams, ConcreteTypeWithDefaultConstructorParams>();
-
-            // Act
-            var instance = m_Target.Resolve<ITypeToResolveWithDefaultConstructorParams>();
-
-            // Assert
-            instance.Should().BeOfType<ConcreteTypeWithDefaultConstructorParams>();
-        }
-
-        [Test]
-        public void Resolve_ShouldThrow_WhenConstructorParametersDependOnSelfConcreteType()
-        {
-            // Arrange
-            m_Target.RegisterType<ITypeToResolveWithConstructorParamSelfConcrete, ConcreteTypeWithConstructorParamSelfConcrete>();
-
-            // Act
-            //var result = new ConcreteTypeWithConstructorParamSelfConcrete(null);
-            Action action = () => m_Target.Resolve<ITypeToResolveWithConstructorParamSelfConcrete>();
-
-            // Assert
-            action.Should().Throw<CircularDependencyException>();
-        }
-
-        [Test]
-        public void Resolve_ShouldThrow_WhenConstructorParametersDependOnSelfRegisteredType()
-        {
-            // Arrange
-            m_Target.RegisterType<ITypeToResolveWithConstructorParamSelfRegistered, ConcreteTypeWithConstructorParamSelfRegistered>();
-
-            // Act
-            //var result = new ConcreteTypeWithConstructorParamSelfRegistered(null);
-            Action action = () => m_Target.Resolve<ITypeToResolveWithConstructorParamSelfRegistered>();
-
-            // Assert
-            action.Should().Throw<CircularDependencyException>();
-        }
-
-        [Test]
-        public void Resolve_ShouldThrow_WhenCircularDependencyOfConstructorParametersToSelfRegisteredType()
-        {
-            // Arrange
-            m_Target.RegisterType<ITypeToResolveWithCircularDependencyOfConstructorParamToSelfRegistered, ConcreteTypeWithCircularDependencyOfConstructorParamToSelfRegistered>();
-            m_Target.RegisterType<ITypeToResolveWithParameterOfTypeToResolveWithCircularDependencyOfConstructorParamToSelfRegistered, ConcreteTypeWithParameterOfTypeToResolveWithCircularDependencyOfConstructorParamToSelfRegistered>();
-   
-            // Act
-            Action action = () => m_Target.Resolve<ITypeToResolveWithCircularDependencyOfConstructorParamToSelfRegistered>();
-
-            // Assert
-            action.Should().Throw<CircularDependencyException>();
-        }
-
-        [Test]
-        public void Resolve_ShouldThrow_WhenCircularDependencyOfConstructorParametersToSelfConcreteType()
-        {
-            // Arrange
-            m_Target.RegisterType<ITypeToResolveWithCircularDependencyOfConstructorParamToSelfConcrete, ConcreteTypeWithCircularDependencyOfConstructorParamToSelfConcrete>();
-            m_Target.RegisterType<ITypeToResolveWithParameterOfConcreteTypeWithCircularDependencyOfConstructorParamToSelfConcrete, ConcreteTypeWithParameterOfConcreteTypeWithCircularDependencyOfConstructorParamToSelfConcrete>();
-
-            // Act
-            Action action = () => m_Target.Resolve<ITypeToResolveWithCircularDependencyOfConstructorParamToSelfConcrete>();
-
-            // Assert
-            action.Should().Throw<CircularDependencyException>();
-        }
-
-        [Test]
-        public void Resolve_ShouldResolveConcreteType_WhenInstanceIsRegistered()
-        {
-            // Arrange
-            m_Target.RegisterInstance<ITypeToResolve>(new ConcreteType());
-
-            // Act
-            var instance = m_Target.Resolve<ITypeToResolve>();
-
-            // Assert
-            instance.Should().BeOfType<ConcreteType>();
-        }
-
-        [Test]
-        public void TryResolve_ShouldResolveConcreteType_WhenInstanceIsRegistered()
-        {
-            // Arrange
-            m_Target.RegisterInstance<ITypeToResolve>(new ConcreteType());
-
-            // Act
-            var instance = m_Target.TryResolve<ITypeToResolve>();
-
-            // Assert
-            instance.Should().BeOfType<ConcreteType>();
-        }
-
-        [Test]
-        public void Resolve_ShouldResolveConcreteType_WhenConcreteTypeIsRegistered()
-        {
-            // Arrange
-            m_Target.RegisterType<ITypeToResolve, ConcreteType>();
-
-            // Act
-            var instance = m_Target.Resolve<ITypeToResolve>();
-
-            // Assert
-            instance.Should().BeOfType<ConcreteType>();
-        }
-
-        [Test]
-        public void TryResolve_ShouldResolveConcreteType_WhenConcreteTypeIsRegistered()
-        {
-            // Arrange
-            m_Target.RegisterType<ITypeToResolve, ConcreteType>();
-
-            // Act
-            var instance = m_Target.TryResolve<ITypeToResolve>();
-
-            // Assert
-            instance.Should().BeOfType<ConcreteType>();
-        }
-
-        [Test]
-        public void Resolve_ShouldResolveConcreteType_WhenConcreteTypeAndConstructorParametersAreRegistered()
-        {
-            // Arrange
-            m_Target.RegisterType<ITypeToResolve, ConcreteType>();
-            m_Target.RegisterType<ITypeToResolveWithConstructorParams, ConcreteTypeWithConstructorParams>();
-
-            // Act
-            var instance = m_Target.Resolve<ITypeToResolveWithConstructorParams>();
-
-            // Assert
-            instance.Should().BeOfType<ConcreteTypeWithConstructorParams>();
-        }
-
-        [Test]
-        public void TryResolve_ShouldResolveConcreteType_WhenConcreteTypeAndConstructorParametersAreRegistered()
-        {
-            // Arrange
-            m_Target.RegisterType<ITypeToResolve, ConcreteType>();
-            m_Target.RegisterType<ITypeToResolveWithConstructorParams, ConcreteTypeWithConstructorParams>();
-
-            // Act
-            var instance = m_Target.TryResolve<ITypeToResolveWithConstructorParams>();
-
-            // Assert
-            instance.Should().BeOfType<ConcreteTypeWithConstructorParams>();
-        }
-
-        // Resolve test for Creator registration is deactivated because this scenario is already covered by the several RegisterCreator... tests
         //[Test]
-        //public void Resolve_ShouldResolveConcreteType_WhenCreatorIsRegistered()
+        //public void IsTypeRegisterd_ShouldThrow_WhenTypeIsNull()
         //{
         //    // Arrange
-        //    m_Target.RegisterCreator<ITypeToResolve>(r => new ConcreteType());
         //    // Act
-        //    var instance = m_Target.Resolve<ITypeToResolve>();
+        //    Action action = () => _target.IsTypeRegistered(null);
         //    // Assert
-        //    instance.Should().BeOfType<ConcreteType>();
+        //    action.Should().Throw<ArgumentNullException>();
+        //}
+        //[Test]
+        //public void IsTypeImplementationRegisterd_ShouldThrow_WhenTypeIsNull()
+        //{
+        //    // Arrange
+        //    // Act
+        //    Action action = () => _target.IsTypeImplementationRegistered(null);
+        //    // Assert
+        //    action.Should().Throw<ArgumentNullException>();
         //}
 
         [Test]
-        public void TryResolve_ShouldResolveConcreteType_WhenCreatorIsRegistered()
-        {
-            // Arrange
-            m_Target.RegisterCreator<ITypeToResolve>(r => new ConcreteType());
-            // Act
-            var instance = m_Target.TryResolve<ITypeToResolve>();
-            // Assert
-            instance.Should().BeOfType<ConcreteType>();
-        }
-
-        [Test]
-        public void RegisterInstance_ShouldResolveSingleton()
+        public void IsTypeRegisterd_ShouldReturnFalse_WhenTypeIsNotRegistered()
         {
             // Arrange
             // Act
-            var instance = new ConcreteType();
-            m_Target.RegisterInstance<ITypeToResolve>(instance);
-
+            var result = _target.IsTypeRegistered<ITypeToResolve>();
             // Assert
-            var instance1 = m_Target.Resolve<ITypeToResolve>();
-            instance1.Should().BeSameAs(instance);
-            var instance2 = m_Target.Resolve<ITypeToResolve>();
-            instance2.Should().BeSameAs(instance);
+            result.Should().BeFalse();
         }
 
         [Test]
-        public void RegisterType_ShouldResolveSingleton()
+        public void IsTypeRegisterd_ShouldReturnFalse_WhenTypeIsRegisteredButConcreteTypeIsQueried()
         {
             // Arrange
+            _target.RegisterType<ITypeToResolve, ConcreteType>();
             // Act
-            m_Target.RegisterType<ITypeToResolve, ConcreteType>();
-
+            var result = _target.IsTypeRegistered<ConcreteType>();
             // Assert
-            var instance1 = m_Target.Resolve<ITypeToResolve>();
-            var instance2 = m_Target.Resolve<ITypeToResolve>();
-            instance1.Should().BeSameAs(instance2);
+            result.Should().BeFalse();
         }
 
         [Test]
-        public void RegisterTypeAsTransient_ShouldResolveTransient()
+        public void IsTypeRegisterd_ShouldReturnTrue_WhenRegisteredAsInstance()
         {
             // Arrange
+            _target.RegisterInstance<ITypeToResolve>(new ConcreteType());
             // Act
-            m_Target.RegisterTypeAsTransient<ITypeToResolve, ConcreteType>();
-
+            var result = _target.IsTypeRegistered<ITypeToResolve>();
             // Assert
-            var instance1 = m_Target.Resolve<ITypeToResolve>();
-            var instance2 = m_Target.Resolve<ITypeToResolve>();
-            instance1.Should().NotBeSameAs(instance2);
+            result.Should().BeTrue();
         }
 
         [Test]
-        public void RegisterCreator_ShouldResolveSingleton()
+        public void IsTypeRegisterd_ShouldReturnTrue_WhenRegisteredAsType()
         {
             // Arrange
+            _target.RegisterType<ITypeToResolve, ConcreteType>();
             // Act
-            m_Target.RegisterCreator<ITypeToResolve>(creator => new ConcreteType());
+            var result = _target.IsTypeRegistered<ITypeToResolve>();
             // Assert
-            var instance1 = m_Target.Resolve<ITypeToResolve>();
-            var instance2 = m_Target.Resolve<ITypeToResolve>();
-            instance1.Should().BeSameAs(instance2);
+            result.Should().BeTrue();
         }
 
         [Test]
-        public void RegisterCreatorAsTransient_ShouldResolveTransient()
+        public void IsTypeRegisterd_ShouldReturnTrue_WhenRegisteredAsCreator()
         {
             // Arrange
+            _target.RegisterCreator<ITypeToResolve>(creator => new ConcreteType());
             // Act
-            m_Target.RegisterCreatorAsTransient<ITypeToResolve>(r => new ConcreteType());
+            var result = _target.IsTypeRegistered<ITypeToResolve>();
             // Assert
-            var instance1 = m_Target.Resolve<ITypeToResolve>();
-            var instance2 = m_Target.Resolve<ITypeToResolve>();
-            instance1.Should().NotBeSameAs(instance2);
+            result.Should().BeTrue();
         }
 
         [Test]
-        public void RegisterCreator_ShouldResolveSingleton_WhenCreatorForTypeWithConstructorParametersIsRegistered()
+        public void IsTypeRegisterd_ShouldReturnTrue_WhenRegisteredTransientAsType()
         {
             // Arrange
-            m_Target.RegisterType<ITypeToResolve, ConcreteType>();
+            _target.RegisterTypeAsTransient<ITypeToResolve, ConcreteType>();
             // Act
-            m_Target.RegisterCreator<ITypeToResolveWithConstructorParams>(r => new ConcreteTypeWithConstructorParams(r.Resolve<ITypeToResolve>()));
+            var result = _target.IsTypeRegistered<ITypeToResolve>();
             // Assert
-            var instance1 = m_Target.Resolve<ITypeToResolveWithConstructorParams>();
-            var instance2 = m_Target.Resolve<ITypeToResolveWithConstructorParams>();
-            instance1.Should().BeSameAs(instance2);
+            result.Should().BeTrue();
         }
 
         [Test]
-        public void RegisterCreatorAsTransient_ShouldResolveTransient_WhenCreatorForTypeWithConstructorParametersIsRegistered()
+        public void IsTypeRegisterd_ShouldReturnTrue_WhenRegisteredTransientAsCreator()
         {
             // Arrange
-            m_Target.RegisterType<ITypeToResolve, ConcreteType>();
+            _target.RegisterCreatorAsTransient<ITypeToResolve>(creator => new ConcreteType());
             // Act
-            m_Target.RegisterCreatorAsTransient<ITypeToResolveWithConstructorParams>(r => new ConcreteTypeWithConstructorParams(r.Resolve<ITypeToResolve>()));
+            var result = _target.IsTypeRegistered<ITypeToResolve>();
             // Assert
-            var instance1 = m_Target.Resolve<ITypeToResolveWithConstructorParams>();
-            var instance2 = m_Target.Resolve<ITypeToResolveWithConstructorParams>();
-            instance1.Should().NotBeSameAs(instance2);
+            result.Should().BeTrue();
         }
 
+
         [Test]
-        public void Register_ShouldCallRegisterAtRegistrar()
+        public void IsTypeRegisterd_ShouldReturnTrue_WhenConcreteTypeWithDefaultConstructorParamsIsRegisteredButConstructorParametersAreNotRegistered()
+        {
+            // Arrange
+            _target.RegisterType<ITypeToResolveWithDefaultConstructorParams, ConcreteTypeWithDefaultConstructorParams>();
+            // Act
+            var result = _target.IsTypeRegistered<ITypeToResolveWithDefaultConstructorParams>();
+            // Assert
+            result.Should().BeTrue();
+        }
+
+
+        [Test]
+        public void Register_IRegistrar_ShouldCallRegisterAtRegistrar()
         {
             // Arrange
             var registrarMock = new Mock<IRegistrar>();
             // Act
-            m_Target.Register(registrarMock.Object);
+            _target.Register(registrarMock.Object);
             // Assert
-            registrarMock.Verify(x => x.Register(It.Is<IDiContainer>(c => c == m_Target)), Times.Once);
+            registrarMock.Verify(x => x.Register(It.Is<IDiContainer>(c => c == _target)), Times.Once);
         }
 
         [Test]
         public void ResolveAllImplementing_ShouldReturnCorrectInstances()
         {
             // Arrange
-            m_Target.RegisterInstance<ITypeToResolve>(new ConcreteType());
-            m_Target.RegisterInstance<ITypeNotToResolve>(new ConcreteTypeNotToResolve());
-            m_Target.RegisterInstance<ITypeToResolveDerived>(new ConcreteTypeDerived());
-
+            _target.RegisterInstance<ITypeToResolve>(new ConcreteType());
+            _target.RegisterInstance<ITypeNotToResolve>(new ConcreteTypeNotToResolve());
+            _target.RegisterInstance<ITypeToResolveDerived>(new ConcreteTypeDerived());
             // Act
-            var allResolvedTypes = m_Target.ResolveAllImplementing<ITypeToResolve>().ToList();
-
+            var allResolvedTypes = _target.ResolveAllImplementing<ITypeToResolve>().ToList();
             // Assert
             allResolvedTypes.Count().Should().Be(2);
             allResolvedTypes.ForEach(x => x.Should().BeAssignableTo<ITypeToResolve>());
         }
-
-        //[Test]
-        //public void ResolveAll_OfUnityContainer_ShouldReturnCorrectInstances_WhenRegisteredAsInstance()
-        //{
-        //    // Arrange
-        //    var container = new UnityContainer();
-        //    container.RegisterInstance<ITypeToResolve>(new ConcreteType());
-        //    container.RegisterInstance<ITypeToResolve>("A", new ConcreteType());
-        //    container.RegisterInstance<ITypeToResolve>("B", new ConcreteType());
-        //    container.RegisterInstance<ITypeNotToResolve>("C", new ConcreteTypeNotToResolve());
-        //    container.RegisterInstance<ITypeToResolveDerived>("D", new ConcreteTypeDerived());
-
-        //    // Act
-        //    //var resolved = container.Resolve<ITypeToResolve>();
-        //    //var resolved = container.Resolve<ITypeToResolve>("B");
-        //    var allResolvedTypes = container.ResolveAll<ITypeToResolve>().ToList();
-
-        //    // Assert
-        //    allResolvedTypes.Count().Should().Be(2);
-        //    allResolvedTypes.ForEach(x => x.Should().BeAssignableTo<ITypeToResolve>());
-        //}
-
-        //[Test]
-        //public void ResolveAll_OfUnityContainer_ShouldReturnCorrectInstances_WhenRegisteredAsType()
-        //{
-        //    // Arrange
-        //    var container = new UnityContainer();
-        //    container.RegisterType<ITypeToResolve, ConcreteType>();
-        //    container.RegisterType<ITypeToResolve, ConcreteType>("A");
-        //    container.RegisterType<ITypeToResolve, ConcreteType>("B");
-        //    container.RegisterType<ITypeNotToResolve, ConcreteTypeNotToResolve>("C");
-        //    container.RegisterType<ITypeToResolveDerived, ConcreteTypeDerived>("D");
-
-        //    // Act
-        //    //var resolved = container.Resolve<ITypeToResolve>();
-        //    //var resolved = container.Resolve<ITypeToResolve>("B");
-        //    var allResolvedTypes = container.ResolveAll<ITypeToResolve>().ToList();
-
-        //    // Assert
-        //    allResolvedTypes.Count().Should().Be(2);
-        //    allResolvedTypes.ForEach(x => x.Should().BeAssignableTo<ITypeToResolve>());
-        //}
     }
 
     public interface ITypeToResolve
@@ -513,5 +253,4 @@ namespace Solid.Infrastructure_uTest.DiContainer
         {
         }
     }
-
 }

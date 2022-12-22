@@ -1,0 +1,118 @@
+//----------------------------------------------------------------------------------
+// <copyright file="DiContainer_RegisterTests.cs" company="Siemens Healthcare GmbH">
+// Copyright (C) Siemens Healthcare GmbH, 2017-2022. All Rights Reserved. Confidential.
+// Author: Steffen Hanke
+// </copyright>
+//----------------------------------------------------------------------------------
+
+using FluentAssertions;
+using NUnit.Framework;
+using System;
+
+namespace Solid.Infrastructure_uTest.DiContainer
+{
+    public partial class DiContainerTests
+    {
+        [Test]
+        public void RegisterInstance_ShouldThrow_WhenInstanceIsNull()
+        {
+            // Arrange
+            // Act
+            Action action = () => _target.RegisterInstance<ITypeToResolve>(null);
+
+            // Assert
+            action.Should().Throw<ArgumentNullException>();
+        }
+
+        [Test]
+        public void RegisterInstance_ShouldResolveSingleton()
+        {
+            // Arrange
+            // Act
+            var instance = new ConcreteType();
+            _target.RegisterInstance<ITypeToResolve>(instance);
+
+            // Assert
+            var instance1 = _target.Resolve<ITypeToResolve>();
+            instance1.Should().BeSameAs(instance);
+            var instance2 = _target.Resolve<ITypeToResolve>();
+            instance2.Should().BeSameAs(instance);
+        }
+
+        [Test]
+        public void RegisterType_ShouldResolveSingleton()
+        {
+            // Arrange
+            // Act
+            _target.RegisterType<ITypeToResolve, ConcreteType>();
+
+            // Assert
+            var instance1 = _target.Resolve<ITypeToResolve>();
+            var instance2 = _target.Resolve<ITypeToResolve>();
+            instance1.Should().BeSameAs(instance2);
+        }
+
+        [Test]
+        public void RegisterTypeAsTransient_ShouldResolveTransient()
+        {
+            // Arrange
+            // Act
+            _target.RegisterTypeAsTransient<ITypeToResolve, ConcreteType>();
+
+            // Assert
+            var instance1 = _target.Resolve<ITypeToResolve>();
+            var instance2 = _target.Resolve<ITypeToResolve>();
+            instance1.Should().NotBeSameAs(instance2);
+        }
+
+        [Test]
+        public void RegisterCreator_ShouldResolveSingleton()
+        {
+            // Arrange
+            // Act
+            _target.RegisterCreator<ITypeToResolve>(creator => new ConcreteType());
+            // Assert
+            var instance1 = _target.Resolve<ITypeToResolve>();
+            var instance2 = _target.Resolve<ITypeToResolve>();
+            instance1.Should().BeSameAs(instance2);
+        }
+
+        [Test]
+        public void RegisterCreatorAsTransient_ShouldResolveTransient()
+        {
+            // Arrange
+            // Act
+            _target.RegisterCreatorAsTransient<ITypeToResolve>(r => new ConcreteType());
+            // Assert
+            var instance1 = _target.Resolve<ITypeToResolve>();
+            var instance2 = _target.Resolve<ITypeToResolve>();
+            instance1.Should().NotBeSameAs(instance2);
+        }
+
+        [Test]
+        public void RegisterCreator_ShouldResolveSingleton_WhenCreatorForTypeWithConstructorParametersIsRegistered()
+        {
+            // Arrange
+            _target.RegisterType<ITypeToResolve, ConcreteType>();
+            // Act
+            _target.RegisterCreator<ITypeToResolveWithConstructorParams>(r => new ConcreteTypeWithConstructorParams(r.Resolve<ITypeToResolve>()));
+            // Assert
+            var instance1 = _target.Resolve<ITypeToResolveWithConstructorParams>();
+            var instance2 = _target.Resolve<ITypeToResolveWithConstructorParams>();
+            instance1.Should().BeSameAs(instance2);
+        }
+
+        [Test]
+        public void RegisterCreatorAsTransient_ShouldResolveTransient_WhenCreatorForTypeWithConstructorParametersIsRegistered()
+        {
+            // Arrange
+            _target.RegisterType<ITypeToResolve, ConcreteType>();
+            // Act
+            _target.RegisterCreatorAsTransient<ITypeToResolveWithConstructorParams>(r => new ConcreteTypeWithConstructorParams(r.Resolve<ITypeToResolve>()));
+            // Assert
+            var instance1 = _target.Resolve<ITypeToResolveWithConstructorParams>();
+            var instance2 = _target.Resolve<ITypeToResolveWithConstructorParams>();
+            instance1.Should().NotBeSameAs(instance2);
+        }
+    }
+}

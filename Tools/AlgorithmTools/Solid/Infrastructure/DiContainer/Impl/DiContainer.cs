@@ -56,6 +56,7 @@ namespace Solid.Infrastructure.DiContainer.Impl
     public class DiContainer : IDiContainer
     {
         private readonly IList<IRegisteredObjectInternal> _registeredObjects = new List<IRegisteredObjectInternal>();
+        private readonly IList<Type> _seenRegistrarImplementations = new List<Type>();
 
         public DiContainer()
         {
@@ -70,6 +71,46 @@ namespace Solid.Infrastructure.DiContainer.Impl
                 registeredObj?.Dispose();
             }
             _registeredObjects.Clear();
+        }
+
+        public void Register(IRegistrar registrar)
+        {
+            ConsistencyCheck.EnsureArgument(registrar).IsNotNull();
+            // avoid double registration of same registrar
+            Type registrarImplementationType = registrar.GetType();
+            if (_seenRegistrarImplementations.Contains(registrarImplementationType))
+            {
+                return;
+            }
+            _seenRegistrarImplementations.Add(registrarImplementationType);
+            registrar.Register(this);
+        }
+
+        public bool IsTypeRegistered<TTypeToResolve>(string name = null)
+        {
+            var type = typeof(TTypeToResolve);
+            return _registeredObjects.Any(o => o.TypeToResolve == type);
+        }
+
+        public bool IsTypeImplementationRegistered<TTypeToResolve>(string name = null)
+        {
+            var type = typeof(TTypeToResolve);
+            return _registeredObjects.Any(o =>
+            {
+                // 1) proof if registered type is of requested type
+                if (o.TypeToResolve == type)
+                {
+                    return true;
+                }
+                // 2) proof if registered concrete type implements requested interface type
+                var intf = o.ConcreteType.GetInterface(type.Name);
+                if (intf != null && intf.FullName == type.FullName)
+                {
+                    return true;
+                }
+                // 3) proof if registered concrete type implements requested type (is assignable to type)
+                return o.ConcreteType.IsAssignableTo(type);
+            });
         }
 
         public void RegisterInstance<TTypeToResolve>(object instance)
@@ -107,11 +148,6 @@ namespace Solid.Infrastructure.DiContainer.Impl
             _registeredObjects.Add(new RegisteredObject(typeof(TTypeToResolve), creator, LifeCycle.Transient));
         }
 
-        public void Register(IRegistrar registrar)
-        {
-            registrar.Register(this);
-        }
-
 
         public TTypeToResolve Resolve<TTypeToResolve>()
         {
@@ -127,7 +163,6 @@ namespace Solid.Infrastructure.DiContainer.Impl
         {
             return (new ResolveContext(_registeredObjects).ResolveAllImplementing<TTypeToResolve>());
         }
-
 
         internal class ResolveContext : IResolver, IResolverInternal
         {
