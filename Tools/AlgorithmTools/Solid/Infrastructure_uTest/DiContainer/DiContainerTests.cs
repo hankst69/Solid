@@ -5,7 +5,6 @@
 // </copyright>
 //----------------------------------------------------------------------------------
 
-using System;
 using System.Linq;
 using FluentAssertions;
 using Moq;
@@ -24,119 +23,11 @@ namespace Solid.Infrastructure_uTest.DiContainer
             _target = new Infrastructure.DiContainer.Impl.DiContainer();
         }
 
-        //[Test]
-        //public void IsTypeRegisterd_ShouldThrow_WhenTypeIsNull()
-        //{
-        //    // Arrange
-        //    // Act
-        //    Action action = () => _target.IsTypeRegistered(null);
-        //    // Assert
-        //    action.Should().Throw<ArgumentNullException>();
-        //}
-        //[Test]
-        //public void IsTypeImplementationRegisterd_ShouldThrow_WhenTypeIsNull()
-        //{
-        //    // Arrange
-        //    // Act
-        //    Action action = () => _target.IsTypeImplementationRegistered(null);
-        //    // Assert
-        //    action.Should().Throw<ArgumentNullException>();
-        //}
-
-        [Test]
-        public void IsTypeRegisterd_ShouldReturnFalse_WhenTypeIsNotRegistered()
-        {
-            // Arrange
-            // Act
-            var result = _target.IsTypeRegistered<ITypeToResolve>();
-            // Assert
-            result.Should().BeFalse();
-        }
-
-        [Test]
-        public void IsTypeRegisterd_ShouldReturnFalse_WhenTypeIsRegisteredButConcreteTypeIsQueried()
-        {
-            // Arrange
-            _target.RegisterType<ITypeToResolve, ConcreteType>();
-            // Act
-            var result = _target.IsTypeRegistered<ConcreteType>();
-            // Assert
-            result.Should().BeFalse();
-        }
-
-        [Test]
-        public void IsTypeRegisterd_ShouldReturnTrue_WhenRegisteredAsInstance()
-        {
-            // Arrange
-            _target.RegisterInstance<ITypeToResolve>(new ConcreteType());
-            // Act
-            var result = _target.IsTypeRegistered<ITypeToResolve>();
-            // Assert
-            result.Should().BeTrue();
-        }
-
-        [Test]
-        public void IsTypeRegisterd_ShouldReturnTrue_WhenRegisteredAsType()
-        {
-            // Arrange
-            _target.RegisterType<ITypeToResolve, ConcreteType>();
-            // Act
-            var result = _target.IsTypeRegistered<ITypeToResolve>();
-            // Assert
-            result.Should().BeTrue();
-        }
-
-        [Test]
-        public void IsTypeRegisterd_ShouldReturnTrue_WhenRegisteredAsCreator()
-        {
-            // Arrange
-            _target.RegisterCreator<ITypeToResolve>(creator => new ConcreteType());
-            // Act
-            var result = _target.IsTypeRegistered<ITypeToResolve>();
-            // Assert
-            result.Should().BeTrue();
-        }
-
-        [Test]
-        public void IsTypeRegisterd_ShouldReturnTrue_WhenRegisteredTransientAsType()
-        {
-            // Arrange
-            _target.RegisterTypeAsTransient<ITypeToResolve, ConcreteType>();
-            // Act
-            var result = _target.IsTypeRegistered<ITypeToResolve>();
-            // Assert
-            result.Should().BeTrue();
-        }
-
-        [Test]
-        public void IsTypeRegisterd_ShouldReturnTrue_WhenRegisteredTransientAsCreator()
-        {
-            // Arrange
-            _target.RegisterCreatorAsTransient<ITypeToResolve>(creator => new ConcreteType());
-            // Act
-            var result = _target.IsTypeRegistered<ITypeToResolve>();
-            // Assert
-            result.Should().BeTrue();
-        }
-
-
-        [Test]
-        public void IsTypeRegisterd_ShouldReturnTrue_WhenConcreteTypeWithDefaultConstructorParamsIsRegisteredButConstructorParametersAreNotRegistered()
-        {
-            // Arrange
-            _target.RegisterType<ITypeToResolveWithDefaultConstructorParams, ConcreteTypeWithDefaultConstructorParams>();
-            // Act
-            var result = _target.IsTypeRegistered<ITypeToResolveWithDefaultConstructorParams>();
-            // Assert
-            result.Should().BeTrue();
-        }
-
-
         [Test]
         public void Register_IRegistrar_ShouldCallRegisterAtRegistrar()
         {
             // Arrange
-            var registrarMock = new Mock<IRegistrar>();
+            var registrarMock = new Mock<IDiRegistrar>();
             // Act
             _target.Register(registrarMock.Object);
             // Assert

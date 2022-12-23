@@ -28,7 +28,7 @@ namespace Solid.Infrastructure.BootStrapper.Impl
             m_DiContainer = diContainer;
         }
 
-        public void Startup(IEnumerable<IRegistrar> registrars)
+        public void Startup(IEnumerable<IDiRegistrar> registrars)
         {
             ConsistencyCheck.EnsureArgument(registrars).IsNotNull();
 

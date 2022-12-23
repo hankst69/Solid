@@ -43,7 +43,7 @@ namespace Solid.Infrastructure.DiContainer.Impl
         object GetInstance(IResolverInternal resolver);
     }
 
-    internal interface IResolverInternal : IResolver
+    internal interface IResolverInternal : IDiResolve
     {
         object ResolveObject(Type typeToResolve);
         object TryResolveObject(Type typeToResolve);
@@ -61,7 +61,7 @@ namespace Solid.Infrastructure.DiContainer.Impl
         public DiContainer()
         {
             RegisterInstance<IDiContainer>(this);
-            RegisterInstance<IResolver>(this);
+            RegisterInstance<IDiResolve>(this);
         }
 
         public void Dispose()
@@ -73,7 +73,7 @@ namespace Solid.Infrastructure.DiContainer.Impl
             _registeredObjects.Clear();
         }
 
-        public void Register(IRegistrar registrar)
+        public void Register(IDiRegistrar registrar)
         {
             ConsistencyCheck.EnsureArgument(registrar).IsNotNull();
             // avoid double registration of same registrar
@@ -128,22 +128,22 @@ namespace Solid.Infrastructure.DiContainer.Impl
             _registeredObjects.Add(new RegisteredObject(typeof(TTypeToResolve), typeof(TConcrete), LifeCycle.Transient));
         }
 
-        public void RegisterCreator<TTypeToResolve>(Func<IResolver, object> creator)
+        public void RegisterCreator<TTypeToResolve>(Func<IDiResolve, object> creator)
         {
             _registeredObjects.Add(new RegisteredObject(typeof(TTypeToResolve), (resolver, parentType) => creator(resolver), LifeCycle.Singleton));
         }
         
-        public void RegisterCreatorAsTransient<TTypeToResolve>(Func<IResolver, object> creator)
+        public void RegisterCreatorAsTransient<TTypeToResolve>(Func<IDiResolve, object> creator)
         {
             _registeredObjects.Add(new RegisteredObject(typeof(TTypeToResolve), (resolver, parentType) => creator(resolver), LifeCycle.Transient));
         }
 
-        public void RegisterCreator<TTypeToResolve>(Func<IResolver, Type, object> creator)
+        public void RegisterCreator<TTypeToResolve>(Func<IDiResolve, Type, object> creator)
         {
             _registeredObjects.Add(new RegisteredObject(typeof(TTypeToResolve), creator, LifeCycle.Singleton));
         }
 
-        public void RegisterCreatorAsTransient<TTypeToResolve>(Func<IResolver, Type, object> creator)
+        public void RegisterCreatorAsTransient<TTypeToResolve>(Func<IDiResolve, Type, object> creator)
         {
             _registeredObjects.Add(new RegisteredObject(typeof(TTypeToResolve), creator, LifeCycle.Transient));
         }
@@ -164,7 +164,7 @@ namespace Solid.Infrastructure.DiContainer.Impl
             return (new ResolveContext(_registeredObjects).ResolveAllImplementing<TTypeToResolve>());
         }
 
-        internal class ResolveContext : IResolver, IResolverInternal
+        internal class ResolveContext : IDiResolve, IResolverInternal
         {
             private readonly IList<IRegisteredObjectInternal> _registrations;
             private readonly IList<IRegisteredObjectInternal> _ancestors;
@@ -260,7 +260,7 @@ namespace Solid.Infrastructure.DiContainer.Impl
             private Type _concreteType;
             private object _instance;
             private readonly LifeCycle _lifeCycle;
-            private readonly Func<IResolver, Type, object> _creator;
+            private readonly Func<IDiResolve, Type, object> _creator;
             private readonly IList<object> _instanceList = new List<object>();
 
             internal RegisteredObject(Type typeToResolve, Type concreteType, LifeCycle lifeCycle)
@@ -283,7 +283,7 @@ namespace Solid.Infrastructure.DiContainer.Impl
                 _concreteType = instance.GetType();
             }
 
-            internal RegisteredObject(Type typeToResolve, Func<IResolver, Type, object> creator, LifeCycle lifeCycle)
+            internal RegisteredObject(Type typeToResolve, Func<IDiResolve, Type, object> creator, LifeCycle lifeCycle)
             {
                 ConsistencyCheck.EnsureArgument(typeToResolve).IsNotNull();
                 ConsistencyCheck.EnsureArgument(creator).IsNotNull();
@@ -297,14 +297,14 @@ namespace Solid.Infrastructure.DiContainer.Impl
             Type IRegisteredObjectInternal.ConcreteType => _concreteType;
             //object IRegisteredObjectInternal.Instance => _instance;
             //LifeCycle IRegisteredObjectInternal.LifeCycle => _lifeCycle;
-            //Func<IResolver, Type, object> IRegisteredObjectInternal.Creator => _creator;
+            //Func<IDiResolve, Type, object> IRegisteredObjectInternal.Creator => _creator;
 
             public void Dispose()
             {
                 if (this._lifeCycle == LifeCycle.ExternInstance)
                 {
                     // we must not dispose external created instances
-                    // this also applies to the automatically added registrations of the DiContainer itslef (as IResolver and IDicontainer)
+                    // this also applies to the automatically added registrations of the DiContainer itslef (as IDiResolve and IDicontainer)
                     return;
                 }
 

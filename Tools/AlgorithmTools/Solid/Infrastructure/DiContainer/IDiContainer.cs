@@ -14,11 +14,11 @@ namespace Solid.Infrastructure.DiContainer
     /// <summary>
     /// IDiContainer
     /// </summary>
-    public interface IDiContainer : IResolver, IDisposable
+    public interface IDiContainer : IDiResolve, IDisposable
     {
-        ///<summary>accepts an instance of type IRegistrar that then can register multiple related types at the DiContainer</summary>
+        ///<summary>accepts an instance of type IDiRegistrar that then can register multiple related types at the DiContainer</summary>
         ///<param name="registrar"></param>
-        void Register(IRegistrar registrar);
+        void Register(IDiRegistrar registrar);
 
         ///<summary>checks if type is registered with container (optionally with specific registration name)</summary>
         bool IsTypeRegistered<TTypeToResolve>(string name = null);
@@ -37,10 +37,10 @@ namespace Solid.Infrastructure.DiContainer
 
         void RegisterTypeAsTransient<TTypeToResolve, TConcrete>();
 
-        void RegisterCreator<TTypeToResolve>(Func<IResolver, object> creator);
-        void RegisterCreator<TTypeToResolve>(Func<IResolver, Type, object> creator);
+        void RegisterCreator<TTypeToResolve>(Func<IDiResolve, object> creator);
+        void RegisterCreator<TTypeToResolve>(Func<IDiResolve, Type, object> creator);
 
-        void RegisterCreatorAsTransient<TTypeToResolve>(Func<IResolver, object> creator);
-        void RegisterCreatorAsTransient<TTypeToResolve>(Func<IResolver, Type, object> creator);
+        void RegisterCreatorAsTransient<TTypeToResolve>(Func<IDiResolve, object> creator);
+        void RegisterCreatorAsTransient<TTypeToResolve>(Func<IDiResolve, Type, object> creator);
     }
 }

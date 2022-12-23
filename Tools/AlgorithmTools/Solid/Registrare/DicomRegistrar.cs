@@ -13,7 +13,7 @@ using Solid.Infrastructure.DiContainer;
 
 namespace Solid.Registrare
 {
-    public class DicomRegistrar: IRegistrar
+    public class DicomRegistrar: IDiRegistrar
     {
         public void Register(IDiContainer container)
         {

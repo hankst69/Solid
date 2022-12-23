@@ -1,6 +1,6 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="IRegistrar.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2017-2020. All Rights Reserved. Confidential.
+// <copyright file="IDiRegister.cs" company="Siemens Healthcare GmbH">
+// Copyright (C) Siemens Healthcare GmbH, 2022. All Rights Reserved. Confidential.
 // Author: Steffen Hanke
 // </copyright>
 //----------------------------------------------------------------------------------
@@ -8,10 +8,9 @@
 namespace Solid.Infrastructure.DiContainer
 {
     /// <summary>
-    /// IRegistrar
+    /// IDiRegister
     /// </summary>
-    public interface IRegistrar
+    public interface IDiRegister
     {
-        void Register(IDiContainer container);
     }
 }

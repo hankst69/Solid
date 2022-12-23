@@ -17,11 +17,11 @@ namespace Solid.Infrastructure.Diagnostics.Impl
     {
         private readonly IMultiTracer _multiTracer;
         private readonly IFolderProvider _folderProvider;
-        private readonly IResolver _resolver;
+        private readonly IDiResolve _resolver;
         private IFileTracer _fileTracer;
         private IConsoleTracer _consoleTracer;
 
-        public TraceConfiguration(IMultiTracer multiTracer, IFolderProvider folderProvider, IResolver resolver)
+        public TraceConfiguration(IMultiTracer multiTracer, IFolderProvider folderProvider, IDiResolve resolver)
         {
             ConsistencyCheck.EnsureArgument(multiTracer).IsNotNull();
             ConsistencyCheck.EnsureArgument(folderProvider).IsNotNull();

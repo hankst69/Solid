@@ -20,13 +20,13 @@ namespace Solid.Infrastructure_uTest.BootStrapper
         private Infrastructure.BootStrapper.Impl.BootStrapper m_Target;
         private Mock<IDiContainer> m_DiContainerMock;
         private Mock<IBootable> m_BootableMock;
-        private IRegistrar[] m_Registrars;
+        private IDiRegistrar[] m_Registrars;
 
         [SetUp]
         public void SetUp()
         {
-            var registrarMock = new Mock<IRegistrar>();
-            m_Registrars = new IRegistrar[] { registrarMock.Object };
+            var registrarMock = new Mock<IDiRegistrar>();
+            m_Registrars = new IDiRegistrar[] { registrarMock.Object };
 
             m_BootableMock = new Mock<IBootable>();
             m_DiContainerMock = new Mock<IDiContainer>();

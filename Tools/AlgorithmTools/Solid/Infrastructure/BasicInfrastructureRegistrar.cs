@@ -31,7 +31,7 @@ namespace Solid.Infrastructure
     /// diContainer.Register(new BasicInfrastructureRegistrar());
     ///
     /// </summary>
-    public class BasicInfrastructureRegistrar : IRegistrar
+    public class BasicInfrastructureRegistrar : IDiRegistrar
     {
         public void Register(IDiContainer container)
         {

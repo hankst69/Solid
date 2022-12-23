@@ -12,7 +12,7 @@ namespace Solid.Infrastructure.BootStrapper
 {
     public interface IBootStrapper
     {
-		void Startup(IEnumerable<IRegistrar> registrars);
+		void Startup(IEnumerable<IDiRegistrar> registrars);
 		
         void Shutdown();
     }
