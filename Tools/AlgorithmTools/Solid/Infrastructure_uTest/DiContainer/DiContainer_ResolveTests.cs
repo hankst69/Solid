@@ -1,5 +1,5 @@
 //----------------------------------------------------------------------------------
-// <copyright file="DiContainerTests.cs" company="Siemens Healthcare GmbH">
+// <copyright file="DiContainer_ResolveTests.cs" company="Siemens Healthcare GmbH">
 // Copyright (C) Siemens Healthcare GmbH, 2017-2022. All Rights Reserved. Confidential.
 // Author: Steffen Hanke
 // </copyright>
@@ -12,7 +12,7 @@ using Solid.Infrastructure.DiContainer.Impl;
 
 namespace Solid.Infrastructure_uTest.DiContainer
 {
-    public partial class DiContainerTests
+    public class DiContainer_ResolveTests : DiContainerTests
     {
         [Test]
         public void Resolve_ShouldThrow_WhenTypeIsNotRegistered()

@@ -19,13 +19,14 @@ namespace Solid.Infrastructure.BootStrapper.Impl
     /// </summary>
     public class BootStrapper : IBootStrapper
     {
-        private readonly IDiContainer m_DiContainer;
+        private readonly IDiContainer _diContainer;
+        private IList<IBootable> _bootables;
 
         public BootStrapper(IDiContainer diContainer)
         {
             ConsistencyCheck.EnsureArgument(diContainer).IsNotNull();
 
-            m_DiContainer = diContainer;
+            _diContainer = diContainer;
         }
 
         public void Startup(IEnumerable<IDiRegistrar> registrars)
@@ -33,16 +34,18 @@ namespace Solid.Infrastructure.BootStrapper.Impl
             ConsistencyCheck.EnsureArgument(registrars).IsNotNull();
 
             // run registrars
-            registrars.ForEach(x => x.Register(m_DiContainer));
+            registrars.ForEach(x => x.Register(_diContainer));
 
             // instanciate all bootables
-            m_DiContainer.ResolveAllImplementing<IBootable>();
+            _bootables = _diContainer.ResolveAllImplementing<IBootable>().ToIList();
         }
 
         public void Shutdown()
         {
             // fini all bootables
-            m_DiContainer.ResolveAllImplementing<IBootable>().Reverse().ForEach(o => o.Fini());
+            _bootables?.Reverse().ForEach(o => o.Fini());
+            _bootables?.Clear();
+            _bootables = null;
         }
     }
 }

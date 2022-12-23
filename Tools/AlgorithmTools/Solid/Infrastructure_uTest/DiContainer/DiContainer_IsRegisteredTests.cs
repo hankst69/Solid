@@ -10,7 +10,7 @@ using NUnit.Framework;
 
 namespace Solid.Infrastructure_uTest.DiContainer
 {
-    public partial class DiContainerTests
+    public class DiContainer_IsRegisteredTests : DiContainerTests
     {
         [Test]
         public void IsTypeRegisterd_ShouldReturnFalse_WhenTypeIsNotRegistered()

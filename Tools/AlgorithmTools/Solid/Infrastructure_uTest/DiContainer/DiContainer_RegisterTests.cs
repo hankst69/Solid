@@ -11,7 +11,7 @@ using System;
 
 namespace Solid.Infrastructure_uTest.DiContainer
 {
-    public partial class DiContainerTests
+    public class DiContainer_RegisterTests : DiContainerTests
     {
         [Test]
         public void RegisterInstance_ShouldThrow_WhenInstanceIsNull()

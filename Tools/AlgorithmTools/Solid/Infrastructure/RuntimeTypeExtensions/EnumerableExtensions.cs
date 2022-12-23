@@ -18,7 +18,7 @@ namespace Solid.Infrastructure.RuntimeTypeExtensions
         {
             ConsistencyCheck.EnsureArgument(source).IsNotNull();
 
-            return source as IList<TSource> ?? new List<TSource>(source);
+            return source as IList<TSource> ?? Enumerable.ToList(source);
         }
 
         public static void ForEach<T>(this IEnumerable<T> items, Action<T> action)

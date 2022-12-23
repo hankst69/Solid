@@ -12,6 +12,7 @@ using Solid.Infrastructure.BootStrapper;
 using Solid.Infrastructure.DiContainer;
 using Solid.Infrastructure.RuntimeTypeExtensions;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace Solid.Infrastructure_uTest.BootStrapper
 {
@@ -31,7 +32,7 @@ namespace Solid.Infrastructure_uTest.BootStrapper
             m_BootableMock = new Mock<IBootable>();
             m_DiContainerMock = new Mock<IDiContainer>();
 
-            m_DiContainerMock.Setup(x => x.ResolveAllImplementing<IBootable>()).Returns(new[] {m_BootableMock.Object});
+            m_DiContainerMock.Setup(x => x.ResolveAllImplementing<IBootable>()).Returns(new List<IBootable>() {m_BootableMock.Object});
 
             m_Target = new Infrastructure.BootStrapper.Impl.BootStrapper(m_DiContainerMock.Object);
         }
@@ -84,6 +85,8 @@ namespace Solid.Infrastructure_uTest.BootStrapper
         public void Shutdown_ShouldCallFini_OnAllBootables()
         {
             // Arrange
+            m_Target.Startup(m_Registrars);
+
             // Act
             m_Target.Shutdown();
 
