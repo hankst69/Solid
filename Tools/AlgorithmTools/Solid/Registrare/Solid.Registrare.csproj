@@ -17,6 +17,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DicomAdapters.FoDicom.Impl\Solid.DicomAdapters.FoDicom.Impl.csproj" />
     <ProjectReference Include="..\Infrastructure\Solid.Infrastructure.csproj" />
     <ProjectReference Include="..\Dicom.Impl\Solid.Dicom.Impl.csproj" />
   </ItemGroup>

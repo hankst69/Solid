@@ -15,7 +15,7 @@ namespace Solid.Registrare
 {
     public class DicomRegistrar: IDiRegistrar
     {
-        public void Register(IDiRegister container)
+        public void Register(IDiContainer container)
         {
             ConsistencyCheck.EnsureArgument(container).IsNotNull();
 

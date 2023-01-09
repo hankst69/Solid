@@ -12,6 +12,6 @@ namespace Solid.Infrastructure.DiContainer
     /// </summary>
     public interface IDiRegistrar
     {
-        void Register(IDiRegister container);
+        void Register(IDiContainer container);
     }
 }

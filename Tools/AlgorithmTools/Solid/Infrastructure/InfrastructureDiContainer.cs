@@ -11,7 +11,7 @@ namespace Solid.Infrastructure
     {
         public BasicInfrastructureDiContainer()
         {
-            this.Register(new BasicInfrastructureRegistrar());
+            this.Register(new InfrastructureRegistrar());
         }
     }
 }

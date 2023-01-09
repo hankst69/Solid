@@ -56,6 +56,7 @@ namespace Solid.Infrastructure.DiContainer.Impl
     public class DiContainer : IDiContainer
     {
         private readonly IList<IRegisteredObjectInternal> _registeredObjects = new List<IRegisteredObjectInternal>();
+        private readonly IList<Type> _seenRegistrarImplementations = new List<Type>();
 
         public DiContainer()
         {
@@ -75,6 +76,13 @@ namespace Solid.Infrastructure.DiContainer.Impl
         public void Register(IDiRegistrar registrar)
         {
             ConsistencyCheck.EnsureArgument(registrar).IsNotNull();
+            // avoid double registration of same registrar
+            Type registrarImplementationType = registrar.GetType();
+            if (_seenRegistrarImplementations.Contains(registrarImplementationType))
+            {
+                return;
+            }
+            _seenRegistrarImplementations.Add(registrarImplementationType);
             registrar.Register(this);
         }
 
