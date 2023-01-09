@@ -1,6 +1,6 @@
 //----------------------------------------------------------------------------------
-// <copyright file="DiContainerTests.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2017-2022. All Rights Reserved. Confidential.
+// <copyright file="DiContainerTestBase.cs" company="Siemens Healthcare GmbH">
+// Copyright (C) Siemens Healthcare GmbH, 2017-2023. All Rights Reserved. Confidential.
 // Author: Steffen Hanke
 // </copyright>
 //----------------------------------------------------------------------------------
@@ -10,7 +10,7 @@ using NUnit.Framework;
 
 namespace Solid.Infrastructure_uTest.DiContainer
 {
-    public partial class DiContainerTests
+    public class DiContainerTestBase
     {
         protected IDiContainer _target;
 

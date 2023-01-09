@@ -1,6 +1,6 @@
 ﻿//----------------------------------------------------------------------------------
 // <copyright file="DiContainer_SpecialTests.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2017-2022. All Rights Reserved. Confidential.
+// Copyright (C) Siemens Healthcare GmbH, 2017-2023. All Rights Reserved. Confidential.
 // Author: Steffen Hanke
 // </copyright>
 //----------------------------------------------------------------------------------
@@ -13,7 +13,7 @@ using System.Linq;
 
 namespace Solid.Infrastructure_uTest.DiContainer
 {
-    public class DiContainer_SpecialTests : DiContainerTests
+    public class DiContainer_SpecialTests : DiContainerTestBase
     {
         [Test]
         public void Register_IRegistrar_ShouldCallRegisterAtRegistrar()

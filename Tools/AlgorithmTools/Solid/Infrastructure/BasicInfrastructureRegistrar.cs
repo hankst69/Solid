@@ -1,6 +1,6 @@
 ﻿//----------------------------------------------------------------------------------
 // <copyright file="BasicInfrastructureRegistrar.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2022. All Rights Reserved. Confidential.
+// Copyright (C) Siemens Healthcare GmbH, 2022-2023. All Rights Reserved. Confidential.
 // Author: Steffen Hanke
 // </copyright>
 //----------------------------------------------------------------------------------
@@ -33,7 +33,7 @@ namespace Solid.Infrastructure
     /// </summary>
     public class BasicInfrastructureRegistrar : IDiRegistrar
     {
-        public void Register(IDiContainer container)
+        public void Register(IDiRegister container)
         {
             ConsistencyCheck.EnsureArgument(container).IsNotNull();
 

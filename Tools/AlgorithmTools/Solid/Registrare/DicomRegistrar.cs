@@ -1,6 +1,6 @@
 ﻿//----------------------------------------------------------------------------------
 // <copyright file="DicomRegistrar.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2020-2022. All Rights Reserved. Confidential.
+// Copyright (C) Siemens Healthcare GmbH, 2020-2023. All Rights Reserved. Confidential.
 // Author: Steffen Hanke
 // </copyright>
 //----------------------------------------------------------------------------------
@@ -15,7 +15,7 @@ namespace Solid.Registrare
 {
     public class DicomRegistrar: IDiRegistrar
     {
-        public void Register(IDiContainer container)
+        public void Register(IDiRegister container)
         {
             ConsistencyCheck.EnsureArgument(container).IsNotNull();
 

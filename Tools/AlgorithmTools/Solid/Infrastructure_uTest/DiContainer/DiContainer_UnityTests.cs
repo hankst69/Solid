@@ -13,7 +13,7 @@ using NUnit.Framework;
 
 namespace Solid.Infrastructure_uTest.DiContainer
 {
-    public class DiContainer_ResolveTests : DiContainerTests
+    public class DiContainer_ResolveTests : DiContainerTestBase
     {
         [Test]
         public void ResolveAll_OfUnityContainer_ShouldReturnCorrectInstances_WhenRegisteredAsInstance()

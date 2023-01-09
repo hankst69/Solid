@@ -56,7 +56,6 @@ namespace Solid.Infrastructure.DiContainer.Impl
     public class DiContainer : IDiContainer
     {
         private readonly IList<IRegisteredObjectInternal> _registeredObjects = new List<IRegisteredObjectInternal>();
-        private readonly IList<Type> _seenRegistrarImplementations = new List<Type>();
 
         public DiContainer()
         {
@@ -76,23 +75,16 @@ namespace Solid.Infrastructure.DiContainer.Impl
         public void Register(IDiRegistrar registrar)
         {
             ConsistencyCheck.EnsureArgument(registrar).IsNotNull();
-            // avoid double registration of same registrar
-            Type registrarImplementationType = registrar.GetType();
-            if (_seenRegistrarImplementations.Contains(registrarImplementationType))
-            {
-                return;
-            }
-            _seenRegistrarImplementations.Add(registrarImplementationType);
             registrar.Register(this);
         }
 
-        public bool IsTypeRegistered<TTypeToResolve>(string name = null)
+        public bool IsRegistered<TTypeToResolve>()
         {
             var type = typeof(TTypeToResolve);
             return _registeredObjects.Any(o => o.TypeToResolve == type);
         }
 
-        public bool IsTypeImplementationRegistered<TTypeToResolve>(string name = null)
+        public bool IsRegisteredAnyImplementing<TTypeToResolve>()
         {
             var type = typeof(TTypeToResolve);
             return _registeredObjects.Any(o =>
@@ -113,38 +105,58 @@ namespace Solid.Infrastructure.DiContainer.Impl
             });
         }
 
+
+        private void DisposeExistingRegistration(Type typeToResolve)
+        {
+            ConsistencyCheck.EnsureArgument(typeToResolve).IsNotNull();
+            var registration = _registeredObjects.FirstOrDefault(o => o.TypeToResolve == typeToResolve);
+            if (registration == null)
+            {
+                return;
+            }
+            _registeredObjects.Remove(registration);
+            registration.Dispose();
+        }
+
         public void RegisterInstance<TTypeToResolve>(object instance)
         {
+            DisposeExistingRegistration(typeof(TTypeToResolve));
             _registeredObjects.Add(new RegisteredObject(typeof(TTypeToResolve), instance));
         }
 
         public void RegisterType<TTypeToResolve, TConcrete>()
         {
+            DisposeExistingRegistration(typeof(TTypeToResolve));
             _registeredObjects.Add(new RegisteredObject(typeof(TTypeToResolve), typeof(TConcrete), LifeCycle.Singleton));
         }
 
         public void RegisterTypeAsTransient<TTypeToResolve, TConcrete>()
         {
+            DisposeExistingRegistration(typeof(TTypeToResolve));
             _registeredObjects.Add(new RegisteredObject(typeof(TTypeToResolve), typeof(TConcrete), LifeCycle.Transient));
         }
 
         public void RegisterCreator<TTypeToResolve>(Func<IDiResolve, object> creator)
         {
+            DisposeExistingRegistration(typeof(TTypeToResolve));
             _registeredObjects.Add(new RegisteredObject(typeof(TTypeToResolve), (resolver, parentType) => creator(resolver), LifeCycle.Singleton));
         }
         
         public void RegisterCreatorAsTransient<TTypeToResolve>(Func<IDiResolve, object> creator)
         {
+            DisposeExistingRegistration(typeof(TTypeToResolve));
             _registeredObjects.Add(new RegisteredObject(typeof(TTypeToResolve), (resolver, parentType) => creator(resolver), LifeCycle.Transient));
         }
 
         public void RegisterCreator<TTypeToResolve>(Func<IDiResolve, Type, object> creator)
         {
+            DisposeExistingRegistration(typeof(TTypeToResolve));
             _registeredObjects.Add(new RegisteredObject(typeof(TTypeToResolve), creator, LifeCycle.Singleton));
         }
 
         public void RegisterCreatorAsTransient<TTypeToResolve>(Func<IDiResolve, Type, object> creator)
         {
+            DisposeExistingRegistration(typeof(TTypeToResolve));
             _registeredObjects.Add(new RegisteredObject(typeof(TTypeToResolve), creator, LifeCycle.Transient));
         }
 
@@ -237,7 +249,7 @@ namespace Solid.Infrastructure.DiContainer.Impl
                 (this as IResolverInternal).AncestorObjects.Insert(0, registeredObject);
 
                 // we pass the ancestor history information to the regististration object (via this implementing IResolverInternal)
-                var instance = registeredObject?.GetInstance(this);
+                var instance = registeredObject.GetInstance(this);
 
                 // we cleanup afterwards
                 // -> remove resolved registration object from head of ancestors

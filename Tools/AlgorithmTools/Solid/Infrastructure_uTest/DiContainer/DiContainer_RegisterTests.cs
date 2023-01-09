@@ -11,7 +11,7 @@ using System;
 
 namespace Solid.Infrastructure_uTest.DiContainer
 {
-    public class DiContainer_RegisterTests : DiContainerTests
+    public class DiContainer_RegisterTests : DiContainerTestBase
     {
         [Test]
         public void RegisterInstance_ShouldThrow_WhenInstanceIsNull()
@@ -113,6 +113,77 @@ namespace Solid.Infrastructure_uTest.DiContainer
             var instance1 = _target.Resolve<ITypeToResolveWithConstructorParams>();
             var instance2 = _target.Resolve<ITypeToResolveWithConstructorParams>();
             instance1.Should().NotBeSameAs(instance2);
+        }
+
+        //[Test]
+        //public void RegisterType_Twice_ShouldNotThrow()
+        //{
+        //    // Arrange
+        //    _target.RegisterType<ITypeToResolve, ConcreteType>();
+        //    // Act
+        //    Action action = () => _target.RegisterType<ITypeToResolve, ConcreteType>();
+        //    // Assert
+        //    action.Should().NotThrow();
+        //}
+        //[Test]
+        //public void RegisterInstance_Twice_ShouldNotThrow()
+        //{
+        //    // Arrange
+        //    var instance = new ConcreteType();
+        //    _target.RegisterInstance<ITypeToResolve>(instance);
+        //    // Act
+        //    Action action = () => _target.RegisterInstance<ITypeToResolve>(instance);
+        //    // Assert
+        //    action.Should().NotThrow();
+        //}
+        //[Test]
+        //public void RegisterCreator_Twice_ShouldNotThrow()
+        //{
+        //    // Arrange
+        //    _target.RegisterCreator<ITypeToResolve>(creator => new ConcreteType());
+        //    // Act
+        //    Action action = () => _target.RegisterCreator<ITypeToResolve>(creator => new ConcreteType());
+        //    // Assert
+        //    action.Should().NotThrow();
+        //}
+
+        [Test]
+        public void RegisterType_Twice_ShouldOverwriteFirstRegistration()
+        {
+            // Arrange
+            _target.RegisterType<ITypeToResolve, ConcreteType>();
+            // Act
+            _target.RegisterType<ITypeToResolve, ConcreteTypeDerived>();
+            // Assert
+            var instance = _target.Resolve<ITypeToResolve>();
+            instance.Should().BeOfType<ConcreteTypeDerived>();
+        }
+
+        [Test]
+        public void RegisterInstance_Twice_ShouldOverwriteFirstRegistration()
+        {
+            // Arrange
+            var instance1 = new ConcreteType();
+            _target.RegisterInstance<ITypeToResolve>(instance1);
+            var instance2 = new ConcreteTypeDerived();
+            // Act
+            _target.RegisterInstance<ITypeToResolve>(instance2);
+            // Assert
+            var instance = _target.Resolve<ITypeToResolve>();
+            instance.Should().BeOfType<ConcreteTypeDerived>()
+                .And.BeSameAs(instance2);
+        }
+
+        [Test]
+        public void RegisterCreator_Twice_ShouldOverwriteFirstRegistration()
+        {
+            // Arrange
+            _target.RegisterCreator<ITypeToResolve>(creator => new ConcreteType());
+            // Act
+            _target.RegisterCreator<ITypeToResolve>(creator => new ConcreteTypeDerived());
+            // Assert
+            var instance = _target.Resolve<ITypeToResolve>();
+            instance.Should().BeOfType<ConcreteTypeDerived>();
         }
     }
 }
