@@ -21,6 +21,7 @@ namespace Solid.Infrastructure.Diagnostics
         Debug = 4, //2 ^ 2,
         Info = 8, //2 ^ 3,
         InOut = 16, //2 ^ 4
+        All = 0xffff
     }
 
     /// <summary>

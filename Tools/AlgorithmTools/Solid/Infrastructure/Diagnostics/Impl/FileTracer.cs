@@ -8,6 +8,7 @@
 using Solid.Infrastructure.Environment;
 
 using System;
+using System.Diagnostics;
 using System.IO;
 
 namespace Solid.Infrastructure.Diagnostics.Impl
@@ -52,19 +53,28 @@ namespace Solid.Infrastructure.Diagnostics.Impl
         protected override ITracer CreateBaseDomainTracer(string traceDomainName)
         {
             ConsistencyCheck.EnsureArgument(traceDomainName).IsNotNullOrEmpty();
-            return traceDomainName.Equals(TraceDomain) ? this : new FileTracer(traceDomainName, string.Empty, _traceStreamWriter);
+            return traceDomainName.Equals(TraceDomain) ? this : new FileTracer(traceDomainName, string.Empty, _traceStreamWriter)
+            {
+                TraceLevel = TraceLevel
+            }.WriteEnterTrace();
         }
 
         public override ITracer CreateSubDomainTracer(string subDomain)
         {
             ConsistencyCheck.EnsureArgument(subDomain).IsNotNull();
             var traceDomain = string.IsNullOrEmpty(TraceDomain) ? subDomain : string.Concat(TraceDomain, "+", subDomain);
-            return new FileTracer(traceDomain, string.Empty, _traceStreamWriter);
+            return new FileTracer(traceDomain, string.Empty, _traceStreamWriter)
+            {
+                TraceLevel = TraceLevel
+            }.WriteEnterTrace();
         }
 
         public override ITracer CreateScopeTracer(string scopeName)
         {
-            return new FileTracer(TraceDomain, scopeName, _traceStreamWriter);
+            return new FileTracer(TraceDomain, scopeName, _traceStreamWriter)
+            {
+                TraceLevel = TraceLevel
+            }.WriteEnterTrace();
         }
         #endregion
 

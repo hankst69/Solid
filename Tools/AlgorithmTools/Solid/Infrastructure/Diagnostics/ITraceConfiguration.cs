@@ -18,7 +18,7 @@ namespace Solid.Infrastructure.Diagnostics
 
     public interface ITraceConfiguration
     {
-        void ConfigureFromCommandlineArgs(string[] commandLineArgs);
+        string[] ConfigureFromCommandlineArgs(string[] commandLineArgs);
 
         TraceLevel TraceLevel { get; set; }
 

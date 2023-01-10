@@ -6,7 +6,6 @@
 //----------------------------------------------------------------------------------
 
 using System;
-using System.Diagnostics;
 
 namespace Solid.Infrastructure.Diagnostics.Impl
 {
@@ -39,19 +38,28 @@ namespace Solid.Infrastructure.Diagnostics.Impl
         protected override ITracer CreateBaseDomainTracer(string traceDomainName)
         {
             ConsistencyCheck.EnsureArgument(traceDomainName).IsNotNullOrEmpty();
-            return TraceDomain.Equals(traceDomainName) ? this : new ConsoleTracer(traceDomainName, string.Empty);
+            return TraceDomain.Equals(traceDomainName) ? this : new ConsoleTracer(traceDomainName, string.Empty)
+            {
+                TraceLevel = TraceLevel
+            }.WriteEnterTrace();
         }
 
         public override ITracer CreateSubDomainTracer(string subDomain)
         {
             ConsistencyCheck.EnsureArgument(subDomain).IsNotNull();
             var traceDomain = string.IsNullOrEmpty(TraceDomain) ? subDomain : string.Concat(TraceDomain, "+", subDomain);
-            return new ConsoleTracer(traceDomain, string.Empty);
+            return new ConsoleTracer(traceDomain, string.Empty)
+            {
+                TraceLevel = TraceLevel
+            }.WriteEnterTrace();
         }
 
         public override ITracer CreateScopeTracer(string scopeName)
         {
-            return new ConsoleTracer(TraceDomain, scopeName);
+            return new ConsoleTracer(TraceDomain, scopeName)
+            {
+                TraceLevel = TraceLevel
+            }.WriteEnterTrace();
         }
         #endregion
     }

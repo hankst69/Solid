@@ -26,12 +26,13 @@ namespace Solid.Infrastructure.Diagnostics.Impl
         
         protected virtual void WriteTraceEntry(string message) { }
 
-        private void WriteEnterTrace()
+        protected ITracer WriteEnterTrace()
         {
+            _creationTime = DateTime.Now;
+
             // write entering trace
             if (IsTraceLevel(TraceLevel.InOut))
             {
-                _creationTime = DateTime.Now;
                 _processId = Process.GetCurrentProcess().Id;
                 //_threadId = Thread.CurrentThread.ManagedThreadId;
                 #pragma warning disable 618
@@ -41,6 +42,7 @@ namespace Solid.Infrastructure.Diagnostics.Impl
                 var traceEntry = $"{_creationTime.ToString("HH:mm:ss.ffffff")} {_processId}/{_threadId} #*[ entering  {TraceDomain} {TraceScope}";
                 WriteTraceEntry(traceEntry);
             }
+            return this;
         }
 
         private void WriteLeaveTrace()
@@ -72,7 +74,7 @@ namespace Solid.Infrastructure.Diagnostics.Impl
             TraceDomain = traceDomain;
             TraceScope = traceScope;
 
-            WriteEnterTrace();
+            //WriteEnterTrace();
         }
 
         protected virtual void DisposeTraceEnvironment() { }
@@ -95,6 +97,11 @@ namespace Solid.Infrastructure.Diagnostics.Impl
         {
             if (IsTraceLevel(level))
             {
+                _processId = _processId == 0 ? Process.GetCurrentProcess().Id : _processId;
+                #pragma warning disable 618
+                _threadId = _threadId == 0 ? AppDomain.GetCurrentThreadId() : _threadId;
+                #pragma warning restore 618
+
                 var levelPadded = level.ToString().PadRight(_levelPadding);
 
                 var traceEntry = $"{DateTime.Now.ToString("HH:mm:ss.ffffff")} {_processId}/{_threadId} #** {levelPadded} {TraceDomain} {TraceScope} -> {message}<-";
