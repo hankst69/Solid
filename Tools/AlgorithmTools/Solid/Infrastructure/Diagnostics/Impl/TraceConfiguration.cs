@@ -1,5 +1,5 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="ITraceConfiguration.cs" company="Siemens Healthcare GmbH">
+// <copyright targetFile="ITraceConfiguration.cs" company="Siemens Healthcare GmbH">
 // Copyright (C) Siemens Healthcare GmbH, 2022-2023. All Rights Reserved. Confidential.
 // Author: Steffen Hanke
 // </copyright>
@@ -54,91 +54,109 @@ namespace Solid.Infrastructure.Diagnostics.Impl
             string c_targetFile = TraceTarget.FILE.ToString().ToLower();
 
             var traceTargetOptions = commandLineArgs
+                .Where(x => !string.IsNullOrEmpty(x))
                 .Where(x => x.ToLower().StartsWith(c_traceTarget))
                 .Select(x => x.Substring(c_traceTarget.Length))
                 .ToArray();
 
             var traceLevelOptions = commandLineArgs
-                .Where(x => x.ToLower().StartsWith(c_traceLevel))
+                .Where(x => !string.IsNullOrEmpty(x))
+                .Select(x => x.ToLower())
+                .Where(x => x.StartsWith(c_traceLevel))
+                .Where(x => !x.StartsWith(c_consoleTraceLevel))
+                .Where(x => !x.StartsWith(c_fileTraceLevel))
                 .Select(x => x.Substring(c_traceLevel.Length))
                 .ToArray();
 
             var consoleTraceLevelOptions = commandLineArgs
+                .Where(x => !string.IsNullOrEmpty(x))
                 .Where(x => x.ToLower().StartsWith(c_consoleTraceLevel))
                 .Select(x => x.Substring(c_consoleTraceLevel.Length))
                 .ToArray();
 
             var fileTraceLevelOptions = commandLineArgs
+                .Where(x => !string.IsNullOrEmpty(x))
                 .Where(x => x.ToLower().StartsWith(c_fileTraceLevel))
                 .Select(x => x.Substring(c_fileTraceLevel.Length))
                 .ToArray();
 
+            var targets = traceTargetOptions.SelectMany(x => x.Split("|")).ToArray();
+
+            var off = targets.Any(x => x.Trim().ToLower() == c_targetOff);
+            var targetConsole = targets.Any(x => x.Trim().ToLower() == c_targetConsole);
+            var targetFile = targets.Any(x => x.Split("#")[0].Trim().ToLower() == c_targetFile);
+            var targetFileName = targets.FirstOrDefault(x =>
+                x.Split("#")[0].Trim().ToLower() == c_targetFile && x.Split("#").Length > 1)
+                ?.Split("#")[1];
+
+            var levelGlobal = traceLevelOptions.Any()
+                ? (TraceLevel) traceLevelOptions
+                    .SelectMany(x => x.Split("|"))
+                    .Select(x => Enum.TryParse<TraceLevel>(x.Trim(), out TraceLevel level)
+                          ? level
+                          : TraceLevel.OFF)
+                    .Select(x => (int)x).Aggregate((a, b) => a | b)
+                : TraceLevel.OFF;
+
+            var levelConsole = consoleTraceLevelOptions.Any()
+                ? (TraceLevel) consoleTraceLevelOptions
+                    .SelectMany(x => x.Split("|"))
+                    .Select(x => Enum.TryParse<TraceLevel>(x.Trim(), out TraceLevel level)
+                          ? level
+                          : TraceLevel.OFF)
+                    .Select(x => (int)x)
+                    .Aggregate((a, b) => a | b)
+                : levelGlobal;
+
+            var levelFile = fileTraceLevelOptions.Any()
+                ? (TraceLevel) fileTraceLevelOptions
+                    .SelectMany(x => x.Split("|"))
+                    .Select(x => Enum.TryParse<TraceLevel>(x.Trim(), out TraceLevel level)
+                          ? level
+                          : TraceLevel.OFF)
+                    .Select(x => (int)x)
+                    .Aggregate((a, b) => a | b)
+                : levelGlobal;
+
+            targetConsole = consoleTraceLevelOptions.Any() || traceLevelOptions.Any()
+                ? targetConsole && levelConsole != TraceLevel.OFF
+                : targetConsole;
+
+            targetFile = fileTraceLevelOptions.Any() || traceLevelOptions.Any()
+                ? targetFile && levelFile != TraceLevel.OFF
+                : targetFile;
+
             if (traceTargetOptions.Any())
             {
-                var targets = traceTargetOptions.SelectMany(x => x.Split("|")).ToArray();
-                
-                var off = targets.Any(x => x.Trim().ToLower() == c_targetOff);
-                var console = targets.Any(x => x.Trim().ToLower() == c_targetConsole);
-                var file = targets.Any(x => x.Split("#")[0].Trim().ToLower() == c_targetFile);
-
-                if (off && !console)
+                if (off || !targetConsole)
                 {
                     StopConsoleTracer();
                 }
-                if (off && !file)
+                if (off || !targetFile)
                 {
                     StopFileTracer();
                 }
-                if (console)
+                if (targetConsole)
                 {
                     StartConsoleTracer();
                 }
-                if (file)
+                if (targetFile)
                 {
-                    var filenName = targets.FirstOrDefault(x => 
-                        x.Split("#")[0].Trim().ToLower() == c_targetFile && x.Split("#").Length > 1)
-                        ?.Split("#")[1];
-
-                    StartFileTracer(filenName);
+                    StartFileTracer(targetFileName);
                 }
             }
 
             if (traceLevelOptions.Any())
             {
-                var levels = traceLevelOptions
-                    .SelectMany(x => x.Split("|"))
-                    .Select(x => Enum.TryParse<TraceLevel>(x.Trim(), out TraceLevel level)
-                          ? level
-                          : TraceLevel.OFF);
-
-                //var off = levels.All(x => x == TraceLevel.OFF);
-                var level = (TraceLevel) levels.Select(x => (int)x).Aggregate((a, b) => a | b);
-
-                TraceLevel = level;
+                TraceLevel = levelGlobal;
             }
-
             if (consoleTraceLevelOptions.Any())
             {
-                ConsoleTraceLevel = (TraceLevel)
-                    consoleTraceLevelOptions
-                    .SelectMany(x => x.Split("|"))
-                    .Select(x => Enum.TryParse<TraceLevel>(x.Trim(), out TraceLevel level)
-                          ? level
-                          : TraceLevel.OFF)
-                    .Select(x => (int)x)
-                    .Aggregate((a, b) => a | b);
+                ConsoleTraceLevel = levelConsole;
             }
-
             if (fileTraceLevelOptions.Any())
             {
-                FileTraceLevel = (TraceLevel)
-                    fileTraceLevelOptions
-                    .SelectMany(x => x.Split("|"))
-                    .Select(x => Enum.TryParse<TraceLevel>(x.Trim(), out TraceLevel level)
-                          ? level
-                          : TraceLevel.OFF)
-                    .Select(x => (int)x)
-                    .Aggregate((a, b) => a | b);
+                FileTraceLevel = levelFile;
             }
 
             return commandLineArgs
@@ -147,12 +165,23 @@ namespace Solid.Infrastructure.Diagnostics.Impl
                 .ToArray();
         }
 
-        public TraceLevel TraceLevel { get => _multiTracer.TraceLevel; set => _multiTracer.TraceLevel = value; }
+        public TraceLevel TraceLevel 
+        { 
+            get => _multiTracer?.TraceLevel ?? TraceLevel.OFF; 
+            set { if (_multiTracer != null) _multiTracer.TraceLevel = value; } 
+        }
 
-        public TraceLevel FileTraceLevel { get => _fileTracer.TraceLevel; set => _fileTracer.TraceLevel = value; }
+        public TraceLevel FileTraceLevel 
+        { 
+            get => _fileTracer?.TraceLevel ?? TraceLevel.OFF; 
+            set { if (_fileTracer != null) _fileTracer.TraceLevel = value; } 
+        }
 
-        public TraceLevel ConsoleTraceLevel { get => _consoleTracer.TraceLevel; set => _consoleTracer.TraceLevel = value; }
-
+        public TraceLevel ConsoleTraceLevel
+        {
+            get => _consoleTracer?.TraceLevel ?? TraceLevel.OFF;
+            set { if (_consoleTracer != null) _consoleTracer.TraceLevel = value; }
+        }
 
         public void StartFileTracer(string fileName = null, string folderName = null)
         {
