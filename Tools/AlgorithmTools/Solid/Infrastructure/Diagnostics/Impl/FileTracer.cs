@@ -48,29 +48,24 @@ namespace Solid.Infrastructure.Diagnostics.Impl
             CreateTraceEnvironment(traceDomain, traceScope, traceStreamWriter);
         }
 
-        public void Dispose()
-        {
-            DisposeTraceEnvironment();
-        }
-
 
         #region ITracerCreator
         protected override ITracer CreateBaseDomainTracer(string traceDomainName)
         {
             ConsistencyCheck.EnsureArgument(traceDomainName).IsNotNullOrEmpty();
-            return traceDomainName.Equals(TraceDomain) ? this : new FileTracer(traceDomainName, string.Empty, m_TraceStreamWriter);
+            return traceDomainName.Equals(TraceDomain) ? this : new FileTracer(traceDomainName, string.Empty, _traceStreamWriter);
         }
 
-        public ITracer CreateSubDomainTracer(string subDomain)
+        public override ITracer CreateSubDomainTracer(string subDomain)
         {
             ConsistencyCheck.EnsureArgument(subDomain).IsNotNull();
             var traceDomain = string.IsNullOrEmpty(TraceDomain) ? subDomain : string.Concat(TraceDomain, "+", subDomain);
-            return new FileTracer(traceDomain, string.Empty, m_TraceStreamWriter);
+            return new FileTracer(traceDomain, string.Empty, _traceStreamWriter);
         }
 
-        public ITracer CreateScopeTracer(string scopeName)
+        public override ITracer CreateScopeTracer(string scopeName)
         {
-            return new FileTracer(TraceDomain, scopeName, m_TraceStreamWriter);
+            return new FileTracer(TraceDomain, scopeName, _traceStreamWriter);
         }
         #endregion
 
@@ -80,10 +75,10 @@ namespace Solid.Infrastructure.Diagnostics.Impl
         {
             var levelPadded = level.PadRight(9);
 
-            m_TraceStreamWriter?.WriteLine("{0} {1}/{2} #** {3} {4} {5} -> {6}<-",
+            _traceStreamWriter?.WriteLine("{0} {1}/{2} #** {3} {4} {5} -> {6}<-",
                 DateTime.Now.ToString("HH:mm:ss.ffffff"),
-                m_ProcessId,
-                m_TreadId,
+                _processId,
+                _threadId,
                 levelPadded,
                 TraceDomain,
                 TraceScope,
@@ -108,77 +103,75 @@ namespace Solid.Infrastructure.Diagnostics.Impl
                 // we setup a new trace file which should relate to current application name and date/time of creation
                 var traceFileName = _folderProvider.GetNewAppTraceFile();
 
-                m_TraceStreamWriter = new StreamWriter(traceFileName);
-                ConsistencyCheck.EnsureValue(m_TraceStreamWriter).IsNotNull();
+                _traceStreamWriter = new StreamWriter(traceFileName);
+                ConsistencyCheck.EnsureValue(_traceStreamWriter).IsNotNull();
 
                 Console.WriteLine($"Created new TraceFile '{traceFileName}'"); //+ $" ({this.GetType().FullName})");
             }
             else
             {
-                m_KeepStreamWriterAlive = true;
-                m_TraceStreamWriter = traceStreamWriter;
+                _keepStreamWriterAlive = true;
+                _traceStreamWriter = traceStreamWriter;
             }
 
-            m_CreationTime = DateTime.Now;
-            m_ProcessId = Process.GetCurrentProcess().Id;
-            //m_TreadId = Thread.CurrentThread.ManagedThreadId;
+            _creationTime = DateTime.Now;
+            _processId = Process.GetCurrentProcess().Id;
+            //_threadId = Thread.CurrentThread.ManagedThreadId;
 
             #pragma warning disable 618
-            m_TreadId = AppDomain.GetCurrentThreadId();
+            _threadId = AppDomain.GetCurrentThreadId();
             #pragma warning restore 618
 
-            // entering trace
-            m_TraceStreamWriter.WriteLine("{0} {1}/{2} #*[ entering  {3} {4}",
-                m_CreationTime.ToString("HH:mm:ss.ffffff"),
-                m_ProcessId,
-                m_TreadId,
-                TraceDomain,
-                TraceScope
-                );
+            // write entering trace
+            if (IsTraceLevel(TraceLevel.InOut))
+            {
+                _traceStreamWriter.WriteLine("{0} {1}/{2} #*[ entering  {3} {4}",
+                    _creationTime.ToString("HH:mm:ss.ffffff"),
+                    _processId,
+                    _threadId,
+                    TraceDomain,
+                    TraceScope
+                    );
+            }
         }
 
-        private void DisposeTraceEnvironment()
+        protected override void DisposeTraceEnvironment()
         {
-            if (m_IsDisposed)
-            {
-                return;
-            }
-
-            m_IsDisposed = true;
-
             var now = DateTime.Now;
-            var timeSpan = now - m_CreationTime;
+            var timeSpan = now - _creationTime;
             var spentTime = timeSpan.TotalMilliseconds > 9 ? 
                 string.Format("{0} ms", System.Math.Round(timeSpan.TotalMilliseconds)):
                 string.Format("{0} us", System.Math.Round(1000d * timeSpan.TotalMilliseconds));
 
-            // leaving trace
-            m_TraceStreamWriter?.WriteLine("{0} {1}/{2} #*] leaving   {3} {4} -> duration={5}",
-                now.ToString("HH:mm:ss.ffffff"),
-                m_ProcessId,
-                m_TreadId,
-                TraceDomain,
-                TraceScope,
-                spentTime
-                );
-
-            if (m_KeepStreamWriterAlive)
+            // write leaving trace
+            if (IsTraceLevel(TraceLevel.InOut))
             {
-                m_TraceStreamWriter?.Flush();
+                _traceStreamWriter?.WriteLine("{0} {1}/{2} #*] leaving   {3} {4} -> duration={5}",
+                    now.ToString("HH:mm:ss.ffffff"),
+                    _processId,
+                    _threadId,
+                    TraceDomain,
+                    TraceScope,
+                    spentTime
+                    );
             }
-            else if (m_TraceStreamWriter != null)
+
+            if (_keepStreamWriterAlive)
             {
-                m_TraceStreamWriter.Close();
-                m_TraceStreamWriter.Dispose();
-                m_TraceStreamWriter = null;
+                _traceStreamWriter?.Flush();
+            }
+            else if (_traceStreamWriter != null)
+            {
+                _traceStreamWriter.Close();
+                _traceStreamWriter.Dispose();
+                _traceStreamWriter = null;
             }
         }
 
-        private bool m_IsDisposed;
-        private bool m_KeepStreamWriterAlive;
-        private StreamWriter m_TraceStreamWriter;
-        private DateTime m_CreationTime;
-        private int m_TreadId;
-        private int m_ProcessId;
+        private bool _keepStreamWriterAlive;
+        private StreamWriter _traceStreamWriter;
+        private DateTime _creationTime;
+        private int _threadId;
+        private int _processId;
     }
 }

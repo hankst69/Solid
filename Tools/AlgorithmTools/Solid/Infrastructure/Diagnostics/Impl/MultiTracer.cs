@@ -1,6 +1,6 @@
 ﻿//----------------------------------------------------------------------------------
 // <copyright file="MultiTracer.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2020-2022. All Rights Reserved. Confidential.
+// Copyright (C) Siemens Healthcare GmbH, 2020-2023. All Rights Reserved. Confidential.
 // Author: Steffen Hanke
 // </copyright>
 //----------------------------------------------------------------------------------
@@ -17,24 +17,24 @@ namespace Solid.Infrastructure.Diagnostics.Impl
     /// </summary>
     public class MultiTracer : IMultiTracer
     {
-        private readonly IList<ITracer> m_Tracers = new List<ITracer>();
+        private readonly IList<ITracer> _tracers = new List<ITracer>();
 
         public IMultiTracer AddTracer(ITracer tracer)
         {
             ConsistencyCheck.EnsureArgument(tracer).IsNotNull();
-            m_Tracers.Add(tracer);
+            _tracers.Add(tracer);
             return this;
         }
 
         public IMultiTracer RemoveTracer(ITracer tracer)
         {
             ConsistencyCheck.EnsureArgument(tracer).IsNotNull();
-            m_Tracers.Remove(tracer);
+            _tracers.Remove(tracer);
             return this;
         }
         public IMultiTracer RemoveAllTracers()
         {
-            m_Tracers.Clear();
+            _tracers.Clear();
             return this;
         }
 
@@ -45,61 +45,67 @@ namespace Solid.Infrastructure.Diagnostics.Impl
         public MultiTracer(IList<ITracer> tracers)
         {
             ConsistencyCheck.EnsureArgument(tracers).IsNotNull();//.IsNotEmpty();
-            m_Tracers = tracers;
+            _tracers = tracers;
         }
 
-        public string TraceDomain => m_Tracers.FirstOrDefault()?.TraceDomain;
-        public string TraceScope => m_Tracers.FirstOrDefault()?.TraceScope;
+        public string TraceDomain => _tracers.FirstOrDefault()?.TraceDomain;
+        public string TraceScope => _tracers.FirstOrDefault()?.TraceScope;
+
+        public TraceLevel TraceLevel 
+        { 
+            get => _tracers.FirstOrDefault()?.TraceLevel ?? TraceLevel.OFF;
+            set => _tracers.ForEach(t => t.TraceLevel = value);
+        }
 
         public void Dispose()
         {
-            m_Tracers.ForEach(x => x.Dispose());
-            m_Tracers.Clear(); 
+            _tracers.ForEach(x => x.Dispose());
+            _tracers.Clear(); 
         }
 
         public ITracer CreateBaseDomainTracer()
         {
-            return new MultiTracer(m_Tracers.Select(x => x.CreateBaseDomainTracer()).ToList());
+            return new MultiTracer(_tracers.Select(x => x.CreateBaseDomainTracer()).ToList());
         }
 
         public ITracer CreateBaseDomainTracer(Type traceDomain)
         {
-            return new MultiTracer(m_Tracers.Select(x => x.CreateBaseDomainTracer(traceDomain)).ToList());
+            return new MultiTracer(_tracers.Select(x => x.CreateBaseDomainTracer(traceDomain)).ToList());
         }
 
         public ITracer CreateSubDomainTracer(string subDomain)
         {
-            return new MultiTracer(m_Tracers.Select(x => x.CreateSubDomainTracer(subDomain)).ToList());
+            return new MultiTracer(_tracers.Select(x => x.CreateSubDomainTracer(subDomain)).ToList());
         }
 
         public ITracer CreateScopeTracer(string scopeName)
         {
-            return new MultiTracer(m_Tracers.Select(x => x.CreateScopeTracer(scopeName)).ToList());
+            return new MultiTracer(_tracers.Select(x => x.CreateScopeTracer(scopeName)).ToList());
         }
 
         public void Error(string message, string callerName, int callerLine, string callerFilePath)
         {
-            m_Tracers.ForEach(x => x.Error(message, callerName, callerLine, callerFilePath));
+            _tracers.ForEach(x => x.Error(message, callerName, callerLine, callerFilePath));
         }
 
         public void Error(Exception ex, string callerName, int callerLine, string callerFilePath)
         {
-            m_Tracers.ForEach(x => x.Error(ex, callerName, callerLine, callerFilePath));
+            _tracers.ForEach(x => x.Error(ex, callerName, callerLine, callerFilePath));
         }
 
         public void Info(string message, string callerName, int callerLine, string callerFilePath)
         {
-            m_Tracers.ForEach(x => x.Info(message, callerName, callerLine, callerFilePath));
+            _tracers.ForEach(x => x.Info(message, callerName, callerLine, callerFilePath));
         }
 
         public void Warning(string message, string callerName, int callerLine, string callerFilePath)
         {
-            m_Tracers.ForEach(x => x.Warning(message, callerName, callerLine, callerFilePath));
+            _tracers.ForEach(x => x.Warning(message, callerName, callerLine, callerFilePath));
         }
 
         public void Debug(string message, string callerName, int callerLine, string callerFilePath)
         {
-            m_Tracers.ForEach(x => x.Debug(message, callerName, callerLine, callerFilePath));
+            _tracers.ForEach(x => x.Debug(message, callerName, callerLine, callerFilePath));
         }
     }
 }

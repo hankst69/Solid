@@ -1,53 +1,70 @@
 ﻿//----------------------------------------------------------------------------------
 // <copyright file="BaseTracer.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2019-2022. All Rights Reserved. Confidential.
+// Copyright (C) Siemens Healthcare GmbH, 2019-2023. All Rights Reserved. Confidential.
 // Author: Steffen Hanke
 // </copyright>
 //----------------------------------------------------------------------------------
 
 using System;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 
 namespace Solid.Infrastructure.Diagnostics.Impl
 {
-    public abstract class BaseTracer : ILogger
+    public abstract class BaseTracer : ITracer
     {
+        private bool _isDisposed;
+
         protected virtual ITracer CreateBaseDomainTracer(string traceDomainName) { return null; }
 
         protected virtual void WriteTrace(string level, string message) { }
+
+        protected virtual void DisposeTraceEnvironment() { }
+
+        public void Dispose()
+        {
+            if (_isDisposed)
+            {
+                return;
+            }
+
+            _isDisposed = true;
+            DisposeTraceEnvironment();
+        }
+
+        private void WriteTraceInternal(TraceLevel level, string message)
+        {
+            if (IsTraceLevel(level))
+            {
+                WriteTrace(level.ToString(), message);
+            }
+        }
 
 
         #region ITracerInfo
         public string TraceDomain { get; protected set; }
         public string TraceScope { get; protected set; }
+
+        public TraceLevel TraceLevel { get; set; }
+        protected bool IsTraceLevel(TraceLevel traceLevel) => (TraceLevel & traceLevel) > 0;
         #endregion
 
 
         #region ILogger
-        public void Error(string message, string callerName, int callerLine, string callerFilePath)
-        {
-            WriteTrace("Error", message);
-        }
+        public void Error(string message, string callerName, int callerLine, string callerFilePath) 
+            => WriteTraceInternal(TraceLevel.Error, message);
 
-        public void Error(Exception ex, string callerName, int callerLine, string callerFilePath)
-        {
-            WriteTrace("Error", string.Format("{0}", ex));
-        }
+        public void Error(Exception ex, string callerName, int callerLine, string callerFilePath) 
+            => WriteTraceInternal(TraceLevel.Error, string.Format("{0}", ex));
 
-        public void Info(string message, string callerName, int callerLine, string callerFilePath)
-        {
-            WriteTrace("Info", message);
-        }
+        public void Info(string message, string callerName, int callerLine, string callerFilePath) 
+            => WriteTraceInternal(TraceLevel.Info, message);
 
-        public void Warning(string message, string callerName, int callerLine, string callerFilePath)
-        {
-            WriteTrace("Warning", message);
-        }
+        public void Warning(string message, string callerName, int callerLine, string callerFilePath) 
+            => WriteTraceInternal(TraceLevel.Warning, message);
 
-        public void Debug(string message, string callerName, int callerLine, string callerFilePath)
-        {
-            WriteTrace("Debug", message);
-        }
+        public void Debug(string message, string callerName, int callerLine, string callerFilePath) 
+            => WriteTraceInternal(TraceLevel.Debug, message);
         #endregion
 
 
@@ -124,6 +141,9 @@ namespace Solid.Infrastructure.Diagnostics.Impl
             var creatorType = numStackFramesUp < stackTrace.FrameCount ? stackTrace.GetFrame(numStackFramesUp)?.GetMethod()?.DeclaringType : null;
             return creatorType ?? typeof(void);
         }
+
+        public abstract ITracer CreateSubDomainTracer(string subDomain);
+        public abstract ITracer CreateScopeTracer([CallerMemberName] string scopeName = "");
         #endregion
     }
 }

@@ -1,14 +1,12 @@
 ﻿//----------------------------------------------------------------------------------
 // <copyright file="ITraceConfiguration.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2022. All Rights Reserved. Confidential.
+// Copyright (C) Siemens Healthcare GmbH, 2022-2023. All Rights Reserved. Confidential.
 // Author: Steffen Hanke
 // </copyright>
 //----------------------------------------------------------------------------------
 
 using Solid.Infrastructure.DiContainer;
 using Solid.Infrastructure.Environment;
-using Solid.Infrastructure.Environment.Impl;
-
 using System.IO;
 
 namespace Solid.Infrastructure.Diagnostics.Impl
@@ -20,6 +18,8 @@ namespace Solid.Infrastructure.Diagnostics.Impl
         private readonly IDiResolve _resolver;
         private IFileTracer _fileTracer;
         private IConsoleTracer _consoleTracer;
+        private string _fileName;
+        private string _folderName;
 
         public TraceConfiguration(IMultiTracer multiTracer, IFolderProvider folderProvider, IDiResolve resolver)
         {
@@ -38,12 +38,23 @@ namespace Solid.Infrastructure.Diagnostics.Impl
             StartFileTracer();
         }
 
+        public TraceLevel TraceLevel { get => _multiTracer.TraceLevel; set => _multiTracer.TraceLevel = value; }
+
+        public TraceLevel FileTraceLevel { get => _fileTracer.TraceLevel; set => _fileTracer.TraceLevel = value; }
+
+        public TraceLevel ConsoleTraceLevel { get => _consoleTracer.TraceLevel; set => _consoleTracer.TraceLevel = value; }
+
+
         public void StartFileTracer(string fileName = null, string folderName = null)
         {
-            if (_fileTracer != null) 
-            { 
-                _multiTracer.RemoveTracer(_fileTracer);
+            if (_fileTracer != null && _fileName == fileName && _folderName == folderName) 
+            {
+                return;
             }
+            _fileName = fileName;
+            _folderName = folderName;
+
+            StopFileTracer();
             
             if (string.IsNullOrEmpty(fileName))
             {
@@ -53,10 +64,11 @@ namespace Solid.Infrastructure.Diagnostics.Impl
             }
             else
             {
-                folderName = string.IsNullOrEmpty(folderName) ? _folderProvider.GetAppTraceFolder() : _folderProvider.EnsureValidPathName(folderName);
+                folderName = string.IsNullOrEmpty(folderName) ? _folderProvider.GetAppTraceFolder() : folderName;
 
                 fileName = _folderProvider.ConvertPathNameIntoFileName(fileName);
                 fileName = _folderProvider.EnsureValidFileName(fileName);
+                folderName = _folderProvider.EnsureValidPathName(folderName);
 
                 var filePath = Path.Combine(folderName, fileName);
 
@@ -70,6 +82,13 @@ namespace Solid.Infrastructure.Diagnostics.Impl
         {
             if (_consoleTracer != null)
             {
+                return;
+            }
+
+            StopConsoleTracer();
+
+            if (_consoleTracer != null)
+            {
                 _multiTracer.RemoveTracer(_consoleTracer);
             }
 
@@ -80,8 +99,34 @@ namespace Solid.Infrastructure.Diagnostics.Impl
             _multiTracer.AddTracer(_fileTracer);
         }
 
-        public void StopFileTracer() => _multiTracer.RemoveTracer(_fileTracer);
+        public void StopFileTracer()
+        {
+            if (_fileTracer == null)
+            {
+                return;
+            }
+            _multiTracer.RemoveTracer(_fileTracer);
+            //if (!_fileTracerIsTransient)
+            //{
+            //    return;
+            //}
+            _fileTracer.Dispose();
+            _fileTracer = null;
+        }
 
-        public void StopConsoleTracer() => _multiTracer.RemoveTracer(_consoleTracer);
+        public void StopConsoleTracer()
+        {
+            if (_consoleTracer == null)
+            {
+                return;
+            }
+            _multiTracer.RemoveTracer(_consoleTracer);
+            //if (!_consoleTracerIsTransient)
+            //{
+            //    return;
+            //}
+            _consoleTracer.Dispose();
+            _consoleTracer = null;
+        }
     }
 }

@@ -54,18 +54,9 @@ namespace Solid.Infrastructure
                 => resolver.Resolve<IMultiTracer>().CreateBaseDomainTracer(creatingType));
 
             container.RegisterType<IMultiTracer, Diagnostics.Impl.MultiTracer>();
-            //container.RegisterCreator<IMultiTracer>(resolver =>
-            //{
-            //    var multiTracer = new Diagnostics.Impl.MultiTracer();
-            //    // configure TraceTarget(s) and TraceLevel(s) as desired (e.g. contolled by command line argument switches or by environment variables)
-            //    multiTracer.AddTracer(resolver.Resolve<IFileTracer>());
-            //    //multiTracer.AddTracer(resolver.Resolve<IConsoleTracer>().SetTraceLevel(INFO));
-            //    //multiTracer.SetTraceLevel(ERROR|WARNING|DEBUG|INFO|INOUT);
-            //    return multiTracer;
-            //});
 
             // register existing tracer implementations for potential later usage
-            container.RegisterType<IConsoleTracer, Diagnostics.Impl.ConsoleTracer>();
+            container.RegisterTypeAsTransient<IConsoleTracer, Diagnostics.Impl.ConsoleTracer>();
             container.RegisterTypeAsTransient<IFileTracer, Diagnostics.Impl.FileTracer>();
 
             // register trace configuration interface

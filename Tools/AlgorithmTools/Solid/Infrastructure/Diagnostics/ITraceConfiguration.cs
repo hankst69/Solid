@@ -5,20 +5,29 @@
 // </copyright>
 //----------------------------------------------------------------------------------
 
+using System.Diagnostics.Tracing;
+
 namespace Solid.Infrastructure.Diagnostics
 {
+    public enum TraceTarget
+    {
+        OFF,
+        FILE,
+        CONSOLE
+    }
+
     public interface ITraceConfiguration
     {
         void ConfigureFromCommandlineArgs(string[] commandLineArgs);
 
-        //void SetTraceLevel(ERROR|WARNING|DEBUG|INFO|INOUT);
-        //void SetFileTraceLevel();
-        //void SetConsoleTraceLevel();
+        TraceLevel TraceLevel { get; set; }
 
         void StartFileTracer(string fileName = null, string traceFolder = null);
         void StopFileTracer();
+        TraceLevel FileTraceLevel { get; set; }
 
         void StartConsoleTracer();
         void StopConsoleTracer();
+        TraceLevel ConsoleTraceLevel { get; set; }
     }
 }

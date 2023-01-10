@@ -1,6 +1,6 @@
 ﻿//----------------------------------------------------------------------------------
 // <copyright file="ConsoleTracer.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2020-2022. All Rights Reserved. Confidential.
+// Copyright (C) Siemens Healthcare GmbH, 2020-2023. All Rights Reserved. Confidential.
 // Author: Steffen Hanke
 // </copyright>
 //----------------------------------------------------------------------------------
@@ -27,11 +27,6 @@ namespace Solid.Infrastructure.Diagnostics.Impl
             CreateTraceEnvironment(traceDomain, traceScope);
         }
 
-        public void Dispose()
-        {
-            DisposeTraceEnvironment();
-        }
-
 
         protected override void WriteTrace(string level, string message)
         {
@@ -39,8 +34,8 @@ namespace Solid.Infrastructure.Diagnostics.Impl
 
             Console.WriteLine("{0} {1}/{2} #** {3} {4} {5} -> {6}<-",
                 DateTime.Now.ToString("HH:mm:ss.ffffff"),
-                m_ProcessId,
-                m_TreadId,
+                _processId,
+                _threadId,
                 levelPadded,
                 TraceDomain,
                 TraceScope,
@@ -56,14 +51,14 @@ namespace Solid.Infrastructure.Diagnostics.Impl
             return TraceDomain.Equals(traceDomainName) ? this : new ConsoleTracer(traceDomainName, string.Empty);
         }
 
-        public ITracer CreateSubDomainTracer(string subDomain)
+        public override ITracer CreateSubDomainTracer(string subDomain)
         {
             ConsistencyCheck.EnsureArgument(subDomain).IsNotNull();
             var traceDomain = string.IsNullOrEmpty(TraceDomain) ? subDomain : string.Concat(TraceDomain, "+", subDomain);
             return new ConsoleTracer(traceDomain, string.Empty);
         }
 
-        public ITracer CreateScopeTracer(string scopeName)
+        public override ITracer CreateScopeTracer(string scopeName)
         {
             return new ConsoleTracer(TraceDomain, scopeName);
         }
@@ -78,35 +73,28 @@ namespace Solid.Infrastructure.Diagnostics.Impl
             TraceDomain = traceDomain;
             TraceScope = traceScope;
 
-            m_CreationTime = DateTime.Now;
-            m_ProcessId = Process.GetCurrentProcess().Id;
-            //m_TreadId = Thread.CurrentThread.ManagedThreadId;
+            _creationTime = DateTime.Now;
+            _processId = Process.GetCurrentProcess().Id;
+            //_threadId = Thread.CurrentThread.ManagedThreadId;
 
 #pragma warning disable 618
-            m_TreadId = AppDomain.GetCurrentThreadId();
+            _threadId = AppDomain.GetCurrentThreadId();
 #pragma warning restore 618
 
             // entering trace
             Console.WriteLine("{0} {1}/{2} #*[ entering  {3} {4}",
-                m_CreationTime.ToString("HH:mm:ss.ffffff"),
-                m_ProcessId,
-                m_TreadId,
+                _creationTime.ToString("HH:mm:ss.ffffff"),
+                _processId,
+                _threadId,
                 TraceDomain,
                 TraceScope
                 );
         }
 
-        private void DisposeTraceEnvironment()
+        protected override void DisposeTraceEnvironment()
         {
-            if (m_IsDisposed)
-            {
-                return;
-            }
-
-            m_IsDisposed = true;
-
             var now = DateTime.Now;
-            var timeSpan = now - m_CreationTime;
+            var timeSpan = now - _creationTime;
             var spentTime = timeSpan.TotalMilliseconds > 9 ?
                 string.Format("{0} ms", System.Math.Round(timeSpan.TotalMilliseconds)) :
                 string.Format("{0} us", System.Math.Round(1000d * timeSpan.TotalMilliseconds));
@@ -114,18 +102,16 @@ namespace Solid.Infrastructure.Diagnostics.Impl
             // leaving trace
             Console.WriteLine("{0} {1}/{2} #*] leaving   {3} {4} -> duration={5}",
                 now.ToString("HH:mm:ss.ffffff"),
-                m_ProcessId,
-                m_TreadId,
+                _processId,
+                _threadId,
                 TraceDomain,
                 TraceScope,
                 spentTime
                 );
         }
 
-        private bool m_IsDisposed;
-        //private bool m_KeepStreamWriterAlive;
-        private DateTime m_CreationTime;
-        private int m_TreadId;
-        private int m_ProcessId;
+        private DateTime _creationTime;
+        private int _threadId;
+        private int _processId;
     }
 }

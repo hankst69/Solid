@@ -1,6 +1,6 @@
 ﻿//----------------------------------------------------------------------------------
 // <copyright file="NullTracer.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2019-2022. All Rights Reserved. Confidential.
+// Copyright (C) Siemens Healthcare GmbH, 2019-2023. All Rights Reserved. Confidential.
 // Author: Steffen Hanke
 // </copyright>
 //----------------------------------------------------------------------------------
@@ -14,6 +14,7 @@ namespace Solid.Infrastructure.Diagnostics.Impl
     {
         public string TraceDomain => string.Empty;
         public string TraceScope => string.Empty;
+        public TraceLevel TraceLevel { get; set; }
 
         public void Dispose() {}
         public ITracer CreateBaseDomainTracer() => this;
