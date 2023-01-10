@@ -9,15 +9,71 @@ using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
+using System.Linq;
+
 namespace Solid.Infrastructure.Diagnostics.Impl
 {
     public abstract class BaseTracer : ITracer
     {
         private bool _isDisposed;
+        private DateTime _creationTime;
+        private int _threadId;
+        private int _processId;
+        private readonly int _levelPadding = //9;
+            Enum.GetValues<TraceLevel>()
+            .Select(x => x == TraceLevel.InOut? 0 : x.ToString().Length)
+            .Max() + 2;
+        
+        protected virtual void WriteTraceEntry(string message) { }
 
-        protected virtual ITracer CreateBaseDomainTracer(string traceDomainName) { return null; }
+        private void WriteEnterTrace()
+        {
+            // write entering trace
+            if (IsTraceLevel(TraceLevel.InOut))
+            {
+                _creationTime = DateTime.Now;
+                _processId = Process.GetCurrentProcess().Id;
+                //_threadId = Thread.CurrentThread.ManagedThreadId;
+                #pragma warning disable 618
+                _threadId = AppDomain.GetCurrentThreadId();
+                #pragma warning restore 618
 
-        protected virtual void WriteTrace(string level, string message) { }
+                var traceEntry = $"{_creationTime.ToString("HH:mm:ss.ffffff")} {_processId}/{_threadId} #*[ entering  {TraceDomain} {TraceScope}";
+                WriteTraceEntry(traceEntry);
+            }
+        }
+
+        private void WriteLeaveTrace()
+        {
+            // write leaving trace
+            if (IsTraceLevel(TraceLevel.InOut))
+            {
+                var now = DateTime.Now;
+                var timeSpan = now - _creationTime;
+                var spentTime = timeSpan.TotalMilliseconds > 9 ?
+                    string.Format("{0} ms", System.Math.Round(timeSpan.TotalMilliseconds)) :
+                    string.Format("{0} us", System.Math.Round(1000d * timeSpan.TotalMilliseconds));
+
+                _processId = _processId == 0 ? Process.GetCurrentProcess().Id : _processId;
+                #pragma warning disable 618
+                _threadId = _threadId == 0 ? AppDomain.GetCurrentThreadId() : _threadId;
+                #pragma warning restore 618
+
+                var traceEntry = $"{now.ToString("HH:mm:ss.ffffff")} {_processId}/{_threadId} #*] leaving   {TraceDomain} {TraceScope} -> duration={spentTime}";
+                WriteTraceEntry(traceEntry);
+            }
+        }
+
+        protected void CreateTraceEnvironment(string traceDomain, string traceScope)
+        {
+            ConsistencyCheck.EnsureArgument(traceDomain).IsNotNull();
+            ConsistencyCheck.EnsureArgument(traceScope).IsNotNull();
+
+            TraceDomain = traceDomain;
+            TraceScope = traceScope;
+
+            WriteEnterTrace();
+        }
 
         protected virtual void DisposeTraceEnvironment() { }
 
@@ -27,16 +83,23 @@ namespace Solid.Infrastructure.Diagnostics.Impl
             {
                 return;
             }
-
             _isDisposed = true;
+
+            WriteLeaveTrace();
             DisposeTraceEnvironment();
         }
+
+        private bool IsTraceLevel(TraceLevel traceLevel) => (TraceLevel & traceLevel) > 0;
 
         private void WriteTraceInternal(TraceLevel level, string message)
         {
             if (IsTraceLevel(level))
             {
-                WriteTrace(level.ToString(), message);
+                var levelPadded = level.ToString().PadRight(_levelPadding);
+
+                var traceEntry = $"{DateTime.Now.ToString("HH:mm:ss.ffffff")} {_processId}/{_threadId} #** {levelPadded} {TraceDomain} {TraceScope} -> {message}<-";
+
+                WriteTraceEntry(traceEntry);
             }
         }
 
@@ -44,9 +107,7 @@ namespace Solid.Infrastructure.Diagnostics.Impl
         #region ITracerInfo
         public string TraceDomain { get; protected set; }
         public string TraceScope { get; protected set; }
-
         public TraceLevel TraceLevel { get; set; }
-        protected bool IsTraceLevel(TraceLevel traceLevel) => (TraceLevel & traceLevel) > 0;
         #endregion
 
 
@@ -142,6 +203,7 @@ namespace Solid.Infrastructure.Diagnostics.Impl
             return creatorType ?? typeof(void);
         }
 
+        protected virtual ITracer CreateBaseDomainTracer(string traceDomainName) { return null; }
         public abstract ITracer CreateSubDomainTracer(string subDomain);
         public abstract ITracer CreateScopeTracer([CallerMemberName] string scopeName = "");
         #endregion
