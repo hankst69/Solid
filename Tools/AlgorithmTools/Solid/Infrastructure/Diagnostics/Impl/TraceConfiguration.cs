@@ -16,6 +16,12 @@ namespace Solid.Infrastructure.Diagnostics.Impl
 {
     public class TraceConfiguration : ITraceConfiguration
     {
+        #region TestSupport
+        internal void TestApiSetupDelegate(ITraceConfiguration traceConfiguration) => _traceConfiguration = traceConfiguration;
+        internal ITracer TestApiGetFileTracer() => _fileTracer;
+        internal ITracer TestApiGetConsoleTracer() => _consoleTracer;
+        #endregion
+
         private readonly IMultiTracer _multiTracer;
         private readonly IFolderProvider _folderProvider;
         private readonly IDiResolve _resolver;
@@ -37,15 +43,9 @@ namespace Solid.Infrastructure.Diagnostics.Impl
             _folderProvider = folderProvider;
             _resolver = resolver;
             _traceConfiguration = this;
-        }
 
-        internal void TestSetUp(ITraceConfiguration traceConfiguration)
-        {
-            ConsistencyCheck.EnsureArgument(traceConfiguration).IsNotNull();
-            _traceConfiguration = traceConfiguration;
+            ConfigureFromEnvironment();
         }
-        internal ITracer TestGetFileTracer() => _fileTracer;
-        internal ITracer TestGetConsoleTracer() => _consoleTracer;
 
         public void ConfigureFromEnvironment()
         {

@@ -59,7 +59,7 @@ namespace Solid.Infrastructure_uTest.Diagnostics
         {
             // Arrange
             var delegateTargetMock = new Mock<ITraceConfiguration>();
-            _target.TestSetUp(delegateTargetMock.Object);
+            _target.TestApiSetupDelegate(delegateTargetMock.Object);
 
             // Act
             _target.ConfigureFromEnvironment();
@@ -73,7 +73,7 @@ namespace Solid.Infrastructure_uTest.Diagnostics
         {
             // Arrange
             var delegateTargetMock = new Mock<ITraceConfiguration>();
-            _target.TestSetUp(delegateTargetMock.Object);
+            _target.TestApiSetupDelegate(delegateTargetMock.Object);
             System.Environment.SetEnvironmentVariable(c_TraceTarget, TraceTarget.Off.ToString(), System.EnvironmentVariableTarget.Process);
 
             // Act
@@ -88,7 +88,7 @@ namespace Solid.Infrastructure_uTest.Diagnostics
         {
             // Arrange
             var delegateTargetMock = new Mock<ITraceConfiguration>();
-            _target.TestSetUp(delegateTargetMock.Object);
+            _target.TestApiSetupDelegate(delegateTargetMock.Object);
             System.Environment.SetEnvironmentVariable(c_TraceLevel, TraceLevel.Off.ToString(), System.EnvironmentVariableTarget.Process);
 
             // Act
@@ -124,17 +124,17 @@ namespace Solid.Infrastructure_uTest.Diagnostics
             // Assert
             if (expectTargetOff)
             {
-                _target.TestGetConsoleTracer().Should().BeNull();
-                _target.TestGetFileTracer().Should().BeNull();
+                _target.TestApiGetConsoleTracer().Should().BeNull();
+                _target.TestApiGetFileTracer().Should().BeNull();
             }
             if (expectTargetConsole)
             {
-                _target.TestGetConsoleTracer().Should().NotBeNull();
+                _target.TestApiGetConsoleTracer().Should().NotBeNull();
                 _resolverMock.Verify(x => x.TryResolve<IConsoleTracer>(), Times.Once);
             }
             if (expectTargetFile)
             {
-                _target.TestGetFileTracer().Should().NotBeNull();
+                _target.TestApiGetFileTracer().Should().NotBeNull();
                 // next verify will fail when a specific filename is given for the FileTracer
                 //_resolverMock.Verify(x => x.TryResolve<IFileTracer>(), Times.Once);
             }
