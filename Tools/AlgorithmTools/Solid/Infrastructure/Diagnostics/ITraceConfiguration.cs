@@ -9,15 +9,20 @@ using System.Diagnostics.Tracing;
 
 namespace Solid.Infrastructure.Diagnostics
 {
+    /// <summary>
+    /// TraceTarget
+    /// </summary>
     public enum TraceTarget
     {
-        OFF,
-        FILE,
-        CONSOLE
+        Off = 0,
+        File = 1,    // 2^0
+        Console = 2  // 2^1
     }
 
     public interface ITraceConfiguration
     {
+        public void ConfigureFromEnvironment();
+
         string[] ConfigureFromCommandlineArgs(string[] commandLineArgs);
 
         TraceLevel TraceLevel { get; set; }

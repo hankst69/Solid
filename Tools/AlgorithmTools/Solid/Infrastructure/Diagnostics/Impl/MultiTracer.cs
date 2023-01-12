@@ -53,7 +53,7 @@ namespace Solid.Infrastructure.Diagnostics.Impl
 
         public TraceLevel TraceLevel 
         { 
-            get => _tracers.FirstOrDefault()?.TraceLevel ?? TraceLevel.OFF;
+            get => _tracers.FirstOrDefault()?.TraceLevel ?? TraceLevel.Off;
             set => _tracers.ForEach(t => t.TraceLevel = value);
         }
 

@@ -15,12 +15,12 @@ namespace Solid.Infrastructure.Diagnostics
     /// </summary>
     public enum TraceLevel
     {
-        OFF = 0,
-        Error = 1, //2 ^ 0,
+        Off = 0,
+        Error = 1,   //2 ^ 0,
         Warning = 2, //2 ^ 1,
-        Debug = 4, //2 ^ 2,
-        Info = 8, //2 ^ 3,
-        InOut = 16, //2 ^ 4
+        Debug = 4,   //2 ^ 2,
+        Info = 8,    //2 ^ 3,
+        InOut = 16,  //2 ^ 4
         All = 0xffff
     }
 
