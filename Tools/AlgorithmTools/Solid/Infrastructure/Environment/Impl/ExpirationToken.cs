@@ -1,0 +1,50 @@
+﻿//----------------------------------------------------------------------------------
+// <copyright file="ExpirationToken.cs" company="Siemens Healthcare GmbH">
+// Copyright (C) Siemens Healthcare GmbH, 2020-2023. All Rights Reserved. Confidential.
+// Author: Steffen Hanke
+// </copyright>
+//----------------------------------------------------------------------------------
+
+using Solid.Infrastructure.Diagnostics;
+using System;
+
+namespace Solid.Infrastructure.Environment.Impl
+{
+    /// <inheritdoc/>
+    /// <summary>
+    /// API:NO
+    /// ExpirationToken
+    /// </summary>
+    public class ExpirationToken : IExpirationToken
+    {
+        private DateTime m_TimeStamp;
+
+        public ExpirationToken(object instance, long timeout)
+        {
+            ConsistencyCheck.EnsureArgument(instance, nameof(instance)).IsNotNull();
+            ConsistencyCheck.EnsureArgument(timeout, nameof(timeout)).IsGreaterOrEqual(1);
+
+            Instance = instance;
+            TimeOut = timeout;
+            m_TimeStamp = DateTime.Now;
+        }
+
+        public object Instance { get; }
+
+        public long TimeOut { get; }
+
+        public long LifeTime => (long)(DateTime.Now - m_TimeStamp).TotalMilliseconds;
+
+        public bool IsExpired => LifeTime > TimeOut;
+
+        public void Refresh()
+        {
+            m_TimeStamp = DateTime.Now;
+        }
+
+        public bool IsTokenOf(object instance)
+        {
+            return Instance == instance;
+        }
+    }
+}

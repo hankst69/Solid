@@ -190,7 +190,7 @@ namespace Solid.Infrastructure.Environment.Impl
         {
             pathName = pathName.Replace('\\', '_').TrimStart('_');
             pathName = pathName.Replace('/', '_').TrimStart('_');
-            return pathName;
+            return EnsureValidFileName(pathName);
         }
 
         public string EnsureValidPathName(string pathName)
