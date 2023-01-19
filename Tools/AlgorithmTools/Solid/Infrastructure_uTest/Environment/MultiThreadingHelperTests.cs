@@ -1,10 +1,9 @@
 ﻿using NUnit.Framework;
 
 using Solid.Infrastructure.Environment.Impl;
-using Solid.Infrastructure.Environment;
 using FluentAssertions;
-using System.Threading.Tasks;
 using System.Threading;
+using System;
 
 namespace Solid.Infrastructure_uTest.Environment
 {
@@ -19,23 +18,33 @@ namespace Solid.Infrastructure_uTest.Environment
         }
 
         [Test]
-        public void ExecuteDelayedInCurrentThreadTest()
+        public void ExecuteDelayed()
         {
             // ARRANGE
-            var value = 1;
             var sleep = 250;
+            var executed = false;
+            int executeThreadId = 0;
+            DateTime executeTime = DateTime.MinValue;
             var action = () => 
-            { 
-                value++;
+            {
+                executed = true;
+                executeTime = DateTime.Now;
+                executeThreadId = Thread.CurrentThread.ManagedThreadId;
             };
-            
+
+            var startThreadId = Thread.CurrentThread.ManagedThreadId;
+            var startTime = DateTime.Now;
+
             // ACT
-            _target.ExecuteDelayedInCurrentThread(action, sleep);
+            _target.ExecuteDelayed(action, sleep);
 
             // ASSERT
-            value.Should().Be(1);
+            executed.Should().BeFalse();
             Thread.Sleep(sleep+sleep);
-            value.Should().Be(2);
+
+            executed.Should().BeTrue();
+            (executeTime - startTime).TotalMilliseconds.Should().BeApproximately(sleep, precision: sleep/10);
+            //executeThreadId.Should().Be(startThreadId);
         }
     }
 }

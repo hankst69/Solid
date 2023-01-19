@@ -8,7 +8,6 @@
 using Solid.Infrastructure.Diagnostics;
 
 using System;
-//using System.Threading;
 using System.Threading.Tasks;
 
 
@@ -24,14 +23,10 @@ namespace Solid.Infrastructure.Environment.Impl
     {
         private readonly ITracer _tracer;
 
-        public MultiThreadingHelper()
+        public MultiThreadingHelper(ITracer tracer = null)
         {
-        }
-
-        public MultiThreadingHelper(ITracer tracer)
-        {
-            ConsistencyCheck.EnsureArgument(tracer).IsNotNull();
-            using var trace = _tracer.CreateScopeTracer();
+            _tracer = tracer;
+            using var trace = _tracer?.CreateScopeTracer();
         }
 
         public void Dispose()
@@ -39,24 +34,28 @@ namespace Solid.Infrastructure.Environment.Impl
             using var trace = _tracer?.CreateScopeTracer();
         }
 
-        public void ExecuteDelayedInCurrentThread(Action action, int milliseconds)
+        public void ExecuteDelayed(Action action, int milliseconds)
         {
             using var trace = _tracer?.CreateScopeTracer();
 
-            //var currentThreadSyncContext = SynchronizationContext.Current;
-            //var currentThreadTaskSheduler = TaskScheduler.FromCurrentSynchronizationContext();
-            var currentThreadTaskSheduler = TaskScheduler.Current;
             if (milliseconds < 0)
             {
                 // negative delay would mean to wait indefinitely
                 milliseconds = 0;
             }
+
+            ////SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
+            ////var currentThreadSyncContext = SynchronizationContext.Current;
+            ////var currentThreadTaskSheduler = TaskScheduler.FromCurrentSynchronizationContext();
+            //var currentThreadTaskSheduler = TaskScheduler.Current;
+
             Task.Delay(milliseconds).ContinueWith(t =>
             {
-                //var currentTaskScheduler = TaskScheduler.Current;
                 action();
-            }, currentThreadTaskSheduler);
+            //}, currentThreadTaskSheduler);
+            }, TaskContinuationOptions.ExecuteSynchronously);
         }
 
+        //public void ExecuteDelayedInCurrentThread(Action action, int milliseconds) => ExecuteDelayed(action, milliseconds);
     }
 }

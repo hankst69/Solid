@@ -18,6 +18,7 @@ namespace Solid.Infrastructure.Environment
         /// <remarks>The waiting does not cost cpu time. So this function allows to delay execution of code to a later moment.</remarks>
         /// <param name="action">The action to execute</param>
         /// <param name="milliseconds">The wait time in milliseconds</param>
-        void ExecuteDelayedInCurrentThread(Action action, int milliseconds);
+        //void ExecuteDelayedInCurrentThread(Action action, int milliseconds);
+        void ExecuteDelayed(Action action, int milliseconds);
     }
 }
