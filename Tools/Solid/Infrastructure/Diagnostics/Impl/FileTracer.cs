@@ -55,7 +55,8 @@ namespace Solid.Infrastructure.Diagnostics.Impl
             ConsistencyCheck.EnsureArgument(traceDomainName).IsNotNullOrEmpty();
             return traceDomainName.Equals(TraceDomain) ? this : new FileTracer(traceDomainName, string.Empty, _traceStreamWriter)
             {
-                TraceLevel = TraceLevel
+                TraceLevel = TraceLevel,
+                TraceScope = "class"
             }.WriteEnterTrace();
         }
 
@@ -65,8 +66,9 @@ namespace Solid.Infrastructure.Diagnostics.Impl
             var traceDomain = string.IsNullOrEmpty(TraceDomain) ? subDomain : string.Concat(TraceDomain, "+", subDomain);
             return new FileTracer(traceDomain, string.Empty, _traceStreamWriter)
             {
-                TraceLevel = TraceLevel
-            }.WriteEnterTrace();
+                TraceLevel = TraceLevel,
+                TraceScope = "class"
+            };//.WriteEnterTrace();
         }
 
         public override ITracer CreateScopeTracer(string scopeName)

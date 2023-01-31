@@ -40,7 +40,8 @@ namespace Solid.Infrastructure.Diagnostics.Impl
             ConsistencyCheck.EnsureArgument(traceDomainName).IsNotNullOrEmpty();
             return TraceDomain.Equals(traceDomainName) ? this : new ConsoleTracer(traceDomainName, string.Empty)
             {
-                TraceLevel = TraceLevel
+                TraceLevel = TraceLevel,
+                TraceScope = "class"
             }.WriteEnterTrace();
         }
 
@@ -50,7 +51,8 @@ namespace Solid.Infrastructure.Diagnostics.Impl
             var traceDomain = string.IsNullOrEmpty(TraceDomain) ? subDomain : string.Concat(TraceDomain, "+", subDomain);
             return new ConsoleTracer(traceDomain, string.Empty)
             {
-                TraceLevel = TraceLevel
+                TraceLevel = TraceLevel,
+                TraceScope = "class"
             }.WriteEnterTrace();
         }
 
