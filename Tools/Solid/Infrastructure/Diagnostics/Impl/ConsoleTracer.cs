@@ -41,7 +41,7 @@ namespace Solid.Infrastructure.Diagnostics.Impl
             return TraceDomain.Equals(traceDomainName) ? this : new ConsoleTracer(traceDomainName, string.Empty)
             {
                 TraceLevel = TraceLevel,
-                TraceScope = "class"
+                TraceScope = traceDomainName
             }.WriteEnterTrace();
         }
 
@@ -52,7 +52,7 @@ namespace Solid.Infrastructure.Diagnostics.Impl
             return new ConsoleTracer(traceDomain, string.Empty)
             {
                 TraceLevel = TraceLevel,
-                TraceScope = "class"
+                TraceScope = subDomain
             }.WriteEnterTrace();
         }
 

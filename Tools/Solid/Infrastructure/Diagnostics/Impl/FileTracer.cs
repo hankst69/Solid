@@ -56,7 +56,7 @@ namespace Solid.Infrastructure.Diagnostics.Impl
             return traceDomainName.Equals(TraceDomain) ? this : new FileTracer(traceDomainName, string.Empty, _traceStreamWriter)
             {
                 TraceLevel = TraceLevel,
-                TraceScope = "class"
+                TraceScope = traceDomainName
             }.WriteEnterTrace();
         }
 
@@ -67,7 +67,7 @@ namespace Solid.Infrastructure.Diagnostics.Impl
             return new FileTracer(traceDomain, string.Empty, _traceStreamWriter)
             {
                 TraceLevel = TraceLevel,
-                TraceScope = "class"
+                TraceScope = subDomain
             };//.WriteEnterTrace();
         }
 
