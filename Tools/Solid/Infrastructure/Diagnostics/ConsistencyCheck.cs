@@ -1,6 +1,6 @@
 ﻿//----------------------------------------------------------------------------------
 // <copyright file="ConsistencyCheck.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2017-2023. All Rights Reserved. Confidential.
+// Copyright (C) Siemens Healthcare GmbH, 2017-2022. All Rights Reserved. Confidential.
 // Author: Steffen Hanke
 // </copyright>
 //----------------------------------------------------------------------------------
@@ -9,8 +9,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 // redefine JetBrains.Annotations.NoEnumerationAttribute (without referencing JetBrains.Annotations.dll)
+
 namespace Solid.Infrastructure.Diagnostics
 {
     [AttributeUsage(AttributeTargets.Parameter)]
@@ -26,20 +28,17 @@ namespace Solid.Infrastructure.Diagnostics
     {
         public static Validation<T> EnsureArgument<T>(
             [NoEnumeration] T argument, 
-            //[CallerArgumentExpression("argument")] 
-            string argumentName = default)
+            [CallerArgumentExpression("argument")] string argumentName = default)
         {
             return new Validation<T>(argument, argumentName);
         }
 
         public static Validation<T> EnsureValue<T>(
             [NoEnumeration] T argument,
-            //[CallerArgumentExpression("argument")] 
-            string argumentName = default)
+            [CallerArgumentExpression("argument")] string argumentName = default)
         {
             return new Validation<T>(argument, argumentName);
         }
-
 
         public class Validation<T>
         {
