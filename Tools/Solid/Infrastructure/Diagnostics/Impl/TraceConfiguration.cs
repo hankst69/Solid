@@ -88,8 +88,8 @@ namespace Solid.Infrastructure.Diagnostics.Impl
                 .Where(x => !string.IsNullOrEmpty(x))
                 .Where(x => x.ToLower().StartsWith(c_traceTarget))
                 .Select(x => x.Substring(c_traceTarget.Length))
-                .SelectMany(x => x.Split(":"))
-                .SelectMany(x => x.Split("|"))
+                .SelectMany(x => x.Split(':'))
+                .SelectMany(x => x.Split('|'))
                 .ToArray();
 
             var traceLevelSelections = commandLineArgs
@@ -97,7 +97,7 @@ namespace Solid.Infrastructure.Diagnostics.Impl
                 .Select(x => x.ToLower())
                 .Where(x => x.StartsWith(c_traceLevel))
                 .Select(x => x.Substring(c_traceLevel.Length))
-                .SelectMany(x => x.Split(":"))
+                .SelectMany(x => x.Split(':'))
                 .ToArray();
 
             var traceLevelsGlobal = traceLevelSelections.Where(x => !x.Contains('#'))
@@ -108,13 +108,13 @@ namespace Solid.Infrastructure.Diagnostics.Impl
                 .Select(x => x.Substring(TraceTarget.File.ToString().Length + 1)).ToArray();
 
             var traceTargets = traceTargetSelections
-                .Select(x => x.Contains('#') ? x.Split("#")[0] : x)
+                .Select(x => x.Contains('#') ? x.Split('#')[0] : x)
                 .Select(x => Enum.TryParse<TraceTarget>(x.Trim(), ignoreCase: true, out TraceTarget target)
                     ? target
                     : TraceTarget.Off);
 
             var levelGlobal = !traceLevelsGlobal.Any() ? TraceLevel.Off : (TraceLevel) traceLevelsGlobal 
-                .SelectMany(x => x.Split("|"))
+                .SelectMany(x => x.Split('|'))
                 .Select(x => Enum.TryParse<TraceLevel>(x.Trim(), ignoreCase: true, out TraceLevel level)
                     ? level
                     : TraceLevel.Off)
@@ -122,7 +122,7 @@ namespace Solid.Infrastructure.Diagnostics.Impl
                 .Aggregate((a, b) => a | b);
 
             var levelConsole = !traceLevelsConsole.Any() ? TraceLevel.Off : (TraceLevel) traceLevelsConsole
-                .SelectMany(x => x.Split("|"))
+                .SelectMany(x => x.Split('|'))
                 .Select(x => Enum.TryParse<TraceLevel>(x.Trim(), ignoreCase: true, out TraceLevel level)
                     ? level
                     : TraceLevel.Off)
@@ -130,7 +130,7 @@ namespace Solid.Infrastructure.Diagnostics.Impl
                 .Aggregate((a, b) => a | b);
 
             var levelFile = !traceLevelsFile.Any() ? TraceLevel.Off : (TraceLevel) traceLevelsFile
-                .SelectMany(x => x.Split("|"))
+                .SelectMany(x => x.Split('|'))
                 .Select(x => Enum.TryParse<TraceLevel>(x.Trim(), ignoreCase: true, out TraceLevel level)
                     ? level
                     : TraceLevel.Off)
@@ -142,8 +142,8 @@ namespace Solid.Infrastructure.Diagnostics.Impl
 
             var targetFileName = traceTargetSelections.FirstOrDefault(x =>
                 x.ToLower().StartsWith($"{TraceTarget.File.ToString().ToLower()}#")
-                && x.Split("#").Length > 1)
-                ?.Split("#")[1];
+                && x.Split('#').Length > 1)
+                ?.Split('#')[1];
 
             if (traceTargets.Any())
             {

@@ -1,6 +1,6 @@
 ﻿//----------------------------------------------------------------------------------
 // <copyright file="DiContainer.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2017-2022. All Rights Reserved. Confidential.
+// Copyright (C) Siemens Healthcare GmbH, 2017-2023. All Rights Reserved. Confidential.
 // Author: Steffen Hanke
 // </copyright>
 //----------------------------------------------------------------------------------
@@ -109,7 +109,8 @@ namespace Solid.Infrastructure.DiContainer.Impl
                     return true;
                 }
                 // 3) proof if registered concrete type implements requested type (is assignable to type)
-                return o.ConcreteType.IsAssignableTo(type);
+                //return o.ConcreteType.IsAssignableTo(type);
+                return type.IsAssignableFrom(o.ConcreteType);
             });
         }
 

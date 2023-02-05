@@ -8,7 +8,6 @@
 using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
-
 using System.Linq;
 
 namespace Solid.Infrastructure.Diagnostics.Impl
@@ -20,7 +19,7 @@ namespace Solid.Infrastructure.Diagnostics.Impl
         private int _threadId;
         private int _processId;
         private readonly int _levelPadding = //9;
-            Enum.GetValues<TraceLevel>()
+            ((TraceLevel[])Enum.GetValues(typeof(TraceLevel)))
             .Select(x => x == TraceLevel.InOut? 0 : x.ToString().Length)
             .Max() + 2;
         
