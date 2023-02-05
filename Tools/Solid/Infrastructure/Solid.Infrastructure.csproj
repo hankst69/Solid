@@ -2,7 +2,11 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFramework Condition="'$(TargetFramework)'==''">net7.0</TargetFramework>
+		
+		<TargetFramework>net48</TargetFramework>
+		<!--LangVersion>10.0</LangVersion-->
+		<TargetFramework Condition="'$(TargetFramework)'==''">net7.0</TargetFramework>
+		
     <!--Nullable>enable</Nullable-->
     <VersionPrefix>1.0</VersionPrefix>
     <Version>$(VersionPrefix).0</Version>
