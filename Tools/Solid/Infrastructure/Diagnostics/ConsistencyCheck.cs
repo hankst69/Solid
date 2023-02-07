@@ -1,6 +1,6 @@
 ﻿//----------------------------------------------------------------------------------
 // <copyright file="ConsistencyCheck.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2017-2022. All Rights Reserved. Confidential.
+// Copyright (C) Siemens Healthcare GmbH, 2017-2023. All Rights Reserved. Confidential.
 // Author: Steffen Hanke
 // </copyright>
 //----------------------------------------------------------------------------------
@@ -27,15 +27,21 @@ namespace Solid.Infrastructure.Diagnostics
     public static class ConsistencyCheck
     {
         public static Validation<T> EnsureArgument<T>(
-            [NoEnumeration] T argument, 
-            [CallerArgumentExpression("argument")] string argumentName = default)
+            [NoEnumeration] T argument,
+#if NET6_0_OR_GREATER
+            [CallerArgumentExpression("argument")] 
+#endif
+            string argumentName = default)
         {
             return new Validation<T>(argument, argumentName);
         }
 
         public static Validation<T> EnsureValue<T>(
             [NoEnumeration] T argument,
-            [CallerArgumentExpression("argument")] string argumentName = default)
+#if NET6_0_OR_GREATER
+            [CallerArgumentExpression("argument")] 
+#endif
+            string argumentName = default)
         {
             return new Validation<T>(argument, argumentName);
         }

@@ -29,8 +29,28 @@ namespace Solid.Infrastructure.Diagnostics.Impl
 
         protected override void WriteTraceEntry(string message)
         {
-            Console.Out.WriteLine(message);
-            Console.Out.Flush();
+            var isError = message.Contains(" #** Error ");
+            var isWarning = !isError && message.Contains(" #** Warning ");
+            var isDebug = !isError && !isWarning && message.Contains(" #** Debug ");
+            //var isInfo = !isError && !isWarning && !isDebug && message.Contains(" #** Info ");
+
+            var fgColor = Console.ForegroundColor;
+            var newFgColor = fgColor;
+            newFgColor = isError ? ConsoleColor.Red : newFgColor;
+            newFgColor = isWarning ? ConsoleColor.DarkYellow : newFgColor;
+            newFgColor = isDebug ? ConsoleColor.DarkGreen : newFgColor;
+            Console.ForegroundColor = newFgColor;
+            if (isError)
+            {
+                Console.Error.WriteLine(message);
+                Console.Error.Flush();
+            }
+            else
+            {
+                Console.Out.WriteLine(message);
+                Console.Out.Flush();
+            }
+            Console.ForegroundColor = fgColor;
         }
 
 
