@@ -103,7 +103,7 @@ namespace Solid.Infrastructure.Diagnostics.Impl
 
                 var levelPadded = level.ToString().PadRight(_levelPadding);
 
-                var traceEntry = $"{DateTime.Now.ToString("HH:mm:ss.ffffff")} {_processId}/{_threadId} #** {levelPadded} {TraceDomain} {TraceScope} -> {message}<-";
+                var traceEntry = $"{DateTime.Now.ToString("HH:mm:ss.ffffff")} {_processId}/{_threadId} #** {levelPadded} {TraceDomain} {TraceScope} -> {message} <-";
 
                 WriteTraceEntry(traceEntry);
             }

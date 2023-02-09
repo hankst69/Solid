@@ -29,10 +29,21 @@ namespace Solid.Infrastructure.Diagnostics.Impl
 
         protected override void WriteTraceEntry(string message)
         {
+            ConsistencyCheck.EnsureArgument(message).IsNotNull();
+
             var isError = message.Contains(" #** Error ");
             var isWarning = !isError && message.Contains(" #** Warning ");
             var isDebug = !isError && !isWarning && message.Contains(" #** Debug ");
             //var isInfo = !isError && !isWarning && !isDebug && message.Contains(" #** Info ");
+
+            if (message.EndsWith(" <-"))
+            {
+                message = message.Substring(0, message.Length - 3);
+            }
+            if (message.Length > 160)
+            {
+                message = message.Replace("-> ", "->\n ");
+            }
 
             var fgColor = Console.ForegroundColor;
             var newFgColor = fgColor;
@@ -40,6 +51,7 @@ namespace Solid.Infrastructure.Diagnostics.Impl
             newFgColor = isWarning ? ConsoleColor.DarkYellow : newFgColor;
             newFgColor = isDebug ? ConsoleColor.DarkGreen : newFgColor;
             Console.ForegroundColor = newFgColor;
+
             if (isError)
             {
                 Console.Error.WriteLine(message);
@@ -50,6 +62,7 @@ namespace Solid.Infrastructure.Diagnostics.Impl
                 Console.Out.WriteLine(message);
                 Console.Out.Flush();
             }
+
             Console.ForegroundColor = fgColor;
         }
 
