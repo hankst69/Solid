@@ -1,6 +1,6 @@
 ﻿//----------------------------------------------------------------------------------
 // <copyright file="ExceptionExtensions.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2016-2018. All Rights Reserved. Confidential.
+// Copyright (C) Siemens Healthcare GmbH, 2016-2023. All Rights Reserved. Confidential.
 // Author: Steffen Hanke
 // </copyright>
 //----------------------------------------------------------------------------------
@@ -12,6 +12,29 @@ namespace Solid.Infrastructure.RuntimeTypeExtensions
 {
     public static class ExceptionExtensions
     {
+        public static string GetDetails(this Exception exception)
+        {
+            if (exception == null)
+            {
+                return "exception is null";
+            }
+
+            Func<Exception, string, string> formatException = (ex, padding)
+                => $"\n-----\n{padding}Exception: {ex.GetType().Name}\n{padding}Source: {ex.Source}\n{padding}Message: {ex.Message}\nStackTrace: \n{ex.StackTrace}";
+
+            var padding = string.Empty;
+            var exceptionMessageTree = string.Empty;
+            while (exception != null)
+            {
+                exception.PreserveStackTrace();
+                exceptionMessageTree = string.Concat(exceptionMessageTree, formatException(exception, padding));
+                exception = exception.InnerException;
+                //activate next line to have an increased indenting for each next inner exception:
+                //padding = string.Concat(padding, "  ");
+            }
+            return exceptionMessageTree;
+        }
+
         private static readonly Action<Exception> s_InternalPreserveStackTrace =
             (Action<Exception>)Delegate.CreateDelegate(
                 typeof(Action<Exception>),
@@ -31,7 +54,7 @@ namespace Solid.Infrastructure.RuntimeTypeExtensions
 
 
         // this implementation works without reflection but it will fail to work 
-        // with private exceptions that do not have a serializatoin constructor (ObjectManager.DoFixups call)
+        // with private exceptions that do not have a serialization constructor (ObjectManager.DoFixups call)
         //public static void PreserveStackTrace(this Exception exception)
         //{
         //    if (exception == null)
