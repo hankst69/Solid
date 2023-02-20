@@ -52,7 +52,7 @@ namespace Solid.Infrastructure.Diagnostics.Impl
             newFgColor = isDebug ? ConsoleColor.DarkGreen : newFgColor;
             Console.ForegroundColor = newFgColor;
 
-            if (isError)
+            if (isError) 
             {
                 Console.Error.WriteLine(message);
                 Console.Error.Flush();
@@ -74,7 +74,7 @@ namespace Solid.Infrastructure.Diagnostics.Impl
             return TraceDomain.Equals(traceDomainName) ? this : new ConsoleTracer(traceDomainName, string.Empty)
             {
                 TraceLevel = TraceLevel,
-                TraceScope = traceDomainName
+                TraceScope = "_"
             }.WriteEnterTrace();
         }
 
@@ -85,7 +85,7 @@ namespace Solid.Infrastructure.Diagnostics.Impl
             return new ConsoleTracer(traceDomain, string.Empty)
             {
                 TraceLevel = TraceLevel,
-                TraceScope = subDomain
+                TraceScope = "_"
             }.WriteEnterTrace();
         }
 

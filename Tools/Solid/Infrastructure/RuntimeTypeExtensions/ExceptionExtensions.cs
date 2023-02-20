@@ -19,20 +19,21 @@ namespace Solid.Infrastructure.RuntimeTypeExtensions
                 return "exception is null";
             }
 
-            Func<Exception, string, string> formatException = (ex, padding)
-                => $"\n-----\n{padding}Exception: {ex.GetType().Name}\n{padding}Source: {ex.Source}\n{padding}Message: {ex.Message}\nStackTrace: \n{ex.StackTrace}";
-
             var padding = string.Empty;
-            var exceptionMessageTree = string.Empty;
+            var exceptionDetails = string.Empty;
             while (exception != null)
             {
-                exception.PreserveStackTrace();
-                exceptionMessageTree = string.Concat(exceptionMessageTree, formatException(exception, padding));
+                //exception.PreserveStackTrace();
+
+                exceptionDetails = string.Concat(
+                    exceptionDetails,
+                    $"\n-----\n{padding}Exception: {exception.GetType().Name}\n{padding}Source: {exception.Source}\n{padding}Message: {exception.Message}\nStackTrace: \n{exception.StackTrace}"
+                );
+
+                //padding = string.Concat(padding, "  "); //activate this line to have an increased indenting for each next inner exception
                 exception = exception.InnerException;
-                //activate next line to have an increased indenting for each next inner exception:
-                //padding = string.Concat(padding, "  ");
             }
-            return exceptionMessageTree;
+            return exceptionDetails;
         }
 
         private static readonly Action<Exception> s_InternalPreserveStackTrace =
