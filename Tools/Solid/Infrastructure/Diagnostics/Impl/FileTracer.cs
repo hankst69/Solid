@@ -1,6 +1,6 @@
 ﻿//----------------------------------------------------------------------------------
 // <copyright file="FileTracer.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2019-2022. All Rights Reserved. Confidential.
+// Copyright (C) Siemens Healthcare GmbH, 2019-2023. All Rights Reserved. Confidential.
 // Author: Steffen Hanke
 // </copyright>
 //----------------------------------------------------------------------------------
@@ -8,7 +8,6 @@
 using Solid.Infrastructure.Environment;
 
 using System;
-using System.Diagnostics;
 using System.IO;
 
 namespace Solid.Infrastructure.Diagnostics.Impl
@@ -28,6 +27,7 @@ namespace Solid.Infrastructure.Diagnostics.Impl
         public FileTracer(string fileName)
         {
             ConsistencyCheck.EnsureArgument(fileName).IsNotNullOrEmpty();
+            _folderProvider ??= new Solid.Infrastructure.Environment.Impl.FolderProvider();
             fileName = _folderProvider.EnsureValidPathName(fileName);
             fileName = _folderProvider.EnsureValidFileName(fileName);
             CreateTraceEnvironment(ReadTraceDomainFromCallStack(), string.Empty, new StreamWriter(fileName));
