@@ -81,22 +81,21 @@ namespace Solid.Infrastructure.Diagnostics.Impl
             // -TraceLevel:Console#Off|InOut|Info|Warning|Error|Debug|All
             // -TraceLevel:Off|All|InOut|Info|Warning|Error|Debug:File#Off|All|InOut|Info|Warning|Error|Debug:Console#Off|All|InOut|Info|Warning|Error|Debug
 
-            string c_traceTarget = $"-{typeof(TraceTarget).Name.ToLower()}:";
-            string c_traceLevel = $"-{typeof(TraceLevel).Name.ToLower()}:";
+            string c_traceTargetId = $"-{typeof(TraceTarget).Name.ToLower()}:";
+            string c_traceLevelId = $"-{typeof(TraceLevel).Name.ToLower()}:";
 
             var traceTargetSelections = commandLineArgs
                 .Where(x => !string.IsNullOrEmpty(x))
-                .Where(x => x.ToLower().StartsWith(c_traceTarget))
-                .Select(x => x.Substring(c_traceTarget.Length))
-                .SelectMany(x => x.Split(':'))
+                .Where(x => x.ToLower().StartsWith(c_traceTargetId))
+                .Select(x => x.Substring(c_traceTargetId.Length))
                 .SelectMany(x => x.Split('|'))
                 .ToArray();
 
             var traceLevelSelections = commandLineArgs
                 .Where(x => !string.IsNullOrEmpty(x))
                 .Select(x => x.ToLower())
-                .Where(x => x.StartsWith(c_traceLevel))
-                .Select(x => x.Substring(c_traceLevel.Length))
+                .Where(x => x.StartsWith(c_traceLevelId))
+                .Select(x => x.Substring(c_traceLevelId.Length))
                 .SelectMany(x => x.Split(':'))
                 .ToArray();
 
@@ -161,7 +160,9 @@ namespace Solid.Infrastructure.Diagnostics.Impl
                 }
                 if (targetFile)
                 {
-                    StartFileTracer(targetFileName);
+                    var fileName = targetFileName != null ? Path.GetFileName(targetFileName) : null;
+                    var folderName = fileName == null ? null : Path.GetDirectoryName(targetFileName);
+                    StartFileTracer(fileName, folderName);
                 }
             }
 
@@ -179,8 +180,8 @@ namespace Solid.Infrastructure.Diagnostics.Impl
             }
 
             return commandLineArgs
-                .Where(x => !x.ToLower().StartsWith(c_traceTarget))
-                .Where(x => !x.ToLower().StartsWith(c_traceLevel))
+                .Where(x => !x.ToLower().StartsWith(c_traceTargetId))
+                .Where(x => !x.ToLower().StartsWith(c_traceLevelId))
                 .ToArray();
         }
 
@@ -223,7 +224,7 @@ namespace Solid.Infrastructure.Diagnostics.Impl
             {
                 folderName = string.IsNullOrEmpty(folderName) ? _folderProvider.GetAppTraceFolder() : folderName;
 
-                fileName = _folderProvider.ConvertPathNameIntoFileName(fileName);
+                //fileName = _folderProvider.ConvertPathNameIntoFileName(fileName);
                 fileName = _folderProvider.EnsureValidFileName(fileName);
                 folderName = _folderProvider.EnsureValidPathName(folderName);
 

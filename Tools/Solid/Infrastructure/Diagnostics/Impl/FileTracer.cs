@@ -9,6 +9,7 @@ using Solid.Infrastructure.Environment;
 
 using System;
 using System.IO;
+using System.Runtime;
 
 namespace Solid.Infrastructure.Diagnostics.Impl
 {
@@ -28,8 +29,13 @@ namespace Solid.Infrastructure.Diagnostics.Impl
         {
             ConsistencyCheck.EnsureArgument(fileName).IsNotNullOrEmpty();
             _folderProvider ??= new Solid.Infrastructure.Environment.Impl.FolderProvider();
-            fileName = _folderProvider.EnsureValidPathName(fileName);
-            fileName = _folderProvider.EnsureValidFileName(fileName);
+
+            var folderName = _folderProvider.EnsureValidPathName(Path.GetDirectoryName(fileName));
+            var filename = _folderProvider.EnsureValidFileName(Path.GetFileName(fileName));
+            fileName = Path.Combine(folderName, filename);
+
+            Console.WriteLine($"Writing TraceFile '{fileName}'");
+
             CreateTraceEnvironment(ReadTraceDomainFromCallStack(), string.Empty, new StreamWriter(fileName));
         }
 
@@ -97,10 +103,10 @@ namespace Solid.Infrastructure.Diagnostics.Impl
                 // we setup a new trace file which should relate to current application name and date/time of creation
                 var traceFileName = _folderProvider.GetNewAppTraceFile();
 
+                Console.WriteLine($"Writing TraceFile '{traceFileName}'"); //+ $" ({this.GetType().FullName})");
+
                 _traceStreamWriter = new StreamWriter(traceFileName);
                 ConsistencyCheck.EnsureValue(_traceStreamWriter).IsNotNull();
-
-                Console.WriteLine($"Created new TraceFile '{traceFileName}'"); //+ $" ({this.GetType().FullName})");
             }
             else
             {
