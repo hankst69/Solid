@@ -20,7 +20,7 @@ namespace Solid.Infrastructure
     /// - EventAggregator
     /// - StateMachineCreator
     /// - FolderProvider
-    /// - Tracing infrastucure (but initially does not trace without further configuration
+    /// - Tracing infrastucure (but initially does not trace without further configuration unless envronment varaiables TraceTarget and TraceLevel are defines approriate)
     /// 
     /// remark:
     /// there happens no actual creation of any of the registerted components
@@ -39,7 +39,7 @@ namespace Solid.Infrastructure
         {
             ConsistencyCheck.EnsureArgument(container).IsNotNull();
 
-            
+
             // a) register SOLID infrastructure components
             container.RegisterType<IEventAggregator, EventAggregator.Impl.EventAggregator>();
             container.RegisterType<IStateMachineCreator, StateMachine.Impl.StateMachineCreator>();
@@ -47,8 +47,9 @@ namespace Solid.Infrastructure
 
             // b) register basic infrastructure components
             container.RegisterTypeAsTransient<IFolderProvider, Environment.Impl.FolderProvider>();
+            container.RegisterType<IMultiThreadingHelper, Environment.Impl.MultiThreadingHelper>();
 
-            
+
             // c) register basic trace environment
             container.RegisterCreatorAsTransient<ITracer>((resolver, creatingType) 
                 => resolver.Resolve<IMultiTracer>().CreateBaseDomainTracer(creatingType));
