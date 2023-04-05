@@ -1,35 +1,52 @@
-# Solid.Net
+# Solid
+
 
 Introduction
 ------------
 
-The Solid.Net framework enables the development of .Net C\# applications based on the SOLID design principles.
-Single-responsibility principle
-Open–closed principle
-Liskov substitution principle
-Interface segregation principle
-Dependency inversion principle
+The Solid framework enables the development of .Net C\# applications based on the __SOLID__ design principles.
 
-The main components are:
-DependencyInjectionContainer that allows Construcor injection and has hight flecibility for registering the types at the container (register instances, types or even creator funcs)
+|Acronym|Principle|
+|:---:|:---|
+| __S__ |Single-responsibility principle|
+| __O__ |Open–closed principle|
+| __L__ |Liskov substitution principle|
+| __I__ |Interface segregation principle|
+| __D__ |Dependency inversion principle|
 
-Diagnostics api that comes with:
-- an abstraction of Logging and Tracing
-- implememntations for output onto Console or File
-- configuration api that allows selection of TraceLevel and Output depending on Environment variables, CommandLineArgs or programmatically
-- support for prerequisite checks of input argument in a fluent language way
 
-EventAggregator for loosely coupling but still based on strict types (no direct dependency of units, coupling based on events)
 
-free configurable StateMachine implementation
+Components
+----------
 
-Dicom abstraction that was introduced to operate on Dicom images independent on their technical source (files system vs, syngo.via memory instances)
+1. __DependencyInjectionContainer__
+   * Implements constructor injection
+   * Comes with high flexibility for registering the units at the container
+   * It allows registration of existing object __instances__ but also the registering of a __type__ or a __creator func__.
+   * In case of registering types or creator funcs, the lifecycle can be choosen between __Transient__ or __Singleton__.
+   * Detects circular dependencies but only at resolving, not at registration. An explicite exception will be thrown instead of endless recursion.
 
-this Dicom api enables also to:
-- operate on (MR)ImageAttributes on a semantical level (independent from concrete Dicom type like EnhancedMultiFrameImages vs. SingleDicomInages) for ordering Images or to parametrize algorithms
-- group images into Volume blocks
-- extract the pixel data and build volume blobs
-- convert the original pixelData into different target .net data types
+2. __Diagnostics__
+   * Provides abstraction of Logging and Tracing
+   * Comes with implememntations for output onto Console or File
+   * Comes with TraceConfiguration api that allows selection of TraceLevel and Output depending on Environment variables, CommandLineArgs or programmatically
+   * Supports validation of function argument prerequisites via a fluent ConsitencyCheck implementation
+
+3. __EventAggregator__
+   * For loosely coupling of units but still based on strict types (no direct dependency of units, coupling based on events)
+
+4. __StateMachine__
+   * Flexible configuration of states, triggers and able with fluent configuration api
+   * Support of export into DotGraph format
+   * Currently no support for sub states
+
+5. __Dicom__
+   * An abstraction that was introduced to operate on Dicom images independent on their technical source (files system vs memory instances)
+   * This Dicom api enables also to:
+     - operate on (MR)ImageAttributes on a semantical level (independent from concrete Dicom type like EnhancedMultiFrameImages vs. SingleDicomInages) for ordering Images or to parametrize algorithms
+     - group images into Volume blocks
+     - extract the pixel data and build volume blobs
+     - convert the original pixelData into different .net target data types
 
 
 License
@@ -42,38 +59,32 @@ Namespace layout
 ----------------
 
 | Namespace | Content |
-|:----------------:|:-----------------------------|
-|Solid.Net.Infrastructure|InfrastructureDiContainer, InfrastructureRegistrar|
-|Solid.Net.Infrastructure.BootStrapper|IBootStrapper, IBootable|
-|Solid.Net.Infrastructure.BootStrapper.Impl|BootStrapper|
-|Solid.Net.Infrastructure.Diagnostics|ConsistencyCheck, ILogger, ITracer, ITraceConfiguration|
-|Solid.Net.Infrastructure.Diagnostics.Impl|FileTracer, ConsoleTracer, NullTracer, MultiTracer, TraceConfiguration|
-|Solid.Net.Infrastructure.DiContainer|IDiContainer, IDiResolve, IDiRegister, IDiRegistrar, IDiIsRegistered|
-|Solid.Net.Infrastructure.DiContainer.Impl|DiContainer|
-|Solid.Net.Infrastructure.EventAggregator|IEventAggregator, IEvent, IHandleEvent|
-|Solid.Net.Infrastructure.EventAggregator.Impl|EventAggregator|
-|Solid.Net.Infrastructure.StateMachine|IStateMachine, IStateMachineCreator, IStateMachineStateConfiguration, IStateMachineInfo|
-|Solid.Net.Infrastructure.StateMachine.Impl|StateMachine, StateMachineCreator, StateMachineStateConfiguration, StateMachineInfo. StateMachineDotGraphFormatter|
-|Solid.Net.Infrastructure.RuntimeTypeExtensions|...|
-|Solid.Net.Infrastructure_uTest|Unit tests|
+|:----------|:--------|
+|Solid.Infrastructure|InfrastructureRegistrar, InfrastructureDiContainer|
+|Solid.Infrastructure.BootStrapper|IBootStrapper, IBootable|
+|Solid.Infrastructure.BootStrapper.Impl|BootStrapper|
+|Solid.Infrastructure.Diagnostics|ConsistencyCheck, ILogger, ITracer, ITraceConfiguration|
+|Solid.Infrastructure.Diagnostics.Impl|FileTracer, ConsoleTracer, NullTracer, MultiTracer, TraceConfiguration|
+|Solid.Infrastructure.DiContainer|IDiContainer, IDiResolve, IDiRegister, IDiRegistrar, IDiIsRegistered|
+|Solid.Infrastructure.DiContainer.Impl|DiContainer|
+|Solid.Infrastructure.EventAggregator|IEventAggregator, IEvent, IHandleEvent|
+|Solid.Infrastructure.EventAggregator.Impl|EventAggregator|
+|Solid.Infrastructure.StateMachine|IStateMachine, IStateMachineCreator, IStateMachineStateConfiguration, IStateMachineInfo|
+|Solid.Infrastructure.StateMachine.Impl|StateMachine, StateMachineCreator, StateMachineStateConfiguration, StateMachineInfo. StateMachineDotGraphFormatter|
+|Solid.Infrastructure.RuntimeTypeExtensions|...|
+|Solid.Infrastructure_uTest|Unit tests|
+|||
+|__Namespace__|__Content__|
+|Solid.Dicom|...|
+|Solid.Dicom.Impl|...|
+|Solid.Dicom_uTest|Unit tests|
+|||
+|__Namespace__|__Content__|
+|Solid.DicomAdapters.FoDicom|...|
+|Solid.DicomAdapters.FoDicom.Impl|...|
+|Solid.DicomAdapters.FoDicom_uTest|Unit tests|
+|||
+|__Namespace__|__Content__|
+|Solid.TestInfrastructure|...|
+|Solid.TestInfrastructure_uTest|Unit tests|
 
-| Namespace | Content |
-|:----------------:|:-----------------------------|
-|Solid.Net.Dicom|...|
-|Solid.Net.Dicom.Impl|...|
-|Solid.Net.Dicom_uTest|Unit tests|
-
-| Namespace | Content |
-|:----------------:|:-----------------------------|
-|Solid.Net.DicomAdapters.FoDicom|...|
-|Solid.Net.DicomAdapters.FoDicom.Impl|...|
-|Solid.Net.DicomAdapters.FoDicom_uTest|Unit tests|
-
-| Namespace | Content |
-|:----------------:|:-----------------------------|
-|Solid.Net.TestInfrastructure|...|
-|Solid.Net.TestInfrastructure_uTest|Unit tests|
-
-
-Credits
--------
