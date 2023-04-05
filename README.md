@@ -24,7 +24,9 @@ Components
    * Comes with high flexibility for registering the units at the container
    * It allows registration of existing object __instances__ but also the registering of a __type__ or a __creator func__.
    * In case of registering types or creator funcs, the lifecycle can be choosen between __Transient__ or __Singleton__.
-   * Detects circular dependencies but only at resolving, not at registration. An explicite exception will be thrown instead of endless recursion.
+   * Throws TypeNotRegisteredException when trying to resolve a type that was not registered.
+   * Throws TypeNotRegisteredException when the type to resolve is registered but any of its dependencies is not registered.
+   * Throws CircularDependencyException when the typ to resolve depends on arguments that (over multiple steps) redirect to type to reslove.
 
 2. __Diagnostics__
    * Provides abstraction of Logging and Tracing

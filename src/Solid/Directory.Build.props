@@ -1,0 +1,35 @@
+<Project>
+
+  <!-- Basic directory settings that need to be done before all other settings-->
+	<PropertyGroup>
+		<!-- Just locate where the IPIPE solution is located to have a defined root -->
+		<BuildRoot>$([MSBuild]::GetDirectoryNameOfFileAbove('$(MSBuildThisFileDirectory)', 'Solid.sln'))</BuildRoot>
+
+    <BaseIntermediateOutputPath>$(BuildRoot)_Build\obj\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
+    <IntermediateOutputPath>$(BaseIntermediateOutputPath)\$(Configuration)\</IntermediateOutputPath>
+    <CompilerGeneratedFilesOutputPath>$(BaseIntermediateOutputPath)\GeneratedFiles</CompilerGeneratedFilesOutputPath>
+
+    <OutputPath>$(BuildRoot)\_Build\$(Configuration)\$(MSBuildProjectName)\</OutputPath>
+    <PublishDir>$(BuildRoot)\_Build\Publish\$(MSBuildProjectName)</PublishDir>
+
+    <!-- aliases for older names -->
+    <IntDir>$(IntermediateOutputPath)</IntDir>
+    <OutDir>$(OutputPath)</OutDir>
+  </PropertyGroup>
+
+  
+  <!-- Framework and Runtime settings -->
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<!-- This property is to better control the windows targets. Since we want to change to different windows versions in the future this might help to do this easier -->
+		<WindowsMoniker>windows</WindowsMoniker>
+    <!--
+		<Prefer32Bit>false</Prefer32Bit>
+		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<Platforms>x64</Platforms>
+		<PlatformTarget>x64</PlatformTarget>
+    -->
+	</PropertyGroup>
+
+</Project>
