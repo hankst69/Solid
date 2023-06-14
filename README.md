@@ -38,7 +38,7 @@ Components
    * For loosely coupling of units but still based on strict types (no direct dependency of units, coupling based on events)
 
 4. __StateMachine__
-   * Flexible configuration of states, triggers and able with fluent configuration api
+   * Flexible configuration of states, triggers. permissions, entry and leave handlers with fluent configuration api
    * Support of export into DotGraph format
    * Currently no support for sub states
 
