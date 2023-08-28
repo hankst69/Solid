@@ -30,7 +30,7 @@ Components
 
 2. __Diagnostics__
    * Provides abstraction of Logging and Tracing
-   * Comes with implememntations for output onto Console or File
+   * Comes with implementations for output onto Console or File
    * Comes with TraceConfiguration api that allows selection of TraceLevel and Output depending on Environment variables, CommandLineArgs or programmatically
    * Supports validation of function argument prerequisites via a fluent ConsitencyCheck implementation
 
