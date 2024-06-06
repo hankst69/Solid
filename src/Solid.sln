@@ -3,33 +3,33 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Solid.Dicom", "Dicom\Solid.Dicom.csproj", "{E91D7D9D-9A1E-47CC-886A-1E26EB0865CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Solid.Dicom", "Solid\Dicom\Solid.Dicom.csproj", "{E91D7D9D-9A1E-47CC-886A-1E26EB0865CE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Solid.Dicom.Impl", "Dicom.Impl\Solid.Dicom.Impl.csproj", "{05D51841-A72F-49FB-9DEF-2AE9C52DFCA0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Solid.Dicom.Impl", "Solid\Dicom.Impl\Solid.Dicom.Impl.csproj", "{05D51841-A72F-49FB-9DEF-2AE9C52DFCA0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Solid.Dicom_uTest", "Dicom_uTest\Solid.Dicom_uTest.csproj", "{54E12BEE-1DD8-4C44-8376-AA7B1C003EC2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Solid.Dicom_uTest", "Solid\Dicom_uTest\Solid.Dicom_uTest.csproj", "{54E12BEE-1DD8-4C44-8376-AA7B1C003EC2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Solid.Infrastructure", "Infrastructure\Solid.Infrastructure.csproj", "{34EC2F7B-C86F-4FD6-877D-9540F8DBD284}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Solid.Infrastructure", "Solid\Infrastructure\Solid.Infrastructure.csproj", "{34EC2F7B-C86F-4FD6-877D-9540F8DBD284}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Solid.TestInfrastructure", "TestInfrastructure\Solid.TestInfrastructure.csproj", "{B0B9FB45-75F9-464B-80C9-5118DD14FCAB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Solid.TestInfrastructure", "Solid\TestInfrastructure\Solid.TestInfrastructure.csproj", "{B0B9FB45-75F9-464B-80C9-5118DD14FCAB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Solid.TestInfrastructure_uTest", "TestInfrastructure_uTest\Solid.TestInfrastructure_uTest.csproj", "{B1EE0A33-220F-4E8B-9791-88DE7C7FFCD6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Solid.TestInfrastructure_uTest", "Solid\TestInfrastructure_uTest\Solid.TestInfrastructure_uTest.csproj", "{B1EE0A33-220F-4E8B-9791-88DE7C7FFCD6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Solid.Registrare", "Registrare\Solid.Registrare.csproj", "{65864783-8912-40F0-A873-C1C4B9EC36C2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Solid.Registrare", "Solid\Registrare\Solid.Registrare.csproj", "{65864783-8912-40F0-A873-C1C4B9EC36C2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Solid.Infrastructure_uTest", "Infrastructure_uTest\Solid.Infrastructure_uTest.csproj", "{9611FAA6-5DA3-4454-84BB-8E360C83B2E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Solid.Infrastructure_uTest", "Solid\Infrastructure_uTest\Solid.Infrastructure_uTest.csproj", "{9611FAA6-5DA3-4454-84BB-8E360C83B2E7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Solid.DicomAdapters.FoDicom", "DicomAdapters.FoDicom\Solid.DicomAdapters.FoDicom.csproj", "{46121960-3BA2-45C9-9F9A-6D7841B43F54}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Solid.DicomAdapters.FoDicom", "Solid\DicomAdapters.FoDicom\Solid.DicomAdapters.FoDicom.csproj", "{46121960-3BA2-45C9-9F9A-6D7841B43F54}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Solid.DicomAdapters.FoDicom.Impl", "DicomAdapters.FoDicom.Impl\Solid.DicomAdapters.FoDicom.Impl.csproj", "{CEB4D7E8-119B-4663-8C53-4B85C725BBF2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Solid.DicomAdapters.FoDicom.Impl", "Solid\DicomAdapters.FoDicom.Impl\Solid.DicomAdapters.FoDicom.Impl.csproj", "{CEB4D7E8-119B-4663-8C53-4B85C725BBF2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Solid.DicomAdapters.FoDicom_uTest.csproj", "DicomAdapters.FoDicom_uTest\Solid.DicomAdapters.FoDicom_uTest.csproj.csproj", "{5AC47D41-52EC-4687-AFB4-D16742FF38F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Solid.DicomAdapters.FoDicom_uTest.csproj", "Solid\DicomAdapters.FoDicom_uTest\Solid.DicomAdapters.FoDicom_uTest.csproj.csproj", "{5AC47D41-52EC-4687-AFB4-D16742FF38F3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Solid.Infrastructure.net48", "Infrastructure\Solid.Infrastructure.net48.csproj", "{62FFBD97-F136-4FF1-93DD-3A29D17101C2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Solid.Infrastructure.net48", "Solid\Infrastructure\Solid.Infrastructure.net48.csproj", "{62FFBD97-F136-4FF1-93DD-3A29D17101C2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examples.ImageCompareTool", "..\Examples\ImageCompareTool\Examples.ImageCompareTool.csproj", "{13375416-1954-4A57-9E1A-4EA86985E103}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examples.ImageCompareTool", "Examples\ImageCompareTool\Examples.ImageCompareTool.csproj", "{13375416-1954-4A57-9E1A-4EA86985E103}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examples.MeanSquareErrorImageCompare", "..\Examples\MeanSquareErrorImageCompare\Examples.MeanSquareErrorImageCompare.csproj", "{385B8A5B-015E-4BC6-8872-10FFAEAEF0FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examples.MeanSquareErrorImageCompare", "Examples\MeanSquareErrorImageCompare\Examples.MeanSquareErrorImageCompare.csproj", "{385B8A5B-015E-4BC6-8872-10FFAEAEF0FB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,0 +1,34 @@
+<Project>
+
+  <!-- Framework and Runtime settings -->
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <!-- This property is to better control the windows targets. Since we want to change to different windows versions in the future this might help to do this easier -->
+    <WindowsMoniker>windows</WindowsMoniker>
+    <!--
+    <Prefer32Bit>false</Prefer32Bit>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Platforms>x64</Platforms>
+    <PlatformTarget>x64</PlatformTarget>
+    -->
+  </PropertyGroup>
+
+  <!-- Output folder settings -->
+  <PropertyGroup>
+    <!-- locate where the main solution is located and remember that as the roo tolder in varialble SolutionRoot -->
+    <SolutionRoot>$([MSBuild]::GetDirectoryNameOfFileAbove('$(MSBuildThisFileDirectory)', 'Solid.sln'))</SolutionRoot>
+
+    <BaseIntermediateOutputPath>$(SolutionRoot)_Build\obj\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
+    <IntermediateOutputPath>$(BaseIntermediateOutputPath)\$(Configuration)\</IntermediateOutputPath>
+    <CompilerGeneratedFilesOutputPath>$(BaseIntermediateOutputPath)\GeneratedFiles</CompilerGeneratedFilesOutputPath>
+
+    <OutputPath>$(SolutionRoot)\_Build\$(Configuration)\$(MSBuildProjectName)\</OutputPath>
+    <PublishDir>$(SolutionRoot)\_Build\Publish\$(MSBuildProjectName)</PublishDir>
+
+    <!-- aliases for older names -->
+    <IntDir>$(IntermediateOutputPath)</IntDir>
+    <OutDir>$(OutputPath)</OutDir>
+  </PropertyGroup>
+
+</Project>
