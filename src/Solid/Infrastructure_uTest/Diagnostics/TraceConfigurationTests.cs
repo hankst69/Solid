@@ -105,14 +105,14 @@ namespace Solid.Infrastructure_uTest.Diagnostics
         // -TraceLevel:Console#Off|InOut|Info|Warning|Error|Debug|All
         // -TraceLevel:Off|All|InOut|Info|Warning|Error|Debug:File#Off|All|InOut|Info|Warning|Error|Debug:Console#Off|All|InOut|Info|Warning|Error|Debug
         [TestCase("", false, false, false, TraceLevel.Off, TraceLevel.Off, TraceLevel.Off)]
-        [TestCase("-TraceTarget:Off", true, false, false, TraceLevel.Off, TraceLevel.Off, TraceLevel.Off)]
-        [TestCase("-TraceTarget:Console", false, true, false, TraceLevel.Off, TraceLevel.Info, TraceLevel.Off)]
-        [TestCase("-TraceTarget:File", false, false, true, TraceLevel.Off, TraceLevel.Off, TraceLevel.All)]
-        [TestCase("-TraceLevel:Console#Warning|Error|Debug", false, false, false, TraceLevel.Off, TraceLevel.Off, TraceLevel.Off)]
-        [TestCase("-TraceLevel:Console#Warning|Error|Debug -TraceTarget:Console", false, true, false, TraceLevel.Off, TraceLevel.Warning | TraceLevel.Error | TraceLevel.Debug, TraceLevel.Off)]
-        [TestCase("-TraceLevel:File#InOut|Error", false, false, false, TraceLevel.Off, TraceLevel.Off, TraceLevel.Off)]
-        [TestCase("-TraceLevel:File#InOut|Error -TraceTarget:File", false, false, false, TraceLevel.Off, TraceLevel.Off, TraceLevel.InOut|TraceLevel.Error)]
-        [TestCase("-TraceTarget:Off -TraceLevel:File#InOut -TraceLevel:Console#Warning", true, false, false, TraceLevel.Off, TraceLevel.Off, TraceLevel.Off)]
+        [TestCase("--traceTarget:Off", true, false, false, TraceLevel.Off, TraceLevel.Off, TraceLevel.Off)]
+        [TestCase("--traceTarget:Console", false, true, false, TraceLevel.Off, TraceLevel.Info, TraceLevel.Off)]
+        [TestCase("--traceTarget:File", false, false, true, TraceLevel.Off, TraceLevel.Off, TraceLevel.All)]
+        [TestCase("--traceLevel:Console#Warning|Error|Debug", false, false, false, TraceLevel.Off, TraceLevel.Off, TraceLevel.Off)]
+        [TestCase("--traceLevel:Console#Warning|Error|Debug --traceTarget:Console", false, true, false, TraceLevel.Off, TraceLevel.Warning | TraceLevel.Error | TraceLevel.Debug, TraceLevel.Off)]
+        [TestCase("--traceLevel:File#InOut|Error", false, false, false, TraceLevel.Off, TraceLevel.Off, TraceLevel.Off)]
+        [TestCase("--traceLevel:File#InOut|Error --traceTarget:File", false, false, false, TraceLevel.Off, TraceLevel.Off, TraceLevel.InOut|TraceLevel.Error)]
+        [TestCase("--traceTarget:Off --traceLevel:File#InOut --traceLevel:Console#Warning", true, false, false, TraceLevel.Off, TraceLevel.Off, TraceLevel.Off)]
         public void ConfigureFromCommandlineArgs_ShouldMatchExpectations(string cmdLine, bool expectTargetOff, bool expectTargetConsole, bool expectTargetFile, TraceLevel expectLevel, TraceLevel expectConsoleLevel, TraceLevel expectFileLevel)
         {
             // Arrange

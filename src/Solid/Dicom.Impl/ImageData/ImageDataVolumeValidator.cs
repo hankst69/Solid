@@ -37,8 +37,10 @@ namespace Solid.Dicom.ImageData.Impl
         private readonly ITracer _tracer;
 
         public ImageDataVolumeValidator() {}
+
         public ImageDataVolumeValidator(ITracer tracer)
         {
+            using var trace = tracer?.CreateScopeTracer();
             ConsistencyCheck.EnsureArgument(tracer).IsNotNull();
             _tracer = tracer;
         }

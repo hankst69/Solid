@@ -36,7 +36,7 @@ namespace Solid.DicomAdapters.FoDicom.Impl
         public IDicomDataSet GetDataSetFromFoDicomInstance(FellowOakDicom.DicomDataset foDicomDataSet)
         {
             using var tracer = _tracer?.CreateScopeTracer();
-            ConsistencyCheck.EnsureArgument(foDicomDataSet, nameof(foDicomDataSet)).IsNotNull();
+            ConsistencyCheck.EnsureArgument(foDicomDataSet).IsNotNull();
 
             var getLocationString = new Func<string>(() => $"FoDicomDataset~~{foDicomDataSet.GetHashCode()}");
 
@@ -60,7 +60,7 @@ namespace Solid.DicomAdapters.FoDicom.Impl
         public new IDicomDataSet GetDataSetFromFile(string dicomFileName)
         {
             using var tracer = _tracer?.CreateScopeTracer();
-            ConsistencyCheck.EnsureArgument(dicomFileName, nameof(dicomFileName)).IsNotNullOrEmpty();
+            ConsistencyCheck.EnsureArgument(dicomFileName).IsNotNullOrEmpty();
 
             return GetFromCacheOrCreateNew(
                 () => dicomFileName,
@@ -80,7 +80,7 @@ namespace Solid.DicomAdapters.FoDicom.Impl
         public new IEnumerable<IDicomDataSet> GetDataSetsFromFileOrDirectory(string fileOrDirectoryName, bool recurseIntoSubDirectories)
         {
             using var tracer = _tracer?.CreateScopeTracer();
-            ConsistencyCheck.EnsureArgument(fileOrDirectoryName, nameof(fileOrDirectoryName)).IsNotNullOrEmpty();
+            ConsistencyCheck.EnsureArgument(fileOrDirectoryName).IsNotNullOrEmpty();
 
             var dicomDataSets = new List<IDicomDataSet>();
 
@@ -98,7 +98,7 @@ namespace Solid.DicomAdapters.FoDicom.Impl
         private void CreateDataSetsForFilesInDirectory(IList<IDicomDataSet> dataSetList, string directoryName, bool recurseSubDirectories)
         {
             using var tracer = _tracer?.CreateScopeTracer();
-            ConsistencyCheck.EnsureArgument(directoryName, nameof(directoryName)).IsNotNullOrEmpty();
+            ConsistencyCheck.EnsureArgument(directoryName).IsNotNullOrEmpty();
             tracer?.Info($"reading files from directory '{directoryName}'");
 
             IDirectoryReference dref = new DirectoryReference(directoryName);

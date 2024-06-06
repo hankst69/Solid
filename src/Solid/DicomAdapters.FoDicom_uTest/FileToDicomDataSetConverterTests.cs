@@ -5,7 +5,7 @@
 // </copyright>
 //----------------------------------------------------------------------------------
 
-namespace MrFoundation.DicomAdapters.FoDicom_uTest
+namespace Solid.DicomAdapters.FoDicom_uTest
 {
     /// <summary>
     /// API:NO

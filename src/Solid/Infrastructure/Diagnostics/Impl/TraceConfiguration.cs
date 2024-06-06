@@ -75,14 +75,14 @@ namespace Solid.Infrastructure.Diagnostics.Impl
             ConsistencyCheck.EnsureArgument(commandLineArgs).IsNotNull();
 
             // todo: trace command line args and set TraceLevel and TraceTarget (File,Console) accordingly
-            // -TraceTarget:Off|File[#filename]|Console
-            // -TraceLevel:Off|InOut|Info|Warning|Error|Debug|All
-            // -TraceLevel:File#Off|InOut|Info|Warning|Error|Debug|All
-            // -TraceLevel:Console#Off|InOut|Info|Warning|Error|Debug|All
-            // -TraceLevel:Off|All|InOut|Info|Warning|Error|Debug:File#Off|All|InOut|Info|Warning|Error|Debug:Console#Off|All|InOut|Info|Warning|Error|Debug
+            // --traceTarget:Off|File[#filename]|Console
+            // --traceLevel:Off|InOut|Info|Warning|Error|Debug|All
+            // --traceLevel:File#Off|InOut|Info|Warning|Error|Debug|All
+            // --traceLevel:Console#Off|InOut|Info|Warning|Error|Debug|All
+            // --traceLevel:Off|All|InOut|Info|Warning|Error|Debug:File#Off|All|InOut|Info|Warning|Error|Debug:Console#Off|All|InOut|Info|Warning|Error|Debug
 
-            string c_traceTargetId = $"-{typeof(TraceTarget).Name.ToLower()}:";
-            string c_traceLevelId = $"-{typeof(TraceLevel).Name.ToLower()}:";
+            string c_traceTargetId = $"--{typeof(TraceTarget).Name.ToLower()}:";
+            string c_traceLevelId = $"--{typeof(TraceLevel).Name.ToLower()}:";
 
             var traceTargetSelections = commandLineArgs
                 .Where(x => !string.IsNullOrEmpty(x))

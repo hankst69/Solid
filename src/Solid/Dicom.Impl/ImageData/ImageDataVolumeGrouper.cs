@@ -6,6 +6,7 @@
 //----------------------------------------------------------------------------------
 
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Solid.Dicom.ImageInfo.Types;
 using Solid.Infrastructure.Diagnostics;
@@ -24,14 +25,15 @@ namespace Solid.Dicom.ImageData.Impl
 
         public ImageDataVolumeGrouper(IImageDataVolumeValidator imageDataVolumeValidator)
         {
+            using var trace = _tracer?.CreateScopeTracer();
             ConsistencyCheck.EnsureArgument(imageDataVolumeValidator).IsNotNull();
             _imageDataVolumeValidator = imageDataVolumeValidator;
-            //_tracer = new NullTracer();
         }
 
         public ImageDataVolumeGrouper(ITracer tracer, IImageDataVolumeValidator imageDataVolumeValidator)
             :this (imageDataVolumeValidator)
         {
+            using var trace = tracer?.CreateScopeTracer();
             ConsistencyCheck.EnsureArgument(tracer).IsNotNull();
             _tracer = tracer;
         }

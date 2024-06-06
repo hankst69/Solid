@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework Condition="'$(TargetFramework)'==''">net7.0</TargetFramework>
+    <!--Nullable>enable</Nullable-->
+    <VersionPrefix>1.0</VersionPrefix>
+    <Version>$(VersionPrefix).0</Version>
+    <AssemblyVersion>$(Version).0</AssemblyVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Solid\Dicom\Solid.Dicom.csproj" />
+    <ProjectReference Include="..\..\Solid\Infrastructure\Solid.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

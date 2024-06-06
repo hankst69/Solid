@@ -30,7 +30,7 @@ namespace Solid.Dicom
         IDicomDataSet GetDataSetFromInstance(object dicomDataSet);
 
         /// <summary>
-        /// Provides one or more instances of type MrFoundation.Dicom.IDicomDataSet out of filesystem name representing a single dicom file or a directory containing dicom files
+        /// Provides one or more instances of type Solid.Dicom.IDicomDataSet out of filesystem name representing a single dicom file or a directory containing dicom files
         /// </summary>
         /// <param name="fileOrDirectoryName">name of the file or directory representing the dicom file(s)</param>
         /// <param name="recurseIntoSubDirectories">enables or disables recursion into subdirectories (in case the first param was a directory)</param>

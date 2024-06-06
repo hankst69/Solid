@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>exe</OutputType>
+    <TargetFramework Condition="'$(TargetFramework)'==''">net7.0</TargetFramework>
+    <!--Nullable>enable</Nullable-->
+    <VersionPrefix>1.0</VersionPrefix>
+    <Version>$(VersionPrefix).0</Version>
+    <AssemblyVersion>$(Version).0</AssemblyVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Solid\DicomAdapters.FoDicom.Impl\Solid.DicomAdapters.FoDicom.Impl.csproj" />
+    <ProjectReference Include="..\..\Solid\DicomAdapters.FoDicom\Solid.DicomAdapters.FoDicom.csproj" />
+    <ProjectReference Include="..\..\Solid\Dicom\Solid.Dicom.csproj" />
+    <ProjectReference Include="..\..\Solid\Infrastructure\Solid.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Solid\Registrare\Solid.Registrare.csproj" />
+    <ProjectReference Include="..\MeanSquareErrorImageCompare\Examples.MeanSquareErrorImageCompare.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="test.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

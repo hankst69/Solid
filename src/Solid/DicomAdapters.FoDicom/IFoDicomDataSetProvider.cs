@@ -18,7 +18,7 @@ namespace Solid.DicomAdapters.FoDicom
     public interface IFoDicomDataSetProvider : IDicomDataSetProvider
     {
         /// <summary>
-        /// Provides an instance of type MrFoundation.Dicom.IDicomDataSet out of a Fo-Dicom.DicomDataSet instance
+        /// Provides an instance of type Solid.Dicom.IDicomDataSet out of a Fo-Dicom.DicomDataSet instance
         /// </summary>
         /// <param name="foDicomDataSet">the Fo-Dicom dataset</param>
         /// <returns>an IDicomDataSet</returns>

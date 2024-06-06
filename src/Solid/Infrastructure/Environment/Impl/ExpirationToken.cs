@@ -21,8 +21,8 @@ namespace Solid.Infrastructure.Environment.Impl
 
         public ExpirationToken(object instance, long timeout)
         {
-            ConsistencyCheck.EnsureArgument(instance, nameof(instance)).IsNotNull();
-            ConsistencyCheck.EnsureArgument(timeout, nameof(timeout)).IsGreaterOrEqual(1);
+            ConsistencyCheck.EnsureArgument(instance).IsNotNull();
+            ConsistencyCheck.EnsureArgument(timeout).IsGreaterOrEqual(1);
 
             Instance = instance;
             TimeOut = timeout;

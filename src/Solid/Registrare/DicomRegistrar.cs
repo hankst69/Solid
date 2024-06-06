@@ -19,7 +19,10 @@ namespace Solid.Registrare
         {
             ConsistencyCheck.EnsureArgument(container).IsNotNull();
 
+            container.RegisterType<IDicomFrameDataSetCreator, Solid.Dicom.Impl.DicomFrameDataSetCreator>();
+
             container.RegisterType<IMrDicomAccess, Solid.Dicom.Impl.MrDicomAccess>();
+
             //container.RegisterType<IImageDataClassifier, Solid.Dicom.ImageData.Impl.ImageDataClassifier>();
             container.RegisterType<IImageDataCreator, Solid.Dicom.ImageData.Impl.ImageDataCreator>();
             container.RegisterType<IImageDataVolumeValidator, Solid.Dicom.ImageData.Impl.ImageDataVolumeValidator>();

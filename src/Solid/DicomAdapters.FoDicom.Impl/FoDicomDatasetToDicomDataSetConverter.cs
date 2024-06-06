@@ -47,8 +47,8 @@ namespace Solid.DicomAdapters.FoDicom.Impl
         /// <inheritdoc />
         internal FoDicomDatasetToDicomDataSetConverter(DicomDataset foDicomDataset, string locationUid)
         {
-            ConsistencyCheck.EnsureArgument(foDicomDataset, nameof(foDicomDataset)).IsNotNull();
-            ConsistencyCheck.EnsureArgument(locationUid, nameof(locationUid)).IsNotNull();
+            ConsistencyCheck.EnsureArgument(foDicomDataset).IsNotNull();
+            ConsistencyCheck.EnsureArgument(locationUid).IsNotNull();
 
             _foDicomDataset = foDicomDataset;
             DataSetLocationUid = locationUid;
@@ -59,8 +59,8 @@ namespace Solid.DicomAdapters.FoDicom.Impl
 
         internal FoDicomDatasetToDicomDataSetConverter(DicomDataset foDicomSubSequenceDataset, IParentDicomDataSetAccess parentDataSet)
         {
-            ConsistencyCheck.EnsureArgument(foDicomSubSequenceDataset, nameof(foDicomSubSequenceDataset)).IsNotNull();
-            ConsistencyCheck.EnsureArgument(parentDataSet, nameof(parentDataSet)).IsNotNull();
+            ConsistencyCheck.EnsureArgument(foDicomSubSequenceDataset).IsNotNull();
+            ConsistencyCheck.EnsureArgument(parentDataSet).IsNotNull();
 
             _foDicomDataset = foDicomSubSequenceDataset;
 

@@ -23,7 +23,7 @@ namespace Solid.DicomAdapters.FoDicom.Impl
 
         public FileToDicomDataSetConverter(string dicomFileName)
         {
-            ConsistencyCheck.EnsureArgument(dicomFileName, nameof(dicomFileName)).IsNotNullOrEmpty();
+            ConsistencyCheck.EnsureArgument(dicomFileName).IsNotNullOrEmpty();
 
             DicomFile df = DicomFile.Open(dicomFileName);
             DicomDataset ds = df.Dataset;

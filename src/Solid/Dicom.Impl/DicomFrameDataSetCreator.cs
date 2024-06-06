@@ -21,6 +21,7 @@ namespace Solid.Dicom.Impl
 
         public DicomFrameDataSetCreator(ITracer tracer)
         {
+            using var trace = tracer?.CreateScopeTracer();
             ConsistencyCheck.EnsureArgument(tracer).IsNotNull();
             _tracer = tracer;
         }

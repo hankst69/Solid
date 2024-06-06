@@ -6,46 +6,45 @@
 //----------------------------------------------------------------------------------
 
 using Solid.Infrastructure.Diagnostics;
-using Solid.Infrastructure.Diagnostics.Impl;
+using System.Diagnostics;
 
 namespace Solid.Dicom.ImageData.Impl
 {
     /// <inheritdoc />
     public class ImageDataCreator : IImageDataCreator
     {
-        private readonly ITracer m_Tracer;
-        private readonly IMrDicomAccess m_DicomAccess;
+        private readonly ITracer _tracer;
+        private readonly IMrDicomAccess _dicomAccess;
 
         public ImageDataCreator(IMrDicomAccess dicomAccess)
-            : this(new NullTracer(), dicomAccess)
-        {}
+        {
+            using var trace = _tracer?.CreateScopeTracer();
+            ConsistencyCheck.EnsureArgument(dicomAccess).IsNotNull();
+            _dicomAccess = dicomAccess;
+        }
 
         public ImageDataCreator(ITracer tracer, IMrDicomAccess dicomAccess)
+            : this(dicomAccess)
         {
+            using var trace = tracer?.CreateScopeTracer();
             ConsistencyCheck.EnsureArgument(tracer).IsNotNull();
-            ConsistencyCheck.EnsureArgument(dicomAccess).IsNotNull();
-            m_Tracer = tracer;
-            m_DicomAccess = dicomAccess;
+            _tracer = tracer;
         }
 
         public IImageData CreateImageData(IDicomFrameDataSet inputDicomFrameDataSet)
         {
-            using (m_Tracer.CreateScopeTracer())
-            {
-                ConsistencyCheck.EnsureArgument(inputDicomFrameDataSet).IsNotNull();
-                var imageAttributes = m_DicomAccess.CreateImageAttributes(inputDicomFrameDataSet);
-                return new ImageData(m_Tracer, imageAttributes);
-            }
+            using var trace = _tracer?.CreateScopeTracer();
+            ConsistencyCheck.EnsureArgument(inputDicomFrameDataSet).IsNotNull();
+            var imageAttributes = _dicomAccess.CreateImageAttributes(inputDicomFrameDataSet);
+            return new ImageData(_tracer, imageAttributes);
         }
 
         public IImageData CreateImageDataWithLoadedPixelData(IDicomFrameDataSet inputDicomFrameDataSet)
         {
-            using (m_Tracer.CreateScopeTracer())
-            {
-                var imageData = CreateImageData(inputDicomFrameDataSet);
-                imageData.LoadPixelData();
-                return imageData;
-            }
+            using var trace = _tracer?.CreateScopeTracer();
+            var imageData = CreateImageData(inputDicomFrameDataSet);
+            imageData.LoadPixelData();
+            return imageData;
         }
     }
 }
