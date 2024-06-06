@@ -1,8 +1,7 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="IImageDataVolumeGrouper.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2019. All Rights Reserved. Confidential.
+// File: "IImageDataVolumeGrouper.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2019
 //----------------------------------------------------------------------------------
 
 using System.Collections.Generic;

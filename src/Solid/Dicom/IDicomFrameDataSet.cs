@@ -1,8 +1,7 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="IDicomFrameDataSet.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2020. All Rights Reserved. Confidential.
+// File: "IDicomFrameDataSet.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2022
 //----------------------------------------------------------------------------------
 
 namespace Solid.Dicom

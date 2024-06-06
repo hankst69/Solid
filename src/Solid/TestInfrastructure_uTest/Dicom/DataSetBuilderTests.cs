@@ -1,8 +1,7 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="DataSetBuilderTests.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2015-2019. All Rights Reserved. Confidential.
+// File: "DataSetBuilderTests.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2015-2019
 //----------------------------------------------------------------------------------
 
 using System;

@@ -1,7 +1,7 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="TransportContainerTests.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2017. All Rights Reserved. Confidential.
-// </copyright>
+// File: "TransportContainerTests.cs"
+// Author: Steffen Hanke
+// Date: 2017
 //----------------------------------------------------------------------------------
 
 using System;

@@ -1,13 +1,10 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="ICrossImageMeanSquareErrorExecutor.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2020. All Rights Reserved. Confidential.
+// 2020-2024
 // Author: Steffen Hanke
-// </copyright>
 //----------------------------------------------------------------------------------
-
 using System.Collections.Generic;
 
-namespace Examples.MeanSquareErrorImageCompare
+namespace MeanSquareErrorImageCompare
 {
     public interface IMeanSquareErrorDicomFileComparer
     {

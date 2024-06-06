@@ -1,8 +1,7 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="DicomTags.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2016-2020. All Rights Reserved. Confidential.
+// File: "DicomTags.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2016-2020
 //----------------------------------------------------------------------------------
 
 namespace Solid.Dicom

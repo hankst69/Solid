@@ -15,7 +15,7 @@
     <ProjectReference Include="..\..\Solid\Dicom\Solid.Dicom.csproj" />
     <ProjectReference Include="..\..\Solid\Infrastructure\Solid.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Solid\Registrare\Solid.Registrare.csproj" />
-    <ProjectReference Include="..\MeanSquareErrorImageCompare\Examples.MeanSquareErrorImageCompare.csproj" />
+    <ProjectReference Include="..\MeanSquareErrorImageCompare\MeanSquareErrorImageCompare.csproj" />
   </ItemGroup>
 
   <ItemGroup>

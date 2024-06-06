@@ -1,8 +1,7 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="BootStrapperTests.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2017-2022. All Rights Reserved. Confidential.
+// File: "BootStrapperTests.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2017-2022
 //----------------------------------------------------------------------------------
 
 using System;

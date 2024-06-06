@@ -1,8 +1,7 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="FrameMockTests.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2015-2019. All Rights Reserved. Confidential.
+// File: "FrameMockTests.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2015-2019
 //----------------------------------------------------------------------------------
 
 using FluentAssertions;

@@ -1,8 +1,7 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="NullTracer.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2019-2023. All Rights Reserved. Confidential.
+// File: "NullTracer.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2019-2023
 //----------------------------------------------------------------------------------
 
 namespace Solid.Infrastructure.Diagnostics.Impl

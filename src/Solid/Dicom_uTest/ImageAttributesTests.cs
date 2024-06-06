@@ -1,8 +1,7 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="ImageAttributesTests.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2019-2022. All Rights Reserved. Confidential.
+// File: "ImageAttributesTests.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2019-2022
 //----------------------------------------------------------------------------------
 
 using System;
@@ -15,8 +14,6 @@ using Solid.Dicom.ImageInfo.Impl;
 using Solid.Infrastructure.Diagnostics;
 using Solid.Infrastructure.Math;
 using NUnit.Framework;
-//using Solid.TestInfrastructure.Dicom;
-//using syngo.Services.ImageProcessing.Maths;
 
 namespace Solid.Dicom_uTest
 {
@@ -42,7 +39,7 @@ namespace Solid.Dicom_uTest
             // Arrange
             // Act
             // ReSharper disable once ObjectCreationAsStatement
-            Action action = () => new ImageAttributes(null, m_IDataSetMock.Object, m_ITracerMock.Object);
+            Action action = () => new ImageAttributes(null, m_IDataSetMock.Object);
 
             // Assert
             action.Should().Throw<ArgumentNullException>();
@@ -54,19 +51,7 @@ namespace Solid.Dicom_uTest
             // Arrange
             // Act
             // ReSharper disable once ObjectCreationAsStatement
-            Action action = () => new ImageAttributes(m_MrDicomAccessMock.Object, null, m_ITracerMock.Object);
-
-            // Assert
-            action.Should().Throw<ArgumentNullException>();
-        }
-
-        [Test]
-        public void Ctor_ShouldThrow_WhenTracerIsNull()
-        {
-            // Arrange
-            // Act
-            // ReSharper disable once ObjectCreationAsStatement
-            Action action = () => new ImageAttributes(m_MrDicomAccessMock.Object, m_IDataSetMock.Object, null);
+            Action action = () => new ImageAttributes(m_MrDicomAccessMock.Object, null);
 
             // Assert
             action.Should().Throw<ArgumentNullException>();

@@ -1,8 +1,7 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="MrDicomAccessTests.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2020-2022. All Rights Reserved. Confidential.
+// File: "MrDicomAccessTests.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2020-2022
 //----------------------------------------------------------------------------------
 
 using System;

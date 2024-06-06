@@ -1,8 +1,7 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="IMrDicomAccess.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2020-2021. All Rights Reserved. Confidential.
+// File: "IMrDicomAccess.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2020-2021
 //----------------------------------------------------------------------------------
 
 using System;

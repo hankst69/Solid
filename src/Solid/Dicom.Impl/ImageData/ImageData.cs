@@ -1,8 +1,7 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="ImageData.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2020-2024. All Rights Reserved. Confidential.
+// File: "ImageData.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2020-2024
 //----------------------------------------------------------------------------------
 
 using System;

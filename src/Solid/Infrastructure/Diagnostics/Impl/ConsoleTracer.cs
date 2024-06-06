@@ -1,8 +1,7 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="ConsoleTracer.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2020-2023. All Rights Reserved. Confidential.
+// File: "ConsoleTracer.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2020-2023
 //----------------------------------------------------------------------------------
 
 using System;

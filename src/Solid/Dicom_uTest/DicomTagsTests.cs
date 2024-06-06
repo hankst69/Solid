@@ -1,8 +1,7 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="DicomTagsTests.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2019-2020. All Rights Reserved. Confidential.
+// File: "DicomTagsTests.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2019-2020
 //----------------------------------------------------------------------------------
 
 using System.Linq;

@@ -1,15 +1,12 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="FileTracer.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2019-2023. All Rights Reserved. Confidential.
+// File: "FileTracer.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2019-2023
 //----------------------------------------------------------------------------------
 
 using Solid.Infrastructure.Environment;
-
 using System;
 using System.IO;
-using System.Runtime;
 
 namespace Solid.Infrastructure.Diagnostics.Impl
 {

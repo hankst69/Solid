@@ -1,8 +1,7 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="DistortionCorrectionType.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2019-2021. All Rights Reserved. Confidential.
+// File: "DistortionCorrectionType.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2019-2021
 //----------------------------------------------------------------------------------
 
 namespace Solid.Dicom.ImageInfo.Types

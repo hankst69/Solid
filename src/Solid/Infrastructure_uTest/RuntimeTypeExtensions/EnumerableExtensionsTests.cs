@@ -1,7 +1,6 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="EnumerableExtensionsTests.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2017-2018. All Rights Reserved. Confidential.
-// </copyright>
+// File: "EnumerableExtensionsTests.cs"
+// Date: 2017-2018
 //----------------------------------------------------------------------------------
 
 using System;

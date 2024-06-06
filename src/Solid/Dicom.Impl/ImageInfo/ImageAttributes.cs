@@ -1,14 +1,12 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="ImageAttributes.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2019-2022. All Rights Reserved. Confidential.
+// File: "ImageAttributes.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2019-2022
 //----------------------------------------------------------------------------------
 
 using System;
 using System.Linq;
 using Solid.Infrastructure.Diagnostics;
-using Solid.Infrastructure.Diagnostics.Impl;
 using Solid.Infrastructure.Math;
 
 namespace Solid.Dicom.ImageInfo.Impl
@@ -19,8 +17,6 @@ namespace Solid.Dicom.ImageInfo.Impl
     /// </summary>
     public class ImageAttributes : IImageAttributes
     {
-        private readonly ITracer m_Tracer;
-
         private readonly Lazy<IImageClassInfo> m_ImageClassInfo;
         private readonly Lazy<IImageDistortionInfo> m_ImageDistortionInfo;
         private readonly Lazy<IImageOrderInfo> m_ImageOrderInfo;
@@ -83,16 +79,9 @@ namespace Solid.Dicom.ImageInfo.Impl
         private readonly Lazy<double> m_RescaleSlope;
 
         public ImageAttributes(IMrDicomAccess mrDicomAccess, IDicomFrameDataSet dataSet)
-            : this(mrDicomAccess, dataSet, new NullTracer())
-        {
-        }
-
-        public ImageAttributes(IMrDicomAccess mrDicomAccess, IDicomFrameDataSet dataSet, ITracer tracer)
         {
             ConsistencyCheck.EnsureArgument(mrDicomAccess).IsNotNull();
             ConsistencyCheck.EnsureArgument(dataSet).IsNotNull();
-            ConsistencyCheck.EnsureArgument(tracer).IsNotNull();
-            m_Tracer = tracer;
 
             // ----- store address information -----
             DataSet = dataSet;

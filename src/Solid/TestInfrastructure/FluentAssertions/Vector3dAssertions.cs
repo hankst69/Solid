@@ -1,8 +1,6 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="Vector3DAssertions.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2015-2019. All Rights Reserved. Confidential.
-// Author: 
-// </copyright>
+// File: "Vector3DAssertions.cs"
+// Date: 2015-2019
 //----------------------------------------------------------------------------------
 
 using System;

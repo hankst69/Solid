@@ -1,8 +1,7 @@
 //----------------------------------------------------------------------------------
-// <copyright file="DiContainerTestBase.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2017-2023. All Rights Reserved. Confidential.
+// File: "DiContainerTestBase.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2017-2023
 //----------------------------------------------------------------------------------
 
 using Solid.Infrastructure.DiContainer;

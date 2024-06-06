@@ -1,12 +1,10 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="ImageDataCreator.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2020-2022. All Rights Reserved. Confidential.
+// File: "ImageDataCreator.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2020-2022
 //----------------------------------------------------------------------------------
 
 using Solid.Infrastructure.Diagnostics;
-using System.Diagnostics;
 
 namespace Solid.Dicom.ImageData.Impl
 {

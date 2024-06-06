@@ -1,8 +1,7 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="ImageClassInfo.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2019-2021. All Rights Reserved. Confidential.
+// File: "ImageClassInfo.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2019-2021
 //----------------------------------------------------------------------------------
 
 using System;

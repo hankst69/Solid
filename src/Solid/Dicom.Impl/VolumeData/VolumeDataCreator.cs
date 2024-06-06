@@ -1,8 +1,7 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="VolumeDataCreator.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2020-2022. All Rights Reserved. Confidential.
+// File: "VolumeDataCreator.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2019-2022
 //----------------------------------------------------------------------------------
 
 using System.Collections.Generic;

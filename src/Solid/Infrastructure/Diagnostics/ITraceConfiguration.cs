@@ -1,11 +1,8 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="ITraceConfiguration.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2022. All Rights Reserved. Confidential.
+// File: "ITraceConfiguration.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2022
 //----------------------------------------------------------------------------------
-
-using System.Diagnostics.Tracing;
 
 namespace Solid.Infrastructure.Diagnostics
 {

@@ -1,8 +1,7 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="ImageOrderInfo.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2019. All Rights Reserved. Confidential.
+// File: "ImageOrderInfo.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2019-2020
 //----------------------------------------------------------------------------------
 
 using System;

@@ -1,8 +1,7 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="EnhancedMrImageBuilder.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2015-2019. All Rights Reserved. Confidential.
+// File: "EnhancedMrImageBuilder.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2015-2019
 //----------------------------------------------------------------------------------
 
 using System;

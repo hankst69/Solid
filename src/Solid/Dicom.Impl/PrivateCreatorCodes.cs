@@ -1,3 +1,9 @@
+//----------------------------------------------------------------------------------
+// File: "PrivateCreatorCodes.cs"
+// Author: Steffen Hanke
+// Date: 2020-2022
+//----------------------------------------------------------------------------------
+
 /* Generation:
 >cd D:\TFS\NXMainline_Ant\x64_d\bin\Services\ElementDictionary 
 >del syngoPrivateCreatorCodes.txt

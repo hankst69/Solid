@@ -1,10 +1,8 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="DicomFrameDataSet.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2020. All Rights Reserved. Confidential.
+// File: "DicomFrameDataSet.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2020
 //----------------------------------------------------------------------------------
-
 
 using System.Collections.Generic;
 using Solid.Infrastructure.Diagnostics;

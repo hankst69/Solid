@@ -1,11 +1,9 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="DicomTagHandling.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2019. All Rights Reserved. Confidential.
+// File: "DicomTagHandling.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2019
 //----------------------------------------------------------------------------------
 
-using System;
 using System.Globalization;
 using System.Text;
 

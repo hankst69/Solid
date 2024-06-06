@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
-//using syngo.BizLogic.Modules.Viewing.BasicImaging.Communication;
-//using syngo.MR.Gsp.Api.AddIn.Dtos;
-//using syngo.MR.Gsp.Interfaces.GraphicObjectInfrastructure;
 using Solid.TestInfrastructure.ParameterConditionTesting;
 
 namespace Solid.TestInfrastructure_uTest.ParameterConditionTesting

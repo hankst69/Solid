@@ -1,6 +1,7 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="FoDicomDataSetProviderTests.cs" company="Siemens Healthcare GmbH">
+// File: "FoDicomDataSetProviderTests.cs"
 // Author: Steffen Hanke
+// Date: 2020
 //----------------------------------------------------------------------------------
 
 using System;
@@ -46,7 +47,6 @@ namespace Solid.DicomAdapters.FoDicom_uTest
             // Assert
             action.Should().Throw<ArgumentNullException>();//.WithMessage("...");
         }
-
 
     }
 }

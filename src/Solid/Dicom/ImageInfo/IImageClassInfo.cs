@@ -1,8 +1,7 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="IImageClassInfo.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2019-2021. All Rights Reserved. Confidential.
+// File: "IImageClassInfo.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2019-2021
 //----------------------------------------------------------------------------------
 
 namespace Solid.Dicom.ImageInfo

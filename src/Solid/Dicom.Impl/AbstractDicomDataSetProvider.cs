@@ -1,16 +1,13 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="AbstractDicomDataSetAdapter.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2020-2022. All Rights Reserved. Confidential.
+// File: "AbstractDicomDataSetProvider.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2020-2022
 //----------------------------------------------------------------------------------
 
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
 using Solid.Infrastructure.Diagnostics;
-using Solid.Infrastructure.Diagnostics.Impl;
 
 namespace Solid.Dicom.Impl
 {

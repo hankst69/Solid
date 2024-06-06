@@ -1,8 +1,7 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="OrientationType.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2019. All Rights Reserved. Confidential.
+// File: "OrientationType.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2019
 //----------------------------------------------------------------------------------
 
 namespace Solid.Dicom.ImageInfo.Types

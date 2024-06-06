@@ -1,8 +1,7 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="FileToDicomDataSetConverter.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2020. All Rights Reserved. Confidential.
+// File: "FileToDicomDataSetConverter.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2020
 //----------------------------------------------------------------------------------
 
 using System.Collections.Generic;

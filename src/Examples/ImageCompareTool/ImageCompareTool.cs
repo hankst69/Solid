@@ -1,15 +1,11 @@
 //----------------------------------------------------------------------------------
-// <copyright file="CrossImageMeanSquareErrorTool.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2020-2024
-// . All Rights Reserved. Confidential.
+// 2020-2024
 // Author: Steffen Hanke
-// </copyright>
 //----------------------------------------------------------------------------------
-
 using System;
 using Solid.Infrastructure.Diagnostics;
 using Solid.Registrare;
-using Examples.MeanSquareErrorImageCompare;
+using MeanSquareErrorImageCompare;
 
 
 // 1) create DI-Container
@@ -28,19 +24,19 @@ diContainer.Register(new DicomRegistrar());
 diContainer.Register(new FoDicomRegistrar());
 // register specific aplication components
 // here the MeanSquareError comparers
-diContainer.RegisterType<IMeanSquareErrorImageComparer, Examples.MeanSquareErrorImageCompare.Impl.MeanSquareErrorImageComparer>();
-diContainer.RegisterType<IMeanSquareErrorDicomFileComparer, Examples.MeanSquareErrorImageCompare.Impl.MeanSquareErrorDicomFileComparer>();
+diContainer.RegisterType<IMeanSquareErrorImageComparer, MeanSquareErrorImageCompare.Impl.MeanSquareErrorImageComparer>();
+diContainer.RegisterType<IMeanSquareErrorDicomFileComparer, MeanSquareErrorImageCompare.Impl.MeanSquareErrorDicomFileComparer>();
 
 //Console.Clear();
 Console.WriteLine();
 if (args.Length < 1)
 {
-    Console.WriteLine("\nUsage:");
-    Console.WriteLine("\nImageComparerTool dicomFileOrDirectory1 dicomFileOrDirectory2 [--wait]");
-    Console.WriteLine("\n                  [--traceTarget:Off|File[#filename]|Console]");
-    Console.WriteLine("\n                  [--traceLevel:Off|All|InOut|Info|Warning|Error|Debug]");
-    Console.WriteLine("\n                  [--traceLevel:File#Off|All|InOut|Info|Warning|Error|Debug]");
-    Console.WriteLine("\n                  [--traceLevel:Console#Off|All|InOut|Info|Warning|Error|Debug]");
+    Console.WriteLine("\nUsage:\n");
+    Console.WriteLine("ImageComparerTool dicomFileOrDirectory1 dicomFileOrDirectory2 [--wait]");
+    Console.WriteLine("                  [--traceTarget:Off|File[#filename]|Console]");
+    Console.WriteLine("                  [--traceLevel:Off|All|InOut|Info|Warning|Error|Debug]");
+    Console.WriteLine("                  [--traceLevel:File#Off|All|InOut|Info|Warning|Error|Debug]");
+    Console.WriteLine("                  [--traceLevel:Console#Off|All|InOut|Info|Warning|Error|Debug]");
     Console.WriteLine();
     return;
 }

@@ -1,8 +1,7 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="VolumeData.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2020-2021. All Rights Reserved. Confidential.
+// File: "VolumeData.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2019-2021
 //----------------------------------------------------------------------------------
 
 //#define DUMP_IMAGE_TO_CONSOLE

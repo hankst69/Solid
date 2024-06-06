@@ -1,8 +1,7 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="IDumpable.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2017-2018. All Rights Reserved. Confidential.
+// File: "IDumpable.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2017-2018
 //----------------------------------------------------------------------------------
 
 namespace Solid.Infrastructure.Diagnostics

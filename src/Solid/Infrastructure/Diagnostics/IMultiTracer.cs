@@ -1,11 +1,8 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="IMultiTracer.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2022. All Rights Reserved. Confidential.
+// File: "IMultiTracer.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2022
 //----------------------------------------------------------------------------------
-
-using System;
 
 namespace Solid.Infrastructure.Diagnostics
 {

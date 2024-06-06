@@ -1,12 +1,10 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="ImageScanInfo.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2019. All Rights Reserved. Confidential.
+// File: "ImageScanInfo.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2019
 //----------------------------------------------------------------------------------
 
 using System;
-using System.Linq;
 using Solid.Infrastructure.Diagnostics;
 
 namespace Solid.Dicom.ImageInfo.Impl

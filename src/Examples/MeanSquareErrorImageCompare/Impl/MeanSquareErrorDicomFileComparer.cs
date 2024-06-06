@@ -1,19 +1,15 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="MeanSquareErrorDicomFileComparer.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2020-2024. All Rights Reserved. Confidential.
+// 2020-2024
 // Author: Steffen Hanke
-// </copyright>
 //----------------------------------------------------------------------------------
-
 using System.Linq;
 using System.Collections.Generic;
-
 using Solid.Dicom.ImageData;
 using Solid.Infrastructure.Diagnostics;
 using Solid.Infrastructure.RuntimeTypeExtensions;
 using Solid.Dicom;
 
-namespace Examples.MeanSquareErrorImageCompare.Impl
+namespace MeanSquareErrorImageCompare.Impl
 {
     public class MeanSquareErrorDicomFileComparer : IMeanSquareErrorDicomFileComparer
     {

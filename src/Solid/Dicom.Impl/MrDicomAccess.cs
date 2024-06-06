@@ -1,8 +1,7 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="MrDicomAccess.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2020-2022. All Rights Reserved. Confidential.
+// File: "MrDicomAccess.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2020-2022
 //----------------------------------------------------------------------------------
 
 using System;
@@ -35,7 +34,7 @@ namespace Solid.Dicom.Impl
             using (m_Tracer.CreateScopeTracer())
             {
                 ConsistencyCheck.EnsureArgument(dataSet).IsNotNull();
-                return new ImageAttributes(this, dataSet, m_Tracer);
+                return new ImageAttributes(this, dataSet);
             }
         }
 

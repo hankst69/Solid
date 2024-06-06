@@ -1,8 +1,6 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="EventAggregatorTests.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2016-2022. All Rights Reserved. Confidential.
-// Author: Steffen Hanke
-// </copyright>
+// File: "EventAggregatorTests.cs"
+// Date: 2016-2022
 //----------------------------------------------------------------------------------
 
 using System;

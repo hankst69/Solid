@@ -1,8 +1,7 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="DiContainer_IsRegisteredTests.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2022. All Rights Reserved. Confidential.
+// File: "DiContainer_IsRegisteredTests.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2022
 //----------------------------------------------------------------------------------
 
 using FluentAssertions;

@@ -1,8 +1,7 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="BaseTracer.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2019-2023. All Rights Reserved. Confidential.
+// File: "BaseTracer.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2019-2023
 //----------------------------------------------------------------------------------
 
 using System;

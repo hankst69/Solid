@@ -1,8 +1,7 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="ILogger.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2017-2019. All Rights Reserved. Confidential.
+// File: "ILogger.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2017-2019
 //----------------------------------------------------------------------------------
 
 using System;

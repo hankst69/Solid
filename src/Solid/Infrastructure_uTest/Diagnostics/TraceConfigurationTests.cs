@@ -1,23 +1,17 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="TraceConfigurationTests.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2023. All Rights Reserved. Confidential.
+// File: "TraceConfigurationTests.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2022-2024
 //----------------------------------------------------------------------------------
 
+using System.Linq;
 using FluentAssertions;
-
 using Moq;
-
 using NUnit.Framework;
-
 using Solid.Infrastructure.Diagnostics;
 using Solid.Infrastructure.Diagnostics.Impl;
 using Solid.Infrastructure.DiContainer;
 using Solid.Infrastructure.Environment;
-
-using System;
-using System.Linq;
 
 namespace Solid.Infrastructure_uTest.Diagnostics
 {

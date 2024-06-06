@@ -27,9 +27,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Solid.DicomAdapters.FoDicom
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Solid.Infrastructure.net48", "Solid\Infrastructure\Solid.Infrastructure.net48.csproj", "{62FFBD97-F136-4FF1-93DD-3A29D17101C2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examples.ImageCompareTool", "Examples\ImageCompareTool\Examples.ImageCompareTool.csproj", "{13375416-1954-4A57-9E1A-4EA86985E103}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageCompareTool", "Examples\ImageCompareTool\ImageCompareTool.csproj", "{13375416-1954-4A57-9E1A-4EA86985E103}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examples.MeanSquareErrorImageCompare", "Examples\MeanSquareErrorImageCompare\Examples.MeanSquareErrorImageCompare.csproj", "{385B8A5B-015E-4BC6-8872-10FFAEAEF0FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeanSquareErrorImageCompare", "Examples\MeanSquareErrorImageCompare\MeanSquareErrorImageCompare.csproj", "{385B8A5B-015E-4BC6-8872-10FFAEAEF0FB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{630FBC99-EE45-4EF7-8705-62A6A7C3F5F1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -212,6 +214,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{13375416-1954-4A57-9E1A-4EA86985E103} = {630FBC99-EE45-4EF7-8705-62A6A7C3F5F1}
+		{385B8A5B-015E-4BC6-8872-10FFAEAEF0FB} = {630FBC99-EE45-4EF7-8705-62A6A7C3F5F1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FBC6D52B-3456-482D-A66F-7D822209B8BF}

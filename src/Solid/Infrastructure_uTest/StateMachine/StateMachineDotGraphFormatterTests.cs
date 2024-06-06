@@ -1,8 +1,7 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="StateMachineDotGraphFormatterTests.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2018-2019. All Rights Reserved. Confidential.
+// File: "StateMachineDotGraphFormatterTests.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2018-2019
 //----------------------------------------------------------------------------------
 
 using System;

@@ -1,8 +1,7 @@
 //----------------------------------------------------------------------------------
-// <copyright file="IDicomDataSet.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2019-2020. All Rights Reserved. Confidential.
+// File: "IDicomDataSet.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2019-2020
 //----------------------------------------------------------------------------------
 
 using System.Collections.Generic;

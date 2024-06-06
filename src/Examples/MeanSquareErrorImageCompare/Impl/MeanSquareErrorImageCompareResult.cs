@@ -1,15 +1,11 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="MeanSquareErrorImageCompareResult.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2020-2024. All Rights Reserved. Confidential.
+// 2020-2024
 // Author: Steffen Hanke
-// </copyright>
 //----------------------------------------------------------------------------------
-
 using System.Collections.Generic;
-
 using Solid.Infrastructure.Diagnostics;
 
-namespace Examples.MeanSquareErrorImageCompare.Impl
+namespace MeanSquareErrorImageCompare.Impl
 {
     /// <inheritdoc />
     internal class MeanSquareErrorImageCompareResult : IMeanSquareErrorImageCompareResult

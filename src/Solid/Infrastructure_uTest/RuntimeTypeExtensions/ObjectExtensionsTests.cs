@@ -1,8 +1,6 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="ObjectExtensionsTests.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2015-2019. All Rights Reserved. Confidential.
-// Author: Steffen Hanke
-// </copyright>
+// File: "ObjectExtensionsTests.cs"
+// Date: 2015-2019
 //----------------------------------------------------------------------------------
 
 using System;
