@@ -2,7 +2,7 @@
   "profiles": {
     "Examples.ImageCompareTool": {
       "commandName": "Project",
-      "commandLineArgs": "--traceLevel:all#Console:off --traceTarget:Console --traceTarget:File#.\\ImageCompareTool.log \"D:\\Data\\Dicom\\Dicom_MR_testdata\\Grid-Sag-BBYN4D13\\T1_FL3D_SAG_SPAIR_1+2_RIGHT_0003\" \"D:\\Data\\Dicom\\Dicom_MR_testdata\\Grid-Sag-BBYN4D13\\T1_FL3D_SAG_SPAIR_1+2_RIGHT_0004\""
+      "commandLineArgs": "--verbose --traceTarget:Console --traceTarget:File#.\\ImageCompareTool.log --traceLevel:File#all --traceLevel:Console#error|warning|debug \"D:\\Data\\Dicom\\Dicom_MR_testdata\\Grid-Sag-BBYN4D13\\T1_FL3D_SAG_SPAIR_1+2_RIGHT_0003\" \"D:\\Data\\Dicom\\Dicom_MR_testdata\\Grid-Sag-BBYN4D13\\T1_FL3D_SAG_SPAIR_1+2_RIGHT_0004\""
     }
   }
 }

@@ -32,39 +32,44 @@ Console.WriteLine();
 if (args.Length < 1)
 {
     Console.WriteLine("\nUsage:\n");
-    Console.WriteLine("ImageComparerTool dicomFileOrDirectory1 dicomFileOrDirectory2 [--wait]");
-    Console.WriteLine("                  [--traceTarget:Off|File[#filename]|Console]");
-    Console.WriteLine("                  [--traceLevel:Off|All|InOut|Info|Warning|Error|Debug]");
-    Console.WriteLine("                  [--traceLevel:File#Off|All|InOut|Info|Warning|Error|Debug]");
-    Console.WriteLine("                  [--traceLevel:Console#Off|All|InOut|Info|Warning|Error|Debug]");
+    Console.WriteLine("ImageCompareTool dicomFileOrDirectory1 dicomFileOrDirectory2 [--wait] [--verbose] [--filenames]");
+    Console.WriteLine("    [--traceTarget:Off|File[#filename]|Console]");
+    Console.WriteLine("    [--traceLevel:Off|All|InOut|Info|Warning|Error|Debug]");
+    Console.WriteLine("    [--traceLevel:File#Off|All|InOut|Info|Warning|Error|Debug]");
+    Console.WriteLine("    [--traceLevel:Console#Off|All|InOut|Info|Warning|Error|Debug]");
     Console.WriteLine();
     return;
 }
 
 bool waitForExit = false;
-bool silent = false;
+bool verbose = false;
+bool filenames = false;
 var fileName1 = string.Empty;
 var fileName2 = string.Empty;
 foreach (var arg in args)
 {
-    var trimmedArg = arg.Trim();
-    if (trimmedArg.Length > 0)
+    var loweredTrimmedArg = arg.Trim().ToLower();
+    if (loweredTrimmedArg.Length > 0)
     {
-        if (trimmedArg.StartsWith("--wait"))
+        if (loweredTrimmedArg.Equals("--wait"))
         {
             waitForExit = true;
         }
-        else if (trimmedArg.StartsWith("--silent"))
+        else if (loweredTrimmedArg.Equals("--verbose"))
         {
-            silent = true;
+            verbose = true;
+        }
+        else if (loweredTrimmedArg.Equals("--filenames"))
+        {
+            filenames = true;
         }
         else if (string.IsNullOrEmpty(fileName1))
         {
-            fileName1 = trimmedArg;
+            fileName1 = loweredTrimmedArg;
         }
         else if (string.IsNullOrEmpty(fileName2))
         {
-            fileName2 = trimmedArg;
+            fileName2 = loweredTrimmedArg;
         }
         else
         {
@@ -73,13 +78,21 @@ foreach (var arg in args)
     }
 }
 
-
 //ConsistencyCheck.EnsureArgument(fileName1).IsNotNullOrEmpty();
 //ConsistencyCheck.EnsureArgument(fileName2).IsNotNullOrEmpty();
 
-// start it
+
+// start it:
+// means to create an instance of main unit by resolving from DiConainer
 var comparer = diContainer.Resolve<IMeanSquareErrorDicomFileComparer>();
-var result = comparer.CompareDicomFiles(fileName1, fileName2, silent);
+
+// execute it:
+// means to invoke the api of the main component (here with the arguments parsed from command line)
+var result = comparer.CompareDicomFiles(fileName1, fileName2, filenames, verbose);
+
+// use result:
+// means here to print out the lines returned as an array (this is just the specific api of the used example unint)
+// here we could instead also pass the result into another unit..
 foreach(var line in result) { Console.WriteLine(line); }
 
 
@@ -88,4 +101,5 @@ if (waitForExit)
     Console.Write("\n\npress any key for exit");
     Console.ReadKey();
     Console.WriteLine();
+    Console.WriteLine("exiting");
 }

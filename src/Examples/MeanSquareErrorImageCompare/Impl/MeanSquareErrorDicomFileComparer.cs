@@ -40,7 +40,7 @@ namespace MeanSquareErrorImageCompare.Impl
             _imageDataCreator = imageDataCreator;
         }
 
-        public IEnumerable<string> CompareDicomFiles(string dicomFileName1, string dicomFileName2, bool silentMode)
+        public IEnumerable<string> CompareDicomFiles(string dicomFileName1, string dicomFileName2, bool printFileNames, bool verboseMode)
         {
             using var tracer = _tracer.CreateScopeTracer();
             ConsistencyCheck.EnsureArgument(dicomFileName1).IsNotNullOrEmpty();
@@ -69,7 +69,7 @@ namespace MeanSquareErrorImageCompare.Impl
 
             if (imageDatas1.Count == 1 && imageDatas2.Count == 1)
             {
-                foreach (var s in Compare2Images(imageDatas1.FirstOrDefault(), imageDatas2.FirstOrDefault(), silentMode))
+                foreach (var s in Compare2Images(imageDatas1.FirstOrDefault(), imageDatas2.FirstOrDefault(), verboseMode))
                 {
                     yield return s;
                 }
@@ -80,7 +80,7 @@ namespace MeanSquareErrorImageCompare.Impl
             {
                 yield return "The images or frames to compare differ in number!";
                 yield return "Comparing only the first image of both sources!";
-                foreach (var s in Compare2Images(imageDatas1.FirstOrDefault(), imageDatas2.FirstOrDefault(), silentMode))
+                foreach (var s in Compare2Images(imageDatas1.FirstOrDefault(), imageDatas2.FirstOrDefault(), verboseMode))
                 {
                     yield return s;
                 }
@@ -90,7 +90,9 @@ namespace MeanSquareErrorImageCompare.Impl
             yield return "Comparing all frames from all dicom files given";
             // ?maybe we should reorder the images before comparison based on their SopInstanceUids and FrameNumbers?
 
-            yield return "'MeanSquareError', 'Left SopInstUid_FrameNr', 'Right SopInstUid_FrameNr', 'Errors_Warnings'";
+            yield return printFileNames
+                ? "'MeanSquareError', 'LeftFileName#FrameNr', 'RightFileName#FrameNr', 'Errors_Warnings'"
+                : "'MeanSquareError', 'LeftSopInstUid#FrameNr', 'RightSopInstUid#FrameNr', 'Errors_Warnings'";
             for (var idx = 0; idx < imageDatas1.Count; idx++)
             {
                 var image1 = imageDatas1[idx];
@@ -99,13 +101,19 @@ namespace MeanSquareErrorImageCompare.Impl
                 var result = _crossImageMeanSquareError.CompareImages(image1, image2);
                 var errors_warnings = $"{string.Join(",", result.Errors/*.Union(result.Warnings)*/)}_{string.Join(",", result.Warnings)}";
                 errors_warnings = errors_warnings.Trim();
+                var image1FileNameOrSopInstacUid = printFileNames
+                    ? image1.ImageAttributes.DataSet.DataSetLocationUid
+                    : image1.SopInstanceUid;
+                var image2FileNameOrSopInstacUid = printFileNames
+                    ? image2.ImageAttributes.DataSet.DataSetLocationUid
+                    : image2.SopInstanceUid;
                 yield return errors_warnings == "_"
-                    ? $"'{result.MeanSquareError}', '{image1.SopInstanceUid}_{image1.FrameNumber}', '{image2.SopInstanceUid}_{image2.FrameNumber}'"
-                    : $"'{result.MeanSquareError}', '{image1.SopInstanceUid}_{image1.FrameNumber}', '{image2.SopInstanceUid}_{image2.FrameNumber}', '{errors_warnings}'";
+                    ? $"'{result.MeanSquareError}', '{image1FileNameOrSopInstacUid}#{image1.FrameNumber}', '{image2FileNameOrSopInstacUid}#{image2.FrameNumber}'"
+                    : $"'{result.MeanSquareError}', '{image1FileNameOrSopInstacUid}#{image1.FrameNumber}', '{image2FileNameOrSopInstacUid}#{image2.FrameNumber}', '{errors_warnings}'";
             }
         }
 
-        private IEnumerable<string> Compare2Images(IImageData image1, IImageData image2, bool silentMode)
+        private IEnumerable<string> Compare2Images(IImageData image1, IImageData image2, bool verboseMode)
         {
             using var tracer = _tracer.CreateScopeTracer();
             ConsistencyCheck.EnsureArgument(image1).IsNotNull();
@@ -124,7 +132,7 @@ namespace MeanSquareErrorImageCompare.Impl
                 yield return $"{result.MeanSquareError}";
             }
 
-            if (!silentMode && result.Errors.Any())
+            if (verboseMode && result.Errors.Any())
             {
                 yield return "";
                 yield return "ERRORS:";
@@ -134,7 +142,7 @@ namespace MeanSquareErrorImageCompare.Impl
                 }
             }
 
-            if (!silentMode && result.Warnings.Any())
+            if (verboseMode && result.Warnings.Any())
             {
                 yield return "";
                 yield return "WARNINGS:";

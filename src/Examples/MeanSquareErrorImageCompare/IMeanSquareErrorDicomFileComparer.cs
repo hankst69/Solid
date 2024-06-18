@@ -8,6 +8,6 @@ namespace MeanSquareErrorImageCompare
 {
     public interface IMeanSquareErrorDicomFileComparer
     {
-        IEnumerable<string> CompareDicomFiles(string dicomFileName1, string dicomFileName2, bool silent = true);
+        IEnumerable<string> CompareDicomFiles(string dicomFileName1, string dicomFileName2, bool printFileNames = false, bool verboseMode = false);
     }
 }
