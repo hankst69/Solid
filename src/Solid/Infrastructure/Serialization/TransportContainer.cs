@@ -1,10 +1,8 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="TransportContainer.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2017-2020. All Rights Reserved. Confidential.
+// File: "TransportContainer.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2017-2020
 //----------------------------------------------------------------------------------
-
 using System;
 using System.IO;
 using System.Runtime.Serialization;

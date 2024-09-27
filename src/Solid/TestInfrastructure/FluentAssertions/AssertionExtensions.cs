@@ -2,7 +2,6 @@
 // File: "AssertionExtensions.cs"
 // Date: 2015-2019
 //----------------------------------------------------------------------------------
-
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 

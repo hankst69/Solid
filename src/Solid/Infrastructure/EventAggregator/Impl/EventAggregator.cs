@@ -1,10 +1,8 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="EventAggregator.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2016-2022. All Rights Reserved. Confidential.
+// File: "EventAggregator.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2016-2022
 //----------------------------------------------------------------------------------
-
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -3,7 +3,6 @@
 // Author: Steffen Hanke
 // Date: 2023-2024
 //----------------------------------------------------------------------------------
-
 using Solid.Dicom;
 using Solid.Dicom.ImageData;
 using Solid.Dicom.VolumeData;

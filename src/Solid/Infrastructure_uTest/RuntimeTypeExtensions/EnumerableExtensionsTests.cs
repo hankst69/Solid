@@ -2,7 +2,6 @@
 // File: "EnumerableExtensionsTests.cs"
 // Date: 2017-2018
 //----------------------------------------------------------------------------------
-
 using System;
 using System.Collections.Generic;
 using System.Linq;

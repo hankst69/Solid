@@ -1,10 +1,8 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="EnumeExtensions.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2023. All Rights Reserved. Confidential.
+// File: "EnumeExtensions.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2023
 //----------------------------------------------------------------------------------
-
 using System;
 
 namespace Solid.Infrastructure.RuntimeTypeExtensions

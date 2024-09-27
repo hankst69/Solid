@@ -3,7 +3,6 @@
 // Author: Steffen Hanke
 // Date: 2020
 //----------------------------------------------------------------------------------
-
 using System;
 using FluentAssertions;
 using Moq;

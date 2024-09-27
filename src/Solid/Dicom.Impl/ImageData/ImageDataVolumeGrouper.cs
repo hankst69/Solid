@@ -3,7 +3,6 @@
 // Author: Steffen Hanke
 // Date: 2019-2022
 //----------------------------------------------------------------------------------
-
 using System.Collections.Generic;
 using System.Linq;
 using Solid.Dicom.ImageInfo.Types;

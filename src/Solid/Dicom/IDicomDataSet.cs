@@ -3,7 +3,6 @@
 // Author: Steffen Hanke
 // Date: 2019-2020
 //----------------------------------------------------------------------------------
-
 using System.Collections.Generic;
 
 namespace Solid.Dicom

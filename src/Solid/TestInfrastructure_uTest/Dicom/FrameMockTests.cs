@@ -3,7 +3,6 @@
 // Author: Steffen Hanke
 // Date: 2015-2019
 //----------------------------------------------------------------------------------
-
 using FluentAssertions;
 using Solid.Infrastructure.RuntimeTypeExtensions;
 using Solid.TestInfrastructure.Dicom;

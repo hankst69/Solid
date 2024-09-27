@@ -3,7 +3,6 @@
 // Author: Steffen Hanke
 // Date: 2018-2019
 //----------------------------------------------------------------------------------
-
 using System;
 using System.Collections.Generic;
 using System.Linq;

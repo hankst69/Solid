@@ -1,10 +1,8 @@
 //----------------------------------------------------------------------------------
-// <copyright file="IStateMachine.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2016-2018. All Rights Reserved. Confidential.
+// File: "IStateMachine.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2016-2018
 //----------------------------------------------------------------------------------
-
 using System;
 
 namespace Solid.Infrastructure.StateMachine

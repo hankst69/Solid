@@ -3,7 +3,6 @@
 // Author: Steffen Hanke
 // Date: 2019-2023
 //----------------------------------------------------------------------------------
-
 using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;

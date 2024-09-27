@@ -3,7 +3,6 @@
 // Author: Steffen Hanke
 // Date: 2017-2020
 //----------------------------------------------------------------------------------
-
 using System;
 using System.Globalization;
 using FluentAssertions;

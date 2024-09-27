@@ -1,11 +1,9 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="Plane3D.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2021. All Rights Reserved. Confidential.
-// partly based on: syngo.Services.ImageProcessing/Maths/MathsSlice.cs
+// File: "Plane3D.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2021
+// partly based on: syngo.Services.ImageProcessing/Maths/MathsSlice.cs
 //----------------------------------------------------------------------------------
-
 using Solid.Infrastructure.Diagnostics;
 
 namespace Solid.Infrastructure.Math

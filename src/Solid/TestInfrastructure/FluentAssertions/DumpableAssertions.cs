@@ -2,7 +2,6 @@
 // File: "DumpableAssertions.cs"
 // Date: 2015-2019
 //----------------------------------------------------------------------------------
-
 using System;
 using System.Diagnostics;
 using System.IO;

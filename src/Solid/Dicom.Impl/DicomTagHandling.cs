@@ -3,7 +3,6 @@
 // Author: Steffen Hanke
 // Date: 2019
 //----------------------------------------------------------------------------------
-
 using System.Globalization;
 using System.Text;
 

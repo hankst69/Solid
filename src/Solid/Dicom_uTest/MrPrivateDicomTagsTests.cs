@@ -3,7 +3,6 @@
 // Author: Steffen Hanke
 // Date: 2016-2020
 //----------------------------------------------------------------------------------
-
 using FluentAssertions;
 using NUnit.Framework;
 using MrPrivateDicomTags = Solid.Dicom.DicomTags.MrPrivateDicomTags;

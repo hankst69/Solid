@@ -1,12 +1,10 @@
 //----------------------------------------------------------------------------------
-// <copyright file="Vector3D.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2019. All Rights Reserved. Confidential.
+// File: "Vector3D.cs"
+// Author: Steffen Hanke
+// Date: 2019
 // based on: syngo.Services.ImageProcessing/Maths/MathsVector3d.cs
 // made into an immutable class and reduced to minimum set of members
-// Author: Steffen Hanke
-// </copyright>
 //----------------------------------------------------------------------------------
-
 using System;
 using System.Globalization;
 

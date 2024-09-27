@@ -1,10 +1,8 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="IDiContainerSpecial.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2023. All Rights Reserved. Confidential.
+// File: "IDiContainerSpecial.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2023
 //----------------------------------------------------------------------------------
-
 using System.Collections.Generic;
 
 namespace Solid.Infrastructure.DiContainer

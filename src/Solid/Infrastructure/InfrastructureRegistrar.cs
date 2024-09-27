@@ -3,7 +3,6 @@
 // Author: Steffen Hanke
 // Date: 2022-2023
 //----------------------------------------------------------------------------------
-
 using Solid.Infrastructure.Diagnostics;
 using Solid.Infrastructure.DiContainer;
 using Solid.Infrastructure.Environment;

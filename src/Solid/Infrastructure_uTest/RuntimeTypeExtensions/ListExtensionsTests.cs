@@ -2,7 +2,6 @@
 // File: "ListExtensionsTests.cs"
 // Date: 2015-2019
 //----------------------------------------------------------------------------------
-
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;

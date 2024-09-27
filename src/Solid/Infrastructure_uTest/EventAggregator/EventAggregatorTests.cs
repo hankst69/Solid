@@ -2,7 +2,6 @@
 // File: "EventAggregatorTests.cs"
 // Date: 2016-2022
 //----------------------------------------------------------------------------------
-
 using System;
 using System.Collections.Generic;
 using FluentAssertions;

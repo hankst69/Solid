@@ -1,10 +1,8 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="DiContainer.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2017-2023. All Rights Reserved. Confidential.
+// File: "DiContainer.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2017-2023
 //----------------------------------------------------------------------------------
-
 using System;
 using System.Collections.Generic;
 using System.Linq;

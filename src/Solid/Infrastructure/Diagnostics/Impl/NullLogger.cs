@@ -3,7 +3,6 @@
 // Author: Steffen Hanke
 // Date: 2019
 //----------------------------------------------------------------------------------
-
 using System;
 
 namespace Solid.Infrastructure.Diagnostics.Impl

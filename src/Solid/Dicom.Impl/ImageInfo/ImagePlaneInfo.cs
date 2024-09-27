@@ -3,7 +3,6 @@
 // Author: Steffen Hanke
 // Date: 2020
 //----------------------------------------------------------------------------------
-
 using System;
 using Solid.Dicom.ImageInfo.Types;
 using Solid.Infrastructure.Diagnostics;

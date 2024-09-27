@@ -1,8 +1,7 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="NullableBoolExtension.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2022. All Rights Reserved. Confidential.
+// File: "NullableBoolExtension.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2022
 //----------------------------------------------------------------------------------
 
 namespace Solid.Infrastructure.RuntimeTypeExtensions

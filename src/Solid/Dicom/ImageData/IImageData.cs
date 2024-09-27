@@ -3,7 +3,6 @@
 // Author: Steffen Hanke
 // Date: 2020
 //----------------------------------------------------------------------------------
-
 using System;
 using System.Drawing;
 using Solid.Dicom.ImageInfo;

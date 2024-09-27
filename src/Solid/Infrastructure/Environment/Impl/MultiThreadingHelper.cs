@@ -1,10 +1,8 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="MultiThreadingHelper.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2018-2023. All Rights Reserved. Confidential.
+// File: "MultiThreadingHelper.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2018-2023
 //----------------------------------------------------------------------------------
-
 using Solid.Infrastructure.Diagnostics;
 
 using System;

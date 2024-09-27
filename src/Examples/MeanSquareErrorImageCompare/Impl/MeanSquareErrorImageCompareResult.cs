@@ -1,6 +1,7 @@
 ﻿//----------------------------------------------------------------------------------
-// 2020-2024
+// File: "MeanSquareErrorImageCompareResult.cs"
 // Author: Steffen Hanke
+// Date: 2020-2024
 //----------------------------------------------------------------------------------
 using System.Collections.Generic;
 using Solid.Infrastructure.Diagnostics;

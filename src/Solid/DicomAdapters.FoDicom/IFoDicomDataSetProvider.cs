@@ -3,7 +3,6 @@
 // Author: Steffen Hanke
 // Date: 2020-2022
 //----------------------------------------------------------------------------------
-
 using Solid.Dicom;
 
 namespace Solid.DicomAdapters.FoDicom

@@ -3,7 +3,6 @@
 // Author: Steffen Hanke
 // Date: 2019-2023
 //----------------------------------------------------------------------------------
-
 using Solid.Infrastructure.Environment;
 using System;
 using System.IO;

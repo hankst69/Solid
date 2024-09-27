@@ -1,10 +1,8 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="ValueTypeAttributes.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2020. All Rights Reserved. Confidential.
+// File: "ValueTypeAttributes.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2020
 //----------------------------------------------------------------------------------
-
 using System;
 using System.Collections.Generic;
 using Solid.Infrastructure.Diagnostics;

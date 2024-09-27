@@ -1,10 +1,8 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="ResultValue.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2017-2020. All Rights Reserved. Confidential.
+// File: "ResultValue.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2017-2020
 //----------------------------------------------------------------------------------
-
 using System;
 using System.Runtime.Serialization;
 using Solid.Infrastructure.Diagnostics;

@@ -3,7 +3,6 @@
 // Author: Steffen Hanke
 // Date: 2019
 //----------------------------------------------------------------------------------
-
 using System.Collections.Generic;
 using Solid.Dicom.ImageData;
 using Solid.Infrastructure.Math;

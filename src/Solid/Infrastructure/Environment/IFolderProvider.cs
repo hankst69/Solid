@@ -3,7 +3,6 @@
 // Author: Steffen Hanke
 // Date: 2022
 //----------------------------------------------------------------------------------
-
 using System;
 
 namespace Solid.Infrastructure.Environment

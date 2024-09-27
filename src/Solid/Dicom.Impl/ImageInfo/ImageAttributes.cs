@@ -3,7 +3,6 @@
 // Author: Steffen Hanke
 // Date: 2019-2022
 //----------------------------------------------------------------------------------
-
 using System;
 using System.Linq;
 using Solid.Infrastructure.Diagnostics;

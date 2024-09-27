@@ -1,8 +1,7 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="IDiIsRegistered.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2023. All Rights Reserved. Confidential.
+// File: "IDiIsRegistered.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2023
 //----------------------------------------------------------------------------------
 
 namespace Solid.Infrastructure.DiContainer

@@ -3,7 +3,6 @@
 // Author: Steffen Hanke
 // Date: 2020-2024
 //----------------------------------------------------------------------------------
-
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;

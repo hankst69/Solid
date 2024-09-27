@@ -1,9 +1,7 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="Line3D.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2021. All Rights Reserved. Confidential.
-// based on: 
+// File: "Line3D.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2021
 //----------------------------------------------------------------------------------
 
 namespace Solid.Infrastructure.Math

@@ -1,10 +1,8 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="StateMachineInfo.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2018. All Rights Reserved. Confidential.
+// File: "StateMachineInfo.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2018
 //----------------------------------------------------------------------------------
-
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -3,7 +3,6 @@
 // Author: Steffen Hanke
 // Date: 2019
 //----------------------------------------------------------------------------------
-
 using System;
 using Solid.Infrastructure.Diagnostics;
 

@@ -3,7 +3,6 @@
 // Author: Steffen Hanke
 // Date: 2019-2022
 //----------------------------------------------------------------------------------
-
 using Solid.Infrastructure.Diagnostics;
 using Solid.Infrastructure.Math;
 

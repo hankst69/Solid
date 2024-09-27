@@ -1,9 +1,8 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="IEventAggregator.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2017-2018. All Rights Reserved. Confidential.
-// </copyright>
+// File: "IEventAggregator.cs"
+// Author: Steffen Hanke
+// Date: 2017-2018
 //----------------------------------------------------------------------------------
-
 using System;
 
 namespace Solid.Infrastructure.EventAggregator

@@ -3,7 +3,6 @@
 // Author: Steffen Hanke
 // Date: 2017-2023
 //----------------------------------------------------------------------------------
-
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;

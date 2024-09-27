@@ -1,10 +1,8 @@
 ﻿//----------------------------------------------------------------------------------
-// <copyright file="Vector3DComparer.cs" company="Siemens Healthcare GmbH">
-// Copyright (C) Siemens Healthcare GmbH, 2019. All Rights Reserved. Confidential.
+// File: "Vector3DComparer.cs"
 // Author: Steffen Hanke
-// </copyright>
+// Date: 2019
 //----------------------------------------------------------------------------------
-
 using System.Collections.Generic;
 
 namespace Solid.Infrastructure.Math

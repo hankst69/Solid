@@ -1,6 +1,7 @@
 ﻿//----------------------------------------------------------------------------------
-// 2020-2024
+// File: "MeanSquareErrorDicomFileComparer.cs"
 // Author: Steffen Hanke
+// Date: 2020-2024
 //----------------------------------------------------------------------------------
 using System.Linq;
 using System.Collections.Generic;
